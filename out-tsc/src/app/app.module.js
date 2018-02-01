@@ -55,7 +55,7 @@ var order_fabric_component_1 = require("./orders/order-fabric/order-fabric.compo
 var order_job_component_1 = require("./orders/order-job/order-job.component");
 var order_accessories_component_1 = require("./orders/order-accessories/order-accessories.component");
 var order_packers_component_1 = require("./orders/order-packers/order-packers.component");
-var order_purchase_order_component_1 = require("./orders/order-purchase-order/order-purchase-order.component");
+var order_po_component_1 = require("./orders/order-po/order-po.component");
 var order_po_grn_component_1 = require("./orders/order-po-grn/order-po-grn.component");
 var order_service_1 = require("./orders/order.service");
 // Orders Components End
@@ -78,8 +78,6 @@ var app_config_provider_1 = require("./app-config.provider");
 var validation_errors_component_1 = require("./_directives/validators/validation-errors.component");
 var pager_service_1 = require("./_services/pager.service");
 var dash_service_1 = require("./dash/dash.service");
-var order_purchase_order_service_1 = require("./orders/order-purchase-order/order-purchase-order.service");
-var order_po_grn_service_1 = require("./orders/order-po-grn/order-po-grn.service");
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -115,7 +113,7 @@ var AppModule = /** @class */ (function () {
                         order_job_component_1.OrderJobComponent,
                         order_accessories_component_1.OrderAccessoriesComponent,
                         order_packers_component_1.OrderPackersComponent,
-                        order_purchase_order_component_1.OrderPurchaseOrderComponent,
+                        order_po_component_1.OrderPOComponent,
                         order_po_grn_component_1.OrderPoGrnComponent,
                         stores_component_1.StoresComponent,
                         validation_errors_component_1.ValidationErrorsComponent,
@@ -148,11 +146,9 @@ var AppModule = /** @class */ (function () {
                         app_config_provider_1.AppConfigProvider,
                         material_1.MatIconRegistry,
                         pager_service_1.PagerService,
-                        presets_service_1.PresetsService,
                         dash_service_1.DashService,
+                        presets_service_1.PresetsService,
                         order_service_1.OrderService,
-                        order_purchase_order_service_1.OrderPurchaseOrderService,
-                        order_po_grn_service_1.OrderPoGrnService,
                         settings_service_1.SettingsService
                     ],
                     bootstrap: [app_component_1.AppComponent]

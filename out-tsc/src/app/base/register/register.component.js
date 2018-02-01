@@ -23,9 +23,10 @@ var RegisterComponent = /** @class */ (function () {
         this.appComponent.disableDashElements();
         // Initaite the Form
         this.myRegisterForm = new forms_1.FormGroup({
+            'firstName': new forms_1.FormControl('', forms_1.Validators.required),
+            'lastName': new forms_1.FormControl('', forms_1.Validators.required),
             'username': new forms_1.FormControl('', forms_1.Validators.required),
             'birthYear': new forms_1.FormControl('', [forms_1.Validators.required, my_custom_validators_1.MyCustomValidators.birthYear]),
-            'email': new forms_1.FormControl(),
             'phoneNumbers': new forms_1.FormArray([this.buildPhoneNumberComponent()]),
             'location': new forms_1.FormGroup({
                 'country': new forms_1.FormControl(),

@@ -3,8 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var AppConfigProvider = /** @class */ (function () {
     function AppConfigProvider() {
-        this.apiEndpoint = 'https://bekycg-dpd.herokuapp.com';
-        // apiEndpoint: string = 'http://localhost:5000';
+        // apiEndpoint :string = 'https://bekycg-dpd.herokuapp.com';
+        this.apiEndpoint = 'http://localhost:5000';
         this.docsBase = '/_docs';
         this.sideMenu = [
             {

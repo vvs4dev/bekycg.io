@@ -17,7 +17,7 @@ var SettingsService = /** @class */ (function () {
         this.appConfig = appConfig;
     }
     SettingsService.prototype.getMyOrganisation = function (user) {
-        return this.http.get(this.appConfig.apiEndpoint + '/findorganisation/myorg/' + user);
+        return this.http.get(this.appConfig.apiEndpoint + '/csettings/organisation/myorg/' + user);
     };
     // ========================================== Organisation ===============================================
     // ========================================== Organisation ===============================================
@@ -27,10 +27,10 @@ var SettingsService = /** @class */ (function () {
         return this.http.post(this.appConfig.apiEndpoint + '/organisation', organisation);
     };
     SettingsService.prototype.findOrganisation = function (code) {
-        return this.http.get(this.appConfig.apiEndpoint + '/findorganisation/data/' + code);
+        return this.http.get(this.appConfig.apiEndpoint + '/csettings/organisation/data/' + code);
     };
     SettingsService.prototype.checkOrganisationExistance = function (code) {
-        return this.http.get(this.appConfig.apiEndpoint + '/findorganisation/check/' + code);
+        return this.http.get(this.appConfig.apiEndpoint + '/csettings/organisation/check/' + code);
     };
     SettingsService.prototype.updateOrganisation = function (organisation) {
         return this.http.put(this.appConfig.apiEndpoint + '/organisation', organisation);
@@ -43,10 +43,10 @@ var SettingsService = /** @class */ (function () {
         return this.http.post(this.appConfig.apiEndpoint + '/branch', branch);
     };
     SettingsService.prototype.findBranch = function (branchCode) {
-        return this.http.get(this.appConfig.apiEndpoint + '/findbranch/data/' + branchCode);
+        return this.http.get(this.appConfig.apiEndpoint + '/csettings/branch/data/' + branchCode);
     };
     SettingsService.prototype.checkBranchExistance = function (branchCode) {
-        return this.http.get(this.appConfig.apiEndpoint + '/findbranch/check/' + branchCode);
+        return this.http.get(this.appConfig.apiEndpoint + '/csettings/branch/check/' + branchCode);
     };
     SettingsService.prototype.updateBranch = function (branch) {
         return this.http.put(this.appConfig.apiEndpoint + '/branch', branch);
@@ -59,10 +59,10 @@ var SettingsService = /** @class */ (function () {
         return this.http.post(this.appConfig.apiEndpoint + '/department', department);
     };
     SettingsService.prototype.findDepartment = function (departmentCode) {
-        return this.http.get(this.appConfig.apiEndpoint + '/finddepartment/data/' + departmentCode);
+        return this.http.get(this.appConfig.apiEndpoint + '/csettings/department/data/' + departmentCode);
     };
     SettingsService.prototype.checkDepartmentExistance = function (departmentCode) {
-        return this.http.get(this.appConfig.apiEndpoint + '/finddepartment/check/' + departmentCode);
+        return this.http.get(this.appConfig.apiEndpoint + '/csettings/department/check/' + departmentCode);
     };
     SettingsService.prototype.updateDepartment = function (department) {
         return this.http.put(this.appConfig.apiEndpoint + '/department', department);

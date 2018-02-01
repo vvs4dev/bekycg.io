@@ -16,7 +16,7 @@ var order_fabric_component_1 = require("./orders/order-fabric/order-fabric.compo
 var order_job_component_1 = require("./orders/order-job/order-job.component");
 var order_accessories_component_1 = require("./orders/order-accessories/order-accessories.component");
 var order_packers_component_1 = require("./orders/order-packers/order-packers.component");
-var order_purchase_order_component_1 = require("./orders/order-purchase-order/order-purchase-order.component");
+var order_po_component_1 = require("./orders/order-po/order-po.component");
 var order_po_grn_component_1 = require("./orders/order-po-grn/order-po-grn.component");
 // Orders End
 // Stores Start
@@ -98,7 +98,7 @@ var routes = [
     {
         path: 'order/:orderNumber/po/:action/:id',
         canActivate: [auth_guard_1.AuthGuard],
-        component: order_purchase_order_component_1.OrderPurchaseOrderComponent
+        component: order_po_component_1.OrderPOComponent
     },
     {
         path: 'order/:orderNumber/grn/:action/:id',

@@ -20,7 +20,7 @@ var SettingsBranchesComponent = /** @class */ (function () {
         this.params = {};
         this.edit = {};
         this.resBranch = {};
-        this.organisationName = { 'available': true };
+        this.organisationBranchName = { 'available': true };
         this.myBreadCrumb = [
             { "menu": "Home", "routerLink": "/" },
             { "menu": "Settings", "routerLink": "/settings" },
@@ -82,6 +82,22 @@ var SettingsBranchesComponent = /** @class */ (function () {
                 _this.alert.error('Error Occured while Fetching Data');
             });
         }
+    };
+    SettingsBranchesComponent.prototype.genBranchCode = function (name) {
+        var _this = this;
+        var code = name.replace(/\s\s+/g, ' ');
+        code = code.replace(/\s+$/, '');
+        code = code.split(' ').join('-');
+        console.log('name', name, '======  code', code);
+        this.settingsService.checkBranchExistance(code)
+            .subscribe(function (res) {
+            console.log('res', res);
+            _this.organisationBranchName = res;
+            console.log('this.organisationBranchName.available', _this.organisationBranchName.available);
+            _this.myOrganisationBranchForm.controls.branchCode.setValue(code);
+        }, function (err) {
+            console.log('err', err);
+        });
     };
     SettingsBranchesComponent.prototype.addBranchData = function (branch) {
         var _this = this;

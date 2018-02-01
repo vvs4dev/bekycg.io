@@ -37,7 +37,6 @@ var OrderJobComponent = /** @class */ (function () {
             "orderNumber": this.aRoute.snapshot.paramMap.get('orderNumber'),
             "id": this.aRoute.snapshot.paramMap.get('id'),
         };
-        this.findOrderNumber(this.params.orderNumber);
         // console.log('params', this.params);
         this.myOrderJobForm.controls['orderNumber'].setValue(this.params.orderNumber);
         if (this.params.action == 'edit') {
@@ -61,16 +60,6 @@ var OrderJobComponent = /** @class */ (function () {
             _this.myOrderJobForm.controls['orderJobCode'].setValue(JSON.parse(term).jobCode);
             _this.myOrderJobForm.controls['orderJobName'].setValue(JSON.parse(term).jobName);
             _this.myOrderJobForm.controls['orderJobCost'].setValue(JSON.parse(term).jobCost);
-        });
-    };
-    OrderJobComponent.prototype.findOrderNumber = function (orderNumber) {
-        var _this = this;
-        this.orderService.findOrderNumber(orderNumber)
-            .subscribe(function (res) {
-            _this.orderDetails = res;
-            // console.log('findOrderNumber',res);
-        }, function (err) {
-            // console.log('findOrderNumber',err);
         });
     };
     OrderJobComponent.prototype.getJobLists = function () {

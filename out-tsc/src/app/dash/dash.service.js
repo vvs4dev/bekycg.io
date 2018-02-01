@@ -15,54 +15,7 @@ var DashService = /** @class */ (function () {
         this.aRoute = aRoute;
         this.alert = alert;
         this.appConfig = appConfig;
-        this.dashReq = {};
-        this.dashReq = {
-            'baseURL': appConfig.apiEndpoint,
-            'access_token': user.getActiveUserId(),
-            'authReq': '?access_token=' + user.getActiveUserId(),
-            'idFilter': '&filter[fields][id]=true'
-        };
-        console.log('this.dashReq', this.dashReq);
     }
-    // getBuyersCount() {
-    //   return this.http.get(this.dashReq.baseURL + '/Buyers' + this.dashReq.authReq + this.dashReq.idFilter)
-    // }
-    // getBuyersCount() {
-    //   return this.http.get(this.dashReq.baseURL + '/Buyers' + this.dashReq.authReq + this.dashReq.idFilter)
-    // }
-    DashService.prototype.getBuyersCount = 
-    // getBuyersCount() {
-    //   return this.http.get(this.dashReq.baseURL + '/Buyers' + this.dashReq.authReq + this.dashReq.idFilter)
-    // }
-    function () {
-        return this.http.get(this.dashReq.baseURL + '/organisation');
-    };
-    // getVendorsCount() {
-    //   return this.http.get(this.dashReq.baseURL + '/Vendors' + this.dashReq.authReq + this.dashReq.idFilter)
-    // }
-    // getVendorsCount() {
-    //   return this.http.get(this.dashReq.baseURL + '/Vendors' + this.dashReq.authReq + this.dashReq.idFilter)
-    // }
-    DashService.prototype.getVendorsCount = 
-    // getVendorsCount() {
-    //   return this.http.get(this.dashReq.baseURL + '/Vendors' + this.dashReq.authReq + this.dashReq.idFilter)
-    // }
-    function () {
-        return this.http.get(this.dashReq.baseURL + '/branch');
-    };
-    // getOrdersCount() {
-    //   return this.http.get(this.dashReq.baseURL + '/Orders' + this.dashReq.authReq + this.dashReq.idFilter)
-    // }
-    // getOrdersCount() {
-    //   return this.http.get(this.dashReq.baseURL + '/Orders' + this.dashReq.authReq + this.dashReq.idFilter)
-    // }
-    DashService.prototype.getOrdersCount = 
-    // getOrdersCount() {
-    //   return this.http.get(this.dashReq.baseURL + '/Orders' + this.dashReq.authReq + this.dashReq.idFilter)
-    // }
-    function () {
-        return this.http.get(this.dashReq.baseURL + '/order');
-    };
     DashService.decorators = [
         { type: core_1.Injectable },
     ];
