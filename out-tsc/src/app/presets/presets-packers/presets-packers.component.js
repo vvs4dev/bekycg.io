@@ -51,13 +51,14 @@ var PresetsPackersComponent = /** @class */ (function () {
     };
     PresetsPackersComponent.prototype.validatePackerCode = function (code) {
         var _this = this;
-        console.log('code', code);
+        // console.log('code', code);
         this.presetsService.validateMaster('packer', code)
             .subscribe(function (res) {
-            console.log('validatePackerCode', res);
+            // console.log('validatePackerCode', res);
+            // console.log('validatePackerCode', res);
             _this.packers.validation = res;
         }, function (err) {
-            console.log('validatePackerCode', err);
+            // console.log('validatePackerCode', err);
         });
         this.myPackerForm.controls.packerCode.setValue(code);
     };
@@ -66,14 +67,16 @@ var PresetsPackersComponent = /** @class */ (function () {
         this.loading = 'getPackers';
         this.presetsService.getAllPackers()
             .subscribe(function (res) {
-            console.log('getAllPackers-Response', res);
+            // console.log('getAllPackers-Response',res);
+            // console.log('getAllPackers-Response',res);
             _this.packers.res = res;
             _this.allItems = res;
             _this.setPage(1);
             _this.loading = '';
         }, function (err) {
             _this.loading = false;
-            console.log('err', err);
+            // console.log('err',err);
+            // console.log('err',err);
             _this.loading = '';
             // Defining the Error Messages
             switch (err.status) {
@@ -100,12 +103,13 @@ var PresetsPackersComponent = /** @class */ (function () {
         this.myPackerForm.disable();
         this.loading = 'postPacker';
         packer.masterId = '4070c908cc6a396c';
-        console.log('packer', packer);
+        // console.log('packer', packer);
         this.presetsService.updatePacker(packer)
             .subscribe(function (res) {
             _this.myPackerForm.reset();
             _this.myPackerForm.enable();
-            console.log('updatePacker-Response', res);
+            // console.log('updatePacker-Response', res);
+            // console.log('updatePacker-Response', res);
             _this.loading = '';
             _this.fetchAllPackers();
             if (!_this.presetsService.getActivePackerToEdit()) {
@@ -117,7 +121,8 @@ var PresetsPackersComponent = /** @class */ (function () {
         }, function (err) {
             _this.myPackerForm.enable();
             _this.loading = false;
-            console.log('err', err);
+            // console.log('err',err);
+            // console.log('err',err);
             _this.loading = '';
             // Defining the Error Messages
             switch (err.status) {
@@ -134,7 +139,7 @@ var PresetsPackersComponent = /** @class */ (function () {
         });
     };
     PresetsPackersComponent.prototype.editPacker = function (packer) {
-        console.log('editPacker', packer);
+        // console.log('editPacker', packer);
         delete packer['createdDate'];
         delete packer['createdBy'];
         delete packer['lastModifiedDate'];

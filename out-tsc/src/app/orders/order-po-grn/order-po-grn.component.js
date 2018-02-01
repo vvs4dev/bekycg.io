@@ -39,9 +39,9 @@ var OrderPoGrnComponent = /** @class */ (function () {
         this.setaPO = new forms_1.FormControl();
         this.setaPO.valueChanges
             .subscribe(function (po) {
-            console.log('po', JSON.parse(po));
+            // console.log('po', JSON.parse(po));
             if (_this.aPO) {
-                console.log('ifCase');
+                // console.log('ifCase');
                 while (_this.myOrderPoGrnForm.controls.items.value.length !== 0) {
                     _this.myOrderPoGrnForm.get('items').removeAt(0);
                 }
@@ -49,7 +49,8 @@ var OrderPoGrnComponent = /** @class */ (function () {
                 _this.prepareaPO();
             }
             else {
-                console.log('elseCase');
+                // console.log('elseCase');
+                // console.log('elseCase');
                 _this.aPO = JSON.parse(po);
                 _this.prepareaPO();
             }
@@ -95,37 +96,40 @@ var OrderPoGrnComponent = /** @class */ (function () {
     };
     OrderPoGrnComponent.prototype.validatePoGRNNumber = function (grnNumber) {
         var _this = this;
-        console.log('validatePoGRNNumberChanged', grnNumber);
+        // console.log('validatePoGRNNumberChanged', grnNumber);
         this.poGRNNumberExists = {};
         this.poGRNNumberExists.aPoGRNNumber = grnNumber;
         this.orderPoGrnService.validatePoGRNNumber(grnNumber)
             .subscribe(function (res) {
-            console.log('validatePoGRNNumber', res);
+            // console.log('validatePoGRNNumber',res);
+            // console.log('validatePoGRNNumber',res);
             _this.poGRNNumberExists.res = res;
             _this.poGRNNumberExists.status = (_this.poGRNNumberExists.res.count == 0) ? false : true;
         }, function (err) {
-            console.log('validatePoGRNNumber', err);
+            // console.log('validatePoGRNNumber',err);
         });
     };
     OrderPoGrnComponent.prototype.findOrderNumber = function (orderNumber) {
         var _this = this;
         this.orderService.findOrderNumber(orderNumber)
             .subscribe(function (res) {
-            console.log('findOrderNumber', res);
+            // console.log('findOrderNumber',res);
+            // console.log('findOrderNumber',res);
             _this.aOrder = res;
             _this.getPurchaseOrders('ordered');
         }, function (err) {
-            console.log('findOrderNumber', err);
+            // console.log('findOrderNumber',err);
         });
     };
     OrderPoGrnComponent.prototype.getPurchaseOrders = function (status) {
         var _this = this;
         this.orderPoGrnService.getPurchaseOrders(this.aOrder.id, status)
             .subscribe(function (res) {
-            console.log('getPurchaseOrders("ordered")', res);
+            // console.log('getPurchaseOrders("ordered")',res);
+            // console.log('getPurchaseOrders("ordered")',res);
             _this.POsList = res;
         }, function (err) {
-            console.log('getPurchaseOrders("ordered")', err);
+            // console.log('getPurchaseOrders("ordered")',err);
         });
     };
     OrderPoGrnComponent.prototype.prepareaPO = function () {
@@ -136,14 +140,16 @@ var OrderPoGrnComponent = /** @class */ (function () {
         delete this.aPO['audits'];
         delete this.aPO['id'];
         delete this.aPO['orderId'];
-        console.log('this.aPO after format', this.aPO);
+        // console.log('this.aPO after format', this.aPO)
         this.fillPurchaseOrder(this.aPO);
     };
     OrderPoGrnComponent.prototype.fillPurchaseOrder = function (aPO) {
         var _this = this;
         aPO.items.forEach(function (item, index) {
-            console.log('index');
-            console.log('add', index, _this.aPO.items.length);
+            // console.log('index');
+            // console.log('add',index, this.aPO.items.length);
+            // console.log('index');
+            // console.log('add',index, this.aPO.items.length);
             _this.addItemGroup();
         });
         this.myOrderPoGrnForm.setValue(this.aPO);
@@ -175,22 +181,24 @@ var OrderPoGrnComponent = /** @class */ (function () {
     // ===================================Items Group End===========================================
     function (grn) {
         var _this = this;
-        console.log('inputGRN', grn);
+        // console.log('inputGRN', grn);
         var i = 0;
         grn.items.forEach(function (item, index) {
             if (item.itemQuantity == item.itemQuantityAccepted) {
                 i++;
-                console.log('i', i, index, 'index', grn.items.length, 'grn.items.length');
+                // console.log('i',i,index,'index',grn.items.length,'grn.items.length');
             }
             if (index == grn.items.length - 1) {
                 if (i == grn.items.length) {
                     grn.status = 'cleared';
-                    console.log('grnIfCleared', grn);
+                    // console.log('grnIfCleared', grn);
+                    // console.log('grnIfCleared', grn);
                     _this.postGRN(grn);
                 }
                 else {
                     grn.status = 'substand';
-                    console.log('grnIfNotCleared', grn);
+                    // console.log('grnIfNotCleared', grn);
+                    // console.log('grnIfNotCleared', grn);              
                     _this.postGRN(grn);
                 }
             }
@@ -198,21 +206,23 @@ var OrderPoGrnComponent = /** @class */ (function () {
     };
     OrderPoGrnComponent.prototype.postGRN = function (grn) {
         var _this = this;
-        console.log('postGRN', grn);
+        // console.log('postGRN', grn);
         this.myOrderPoGrnForm.disable();
         this.orderPoGrnService.postGRN(this.aOrder.id, grn)
             .subscribe(function (res) {
-            console.log('postGRN', res);
+            // console.log('postGRN', res);
+            // console.log('postGRN', res);
             _this.alert.success('GRN Created Successfully');
             _this.orderPoGrnService.patchPOStatus(_this.aOrder.aPOId, grn.status)
                 .subscribe(function (res) {
-                console.log('patchPOStatus', res);
+                // console.log('patchPOStatus', res);
             }, function (err) {
-                console.log('patchPOStatus', err);
+                // console.log('patchPOStatus', err);
             });
             setTimeout(function () { _this.router.navigate(['/orders']); }, 4000);
         }, function (err) {
-            console.log('postGRN', err);
+            // console.log('postGRN', err);
+            // console.log('postGRN', err);
             _this.alert.error('Error Occured while Creating GRN');
             _this.myOrderPoGrnForm.enable();
         });

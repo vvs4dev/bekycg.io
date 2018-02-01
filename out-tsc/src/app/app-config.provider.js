@@ -5,6 +5,7 @@ var AppConfigProvider = /** @class */ (function () {
     function AppConfigProvider() {
         this.apiEndpoint = 'https://bekycg-dpd.herokuapp.com';
         // apiEndpoint: string = 'http://localhost:5000';
+        this.docsBase = '/_docs';
         this.sideMenu = [
             {
                 "icon": 'dashboard',
@@ -111,8 +112,8 @@ var AppConfigProvider = /** @class */ (function () {
                         "routerLink": 'presets/treatments'
                     },
                     {
-                        "menu": "Job Works",
-                        "routerLink": 'presets/jobworks'
+                        "menu": "Jobs",
+                        "routerLink": 'presets/jobs'
                     },
                     {
                         "menu": "Accessories",

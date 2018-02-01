@@ -7,13 +7,13 @@ var user_service_1 = require("./../../_services/user.service");
 var alert_service_1 = require("./../../_services/alert.service");
 var app_component_1 = require("./../../app.component");
 var router_1 = require("@angular/router");
-var order_accessories_service_1 = require("./order-accessories.service");
 var order_service_1 = require("./../order.service");
+var presets_service_1 = require("../../presets/presets.service");
 var OrderAccessoriesComponent = /** @class */ (function () {
-    function OrderAccessoriesComponent(user, orderAccessoriesService, orderService, router, aRoute, alert, appComponent) {
+    function OrderAccessoriesComponent(user, orderService, presetsService, router, aRoute, alert, appComponent) {
         this.user = user;
-        this.orderAccessoriesService = orderAccessoriesService;
         this.orderService = orderService;
+        this.presetsService = presetsService;
         this.router = router;
         this.aRoute = aRoute;
         this.alert = alert;
@@ -32,99 +32,103 @@ var OrderAccessoriesComponent = /** @class */ (function () {
         // Form Settings
         this.myOrderAccessoriesForm = new forms_1.FormGroup({
             'orderNumber': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required])),
-            'orderAccessoryItemCode': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required])),
-            'orderAccessoryItemName': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required])),
-            'orderAccessoryItemType': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required])),
-            'orderAccessoryItemDescription': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required, ng4_validators_1.CustomValidators.rangeLength([5, 300])])),
-            'orderAccessoryItemUnitOfMeasurement': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required])),
-            'orderAccessoryItemRate': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required])),
-            'orderAccessoryItemQuantityRequiredPerPiece': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required]))
+            'orderAccessoryCode': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required])),
+            'orderAccessoryName': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required])),
+            'orderAccessoryType': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required])),
+            'orderAccessoryDescription': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required, ng4_validators_1.CustomValidators.rangeLength([5, 300])])),
+            'orderAccessoryUnitofMeasurement': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required])),
+            'orderAccessoryCost': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required])),
+            'orderAccessoryQuantityRequiredPerPiece': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required]))
         });
         this.params = {
             "action": this.aRoute.snapshot.paramMap.get('action'),
             "orderNumber": this.aRoute.snapshot.paramMap.get('orderNumber'),
             "id": this.aRoute.snapshot.paramMap.get('id')
         };
-        console.log('params', this.params);
+        // console.log('params', this.params);
         this.findOrderNumber(this.params.orderNumber);
         this.myOrderAccessoriesForm.controls['orderNumber'].setValue(this.params.orderNumber);
         if (this.params.action == 'edit') {
-            this.orderAccessoriesService.findOrderAccessories(this.params.id)
+            this.orderService.findOrderAccessories(this.params.id)
                 .subscribe(function (res) {
-                console.log('findOrderPackers', 'this.edit', res);
+                // console.log('findOrderPackers','this.edit', res);
+                // console.log('findOrderPackers','this.edit', res);
                 _this.edit = res;
-                _this.myOrderAccessoriesForm.controls['orderAccessoryItemCode'].setValue(_this.edit.orderAccessoryItemCode);
-                _this.myOrderAccessoriesForm.controls['orderAccessoryItemName'].setValue(_this.edit.orderAccessoryItemName);
-                _this.myOrderAccessoriesForm.controls['orderAccessoryItemType'].setValue(_this.edit.orderAccessoryItemType);
-                _this.myOrderAccessoriesForm.controls['orderAccessoryItemDescription'].setValue(_this.edit.orderAccessoryItemDescription);
-                _this.myOrderAccessoriesForm.controls['orderAccessoryItemUnitOfMeasurement'].setValue(_this.edit.orderAccessoryItemUnitOfMeasurement);
-                _this.myOrderAccessoriesForm.controls['orderAccessoryItemRate'].setValue(_this.edit.orderAccessoryItemRate);
-                _this.myOrderAccessoriesForm.controls['orderAccessoryItemQuantityRequiredPerPiece'].setValue(_this.edit.orderAccessoryItemQuantityRequiredPerPiece);
+                _this.myOrderAccessoriesForm.controls['orderAccessoryCode'].setValue(_this.edit.orderAccessoryCode);
+                _this.myOrderAccessoriesForm.controls['orderAccessoryName'].setValue(_this.edit.orderAccessoryName);
+                _this.myOrderAccessoriesForm.controls['orderAccessoryType'].setValue(_this.edit.orderAccessoryType);
+                _this.myOrderAccessoriesForm.controls['orderAccessoryDescription'].setValue(_this.edit.orderAccessoryDescription);
+                _this.myOrderAccessoriesForm.controls['orderAccessoryUnitofMeasurement'].setValue(_this.edit.orderAccessoryUnitofMeasurement);
+                _this.myOrderAccessoriesForm.controls['orderAccessoryCost'].setValue(_this.edit.orderAccessoryCost);
+                _this.myOrderAccessoriesForm.controls['orderAccessoryQuantityRequiredPerPiece'].setValue(_this.edit.orderAccessoryQuantityRequiredPerPiece);
             });
         }
         this.getAccessoriesList();
-        this.orderAccessoryItemId = new forms_1.FormControl();
-        this.orderAccessoryItemId.valueChanges
+        this.orderAccessoryId = new forms_1.FormControl();
+        this.orderAccessoryId.valueChanges
             .subscribe(function (term) {
-            console.log('term', term);
-            _this.myOrderAccessoriesForm.controls['orderAccessoryItemCode'].setValue(JSON.parse(term).accessoryItemCode);
-            _this.myOrderAccessoriesForm.controls['orderAccessoryItemName'].setValue(JSON.parse(term).accessoryItemName);
-            _this.myOrderAccessoriesForm.controls['orderAccessoryItemType'].setValue(JSON.parse(term).accessoryItemType);
-            _this.myOrderAccessoriesForm.controls['orderAccessoryItemDescription'].setValue(JSON.parse(term).accessoryItemDescription);
+            // console.log('term',term);
+            // console.log('term',term);
+            _this.myOrderAccessoriesForm.controls['orderAccessoryCode'].setValue(JSON.parse(term).accessoryCode);
+            _this.myOrderAccessoriesForm.controls['orderAccessoryName'].setValue(JSON.parse(term).accessoryName);
+            _this.myOrderAccessoriesForm.controls['orderAccessoryType'].setValue(JSON.parse(term).accessoryType);
+            _this.myOrderAccessoriesForm.controls['orderAccessoryDescription'].setValue(JSON.parse(term).accessoryDescription);
         });
     };
     OrderAccessoriesComponent.prototype.findOrderNumber = function (orderNumber) {
         var _this = this;
-        this.orderService.findOrderNumber(orderNumber)
+        this.orderService.checkExistanceOrderNumber(orderNumber)
             .subscribe(function (res) {
             _this.orderDetails = res;
-            console.log('findOrderNumber', res);
+            // console.log('findOrderNumber',res);
         }, function (err) {
-            console.log('findOrderNumber', err);
+            // console.log('findOrderNumber',err);
         });
     };
     OrderAccessoriesComponent.prototype.getAccessoriesList = function () {
         var _this = this;
-        this.orderAccessoriesService.getAccessoriesList()
+        this.presetsService.getAllAccessories()
             .subscribe(function (res) {
             _this.accessoriesList = res;
-            console.log('this.accessoriesList', res);
+            // console.log('this.accessoriesList',res);
         }, function (err) {
-            console.log('this.accessoriesList', err);
+            // console.log('this.accessoriesList',err);
         });
     };
     OrderAccessoriesComponent.prototype.addOrderAccessories = function (orderAccessories) {
         var _this = this;
-        console.log('accessories', orderAccessories);
+        // console.log('accessories',orderAccessories);
         this.myOrderAccessoriesForm.disable();
         this.loading = true;
-        console.log('addorderAccessories', orderAccessories);
+        // console.log('addorderAccessories',orderAccessories);
         if (this.params.action == 'add') {
-            this.orderAccessoriesService.postOrderAccessories(this.orderDetails.id, orderAccessories)
+            this.orderService.postOrderAccessories(this.orderDetails.id, orderAccessories)
                 .subscribe(function (res) {
                 _this.loading = false;
                 _this.myOrderAccessoriesForm.reset();
                 _this.myOrderAccessoriesForm.enable();
-                console.log('addOrderAccessoriesResponse', res);
-                _this.alert.success('Accessories added to ' + _this.orderDetails.orderNumber + ' Successfully');
+                // console.log('addOrderAccessoriesResponse', res);
+                // console.log('addOrderAccessoriesResponse', res);
+                _this.alert.success('Accessories added to ' + _this.params.orderNumber + ' Successfully');
                 setTimeout(function () { _this.router.navigate(['/orders']); }, 4000);
             }, function (err) {
-                _this.alert.success('Error Occured while Adding Accessories');
-                console.log('addOrderAccessoriesResponse', err);
+                _this.alert.error('Error Occured while Adding Accessories');
+                // console.log('addOrderAccessoriesResponse', err);
             });
         }
         else if (this.params.action == 'edit') {
-            this.orderAccessoriesService.patchOrderAccessories(this.edit.id, orderAccessories)
+            this.orderService.putOrderAccessories(this.edit.id, orderAccessories)
                 .subscribe(function (res) {
                 _this.loading = false;
                 _this.myOrderAccessoriesForm.reset();
                 _this.myOrderAccessoriesForm.enable();
-                console.log('addOrderAccessoriesResponse', res);
+                // console.log('addOrderAccessoriesResponse', res);
+                // console.log('addOrderAccessoriesResponse', res);
                 _this.alert.success('Accessories updated in ' + _this.edit.orderNumber + ' Successfully');
                 setTimeout(function () { _this.router.navigate(['/orders']); }, 4000);
             }, function (err) {
                 _this.alert.success('Error Ocuured while Updating Accessories');
-                console.log('addOrderAccessoriesResponse', err);
+                // console.log('addOrderAccessoriesResponse', err);
             });
         }
     };
@@ -138,8 +142,8 @@ var OrderAccessoriesComponent = /** @class */ (function () {
     /** @nocollapse */
     OrderAccessoriesComponent.ctorParameters = function () { return [
         { type: user_service_1.UserService, },
-        { type: order_accessories_service_1.OrderAccessoriesService, },
         { type: order_service_1.OrderService, },
+        { type: presets_service_1.PresetsService, },
         { type: router_1.Router, },
         { type: router_1.ActivatedRoute, },
         { type: alert_service_1.AlertService, },

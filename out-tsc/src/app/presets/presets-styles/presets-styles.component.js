@@ -5,18 +5,18 @@ var ng4_validators_1 = require("ng4-validators");
 var alert_service_1 = require("./../../_services/alert.service");
 var app_component_1 = require("./../../app.component");
 var core_1 = require("@angular/core");
-var presets_styles_service_1 = require("./presets-styles.service");
+var presets_service_1 = require("./../presets.service");
 var pager_service_1 = require("./../../_services/pager.service");
 var router_1 = require("@angular/router");
 var PresetsStylesComponent = /** @class */ (function () {
-    function PresetsStylesComponent(appComponent, presetsStylesService, alert, pagerService, router) {
+    function PresetsStylesComponent(appComponent, presetsService, alert, pagerService, router) {
         this.appComponent = appComponent;
-        this.presetsStylesService = presetsStylesService;
+        this.presetsService = presetsService;
         this.alert = alert;
         this.pagerService = pagerService;
         this.router = router;
         this.myBreadCrumb = {};
-        this.aStyleToEdit = {};
+        this.styles = {};
         // array of all items to be paged
         this.allItems = [];
         // pager object
@@ -30,30 +30,36 @@ var PresetsStylesComponent = /** @class */ (function () {
         this.appComponent.setActiveBreadcrumb('Styles', this.myBreadCrumb);
         this.noOfItemsinPage = 5;
         this.loading = '';
+        this.styles.res = {};
+        this.styles.validation = {};
         this.fetchAllStyles();
     }
     PresetsStylesComponent.prototype.ngOnInit = function () {
         // Form Settings
         this.myStyleForm = new forms_1.FormGroup({
+            'id': new forms_1.FormControl(''),
+            'masterId': new forms_1.FormControl(''),
             'styleCode': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required, ng4_validators_1.CustomValidators.rangeLength([3, 50])])),
             'styleName': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required, ng4_validators_1.CustomValidators.rangeLength([5, 30])])),
-            'styleForGender': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required])),
+            'styleGender': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required])),
             'styleDescription': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required, ng4_validators_1.CustomValidators.rangeLength([5, 300])]))
         });
     };
     PresetsStylesComponent.prototype.fetchAllStyles = function () {
         var _this = this;
         this.loading = 'getStyles';
-        this.presetsStylesService.getAllStyles()
+        this.presetsService.getAllStyles()
             .subscribe(function (res) {
-            console.log('getAllStyles-Response', res);
-            _this.styles = res;
+            // console.log('getAllStyles-Response',res);
+            // console.log('getAllStyles-Response',res);
+            _this.styles.res = res;
             _this.allItems = res;
             _this.setPage(1);
             _this.loading = '';
         }, function (err) {
             _this.loading = false;
-            console.log('err', err);
+            // console.log('err',err);
+            // console.log('err',err);
             _this.loading = '';
             // Defining the Error Messages
             switch (err.status) {
@@ -77,31 +83,46 @@ var PresetsStylesComponent = /** @class */ (function () {
     };
     PresetsStylesComponent.prototype.resetStyleModal = function () {
         this.myStyleForm.reset();
-        this.aStyleToEdit = null;
-        this.presetsStylesService.aStyleToEdit = null;
+        this.presetsService.aStyleToEdit = null;
+    };
+    PresetsStylesComponent.prototype.validateStyleCode = function (code) {
+        var _this = this;
+        // console.log('code', code);
+        this.presetsService.validateMaster('style', code)
+            .subscribe(function (res) {
+            // console.log('validateStyleCode', res);
+            // console.log('validateStyleCode', res);
+            _this.styles.validation = res;
+        }, function (err) {
+            // console.log('validateStyleCode', err);
+        });
+        this.myStyleForm.controls.styleCode.setValue(code);
     };
     PresetsStylesComponent.prototype.addStyle = function (style) {
         var _this = this;
         this.myStyleForm.disable();
         this.loading = 'postStyle';
-        console.log('style', style);
-        this.presetsStylesService.postStyle(style)
+        style.masterId = '6d314ae26b713ab7';
+        // console.log('style', style);
+        this.presetsService.updateStyle(style)
             .subscribe(function (res) {
             _this.myStyleForm.reset();
             _this.myStyleForm.enable();
-            console.log('postStyle-Response', res);
+            // console.log('postStyle-Response', res);
+            // console.log('postStyle-Response', res);
             _this.loading = '';
             _this.fetchAllStyles();
-            if (!_this.aStyleToEdit) {
-                _this.alert.success('Style Created Successfully');
+            if (!_this.presetsService.getActiveStyleToEdit()) {
+                _this.alert.success('Style ' + style.styleCode + ' Created Successfully');
             }
             else {
-                _this.alert.success('Style Updated Successfully');
+                _this.alert.success('Style ' + style.styleCode + ' Updated Successfully');
             }
         }, function (err) {
             _this.myStyleForm.enable();
             _this.loading = false;
-            console.log('err', err);
+            // console.log('err',err);
+            // console.log('err',err);
             _this.loading = '';
             // Defining the Error Messages
             switch (err.status) {
@@ -118,15 +139,19 @@ var PresetsStylesComponent = /** @class */ (function () {
         });
     };
     PresetsStylesComponent.prototype.editStyle = function (style) {
-        this.aStyleToEdit.id = style.id;
-        this.aStyleToEdit.styles = {};
-        this.aStyleToEdit.styles.styleName = (style.styleName) ? style.styleName : null;
-        this.aStyleToEdit.styles.styleForGender = (style.styleForGender) ? style.styleForGender : null;
-        this.aStyleToEdit.styles.styleDescription = (style.styleDescription) ? style.styleDescription : null;
-        this.aStyleToEdit.styles.styleCode = (style.styleCode) ? style.styleCode : null;
-        console.log('aStyleToEdit', this.aStyleToEdit);
-        this.presetsStylesService.setActiveStyleToEdit(this.aStyleToEdit);
-        this.myStyleForm.setValue(this.aStyleToEdit.styles, { onlySelf: true });
+        delete style['createdDate'];
+        delete style['createdBy'];
+        delete style['lastModifiedDate'];
+        delete style['lastModifiedBy'];
+        // this.aStyleToEdit.id = style.id;
+        // this.aStyleToEdit.styles = {};
+        // this.aStyleToEdit.styles.styleName = (style.styleName)? style.styleName: null;
+        // this.aStyleToEdit.styles.styleGender = (style.styleGender)? style.styleGender: null;
+        // this.aStyleToEdit.styles.styleDescription = (style.styleDescription)? style.styleDescription: null;
+        // this.aStyleToEdit.styles.styleCode = (style.styleCode)? style.styleCode: null;
+        //   // console.log('aStyleToEdit', this.aStyleToEdit);
+        this.presetsService.setActiveStyleToEdit(style);
+        this.myStyleForm.setValue(style);
     };
     PresetsStylesComponent.decorators = [
         { type: core_1.Component, args: [{
@@ -138,7 +163,7 @@ var PresetsStylesComponent = /** @class */ (function () {
     /** @nocollapse */
     PresetsStylesComponent.ctorParameters = function () { return [
         { type: app_component_1.AppComponent, },
-        { type: presets_styles_service_1.PresetsStylesService, },
+        { type: presets_service_1.PresetsService, },
         { type: alert_service_1.AlertService, },
         { type: pager_service_1.PagerService, },
         { type: router_1.Router, },

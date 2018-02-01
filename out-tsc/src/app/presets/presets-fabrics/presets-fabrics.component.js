@@ -5,18 +5,18 @@ var ng4_validators_1 = require("ng4-validators");
 var alert_service_1 = require("./../../_services/alert.service");
 var app_component_1 = require("./../../app.component");
 var core_1 = require("@angular/core");
-var presets_fabrics_service_1 = require("./presets-fabrics.service");
+var presets_service_1 = require("./../presets.service");
 var pager_service_1 = require("./../../_services/pager.service");
 var router_1 = require("@angular/router");
 var PresetsFabricsComponent = /** @class */ (function () {
-    function PresetsFabricsComponent(appComponent, presetsFabricsService, alert, pagerService, router) {
+    function PresetsFabricsComponent(appComponent, presetsService, alert, pagerService, router) {
         this.appComponent = appComponent;
-        this.presetsFabricsService = presetsFabricsService;
+        this.presetsService = presetsService;
         this.alert = alert;
         this.pagerService = pagerService;
         this.router = router;
         this.myBreadCrumb = {};
-        this.aFabricToEdit = {};
+        this.fabrics = {};
         // array of all items to be paged
         this.allItems = [];
         // pager object
@@ -30,37 +30,54 @@ var PresetsFabricsComponent = /** @class */ (function () {
         this.appComponent.setActiveBreadcrumb('Fabrics', this.myBreadCrumb);
         this.noOfItemsinPage = 5;
         this.loading = '';
+        this.fabrics.res = {};
+        this.fabrics.validation = {};
         this.fetchAllFabrics();
     }
     PresetsFabricsComponent.prototype.ngOnInit = function () {
         // Form Settings
         this.myFabricForm = new forms_1.FormGroup({
-            'fabricMaterialName': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required, ng4_validators_1.CustomValidators.rangeLength([3, 50])])),
-            'fabricMaterialWeight': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required])),
-            'fabricMaterialType': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required])),
-            'fabricMaterialCode': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required, ng4_validators_1.CustomValidators.rangeLength([5, 30])]))
+            'id': new forms_1.FormControl(''),
+            'masterId': new forms_1.FormControl(''),
+            'fabricName': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required, ng4_validators_1.CustomValidators.rangeLength([5, 50])])),
+            'fabricWeight': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required])),
+            'fabricType': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required])),
+            'fabricCode': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required, ng4_validators_1.CustomValidators.rangeLength([3, 30])]))
         });
-        this.presetsFabricsService.setActiveFabricToEdit(null);
-        this.aFabricToEdit = {};
+        this.presetsService.setActiveFabricToEdit(null);
     };
     PresetsFabricsComponent.prototype.resetFabricModal = function () {
         this.myFabricForm.reset();
-        this.aFabricToEdit = null;
-        this.presetsFabricsService.aFabricToEdit = null;
+        this.presetsService.aFabricToEdit = null;
+    };
+    PresetsFabricsComponent.prototype.validateFabricCode = function (code) {
+        var _this = this;
+        // console.log('code', code);
+        this.presetsService.validateMaster('fabric', code)
+            .subscribe(function (res) {
+            // console.log('validateFabricCode', res);
+            // console.log('validateFabricCode', res);
+            _this.fabrics.validation = res;
+        }, function (err) {
+            // console.log('validateFabricCode', err);
+        });
+        this.myFabricForm.controls.fabricCode.setValue(code);
     };
     PresetsFabricsComponent.prototype.fetchAllFabrics = function () {
         var _this = this;
         this.loading = 'getFabrics';
-        this.presetsFabricsService.getAllFabrics()
+        this.presetsService.getAllFabrics()
             .subscribe(function (res) {
-            console.log('getAllFabrics-Response', res);
-            _this.fabrics = res;
+            // console.log('getAllFabrics-Response',res);
+            // console.log('getAllFabrics-Response',res);
+            _this.fabrics.res = res;
             _this.allItems = res;
             _this.setPage(1);
             _this.loading = '';
         }, function (err) {
             _this.loading = false;
-            console.log('err', err);
+            // console.log('err',err);
+            // console.log('err',err);
             _this.loading = '';
             // Defining the Error Messages
             switch (err.status) {
@@ -86,25 +103,27 @@ var PresetsFabricsComponent = /** @class */ (function () {
         var _this = this;
         this.myFabricForm.disable();
         this.loading = 'postFabric';
-        console.log('style', fabric);
-        this.presetsFabricsService.postFabric(fabric)
+        fabric.masterId = '4070c908cc6a396c';
+        // console.log('fabric', fabric);
+        this.presetsService.updateFabric(fabric)
             .subscribe(function (res) {
-            _this.aFabricToEdit = null;
             _this.myFabricForm.reset();
             _this.myFabricForm.enable();
-            console.log('postFabric-Response', res);
+            // console.log('postFabric-Response', res);
+            // console.log('postFabric-Response', res);
             _this.loading = '';
             _this.fetchAllFabrics();
-            if (!_this.aFabricToEdit) {
-                _this.alert.success('Fabric Created Successfully');
+            if (!_this.presetsService.getActiveFabricToEdit()) {
+                _this.alert.success('Fabric ' + fabric.fabricCode + ' Created Successfully');
             }
             else {
-                _this.alert.success('Fabric Updated Successfully');
+                _this.alert.success('Fabric ' + fabric.fabricCode + ' Updated Successfully');
             }
         }, function (err) {
             _this.myFabricForm.enable();
             _this.loading = false;
-            console.log('err', err);
+            // console.log('err',err);
+            // console.log('err',err);
             _this.loading = '';
             // Defining the Error Messages
             switch (err.status) {
@@ -121,16 +140,13 @@ var PresetsFabricsComponent = /** @class */ (function () {
         });
     };
     PresetsFabricsComponent.prototype.editFabric = function (fabric) {
-        console.log('editFabric', fabric);
-        this.aFabricToEdit.id = fabric.id;
-        this.aFabricToEdit.fabrics = {};
-        this.aFabricToEdit.fabrics.fabricMaterialName = (fabric.fabricMaterialName) ? fabric.fabricMaterialName : null;
-        this.aFabricToEdit.fabrics.fabricMaterialType = (fabric.fabricMaterialType) ? fabric.fabricMaterialType : null;
-        this.aFabricToEdit.fabrics.fabricMaterialWeight = (fabric.fabricMaterialWeight) ? fabric.fabricMaterialWeight : null;
-        this.aFabricToEdit.fabrics.fabricMaterialCode = (fabric.fabricMaterialCode) ? fabric.fabricMaterialCode : null;
-        console.log('aFabricToEdit', this.aFabricToEdit);
-        this.presetsFabricsService.setActiveFabricToEdit(this.aFabricToEdit);
-        this.myFabricForm.setValue(this.aFabricToEdit.fabrics, { onlySelf: true });
+        // console.log('editFabric', fabric);
+        delete fabric['createdDate'];
+        delete fabric['createdBy'];
+        delete fabric['lastModifiedDate'];
+        delete fabric['lastModifiedBy'];
+        this.presetsService.setActiveFabricToEdit(fabric);
+        this.myFabricForm.setValue(fabric);
     };
     PresetsFabricsComponent.decorators = [
         { type: core_1.Component, args: [{
@@ -142,7 +158,7 @@ var PresetsFabricsComponent = /** @class */ (function () {
     /** @nocollapse */
     PresetsFabricsComponent.ctorParameters = function () { return [
         { type: app_component_1.AppComponent, },
-        { type: presets_fabrics_service_1.PresetsFabricsService, },
+        { type: presets_service_1.PresetsService, },
         { type: alert_service_1.AlertService, },
         { type: pager_service_1.PagerService, },
         { type: router_1.Router, },

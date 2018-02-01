@@ -3,13 +3,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var alert_service_1 = require("./../../_services/alert.service");
 var app_component_1 = require("./../../app.component");
 var core_1 = require("@angular/core");
-var presets_vendors_service_1 = require("./presets-vendors.service");
+var presets_service_1 = require("./../presets.service");
 var pager_service_1 = require("./../../_services/pager.service");
 var router_1 = require("@angular/router");
 var PresetsVendorsComponent = /** @class */ (function () {
-    function PresetsVendorsComponent(appComponent, presetsVendorsService, alert, pagerService, router) {
+    function PresetsVendorsComponent(appComponent, presetsService, alert, pagerService, router) {
         this.appComponent = appComponent;
-        this.presetsVendorsService = presetsVendorsService;
+        this.presetsService = presetsService;
         this.alert = alert;
         this.pagerService = pagerService;
         this.router = router;
@@ -30,25 +30,27 @@ var PresetsVendorsComponent = /** @class */ (function () {
         this.fetchAllVendors();
     }
     PresetsVendorsComponent.prototype.addNewVendor = function () {
-        console.log('addNewVendor');
+        // console.log('addNewVendor');
         this.router.navigate(['/presets/vendors/form']);
     };
     PresetsVendorsComponent.prototype.editVendor = function (vendor) {
         var _this = this;
-        this.presetsVendorsService.setActiveVendorToEdit(vendor);
+        this.presetsService.setActiveVendorToEdit(vendor);
         setTimeout(function () { _this.router.navigate(['/presets/vendors/form']), 500; });
     };
     PresetsVendorsComponent.prototype.deleteVendor = function (id) {
         var _this = this;
-        console.log('deleteVendorById', id);
-        this.presetsVendorsService.deleteVendor(id)
+        // console.log('deleteVendorById', id);
+        this.presetsService.deleteVendor(id)
             .subscribe(function (res) {
-            console.log('deleteVendor-Response', res);
+            // console.log('deleteVendor-Response', res);
+            // console.log('deleteVendor-Response', res);
             _this.loading = '';
             _this.alert.success('Vendor Deleted Successfully');
             _this.fetchAllVendors();
         }, function (err) {
-            console.log('err', err);
+            // console.log('err',err);
+            // console.log('err',err);
             _this.loading = '';
             // Defining the Error Messages
             switch (err.status) {
@@ -63,22 +65,24 @@ var PresetsVendorsComponent = /** @class */ (function () {
     };
     PresetsVendorsComponent.prototype.addVendorContact = function (aVendor) {
         var _this = this;
-        this.presetsVendorsService.setActiveVendor(aVendor);
+        this.presetsService.setActiveVendor(aVendor);
         setTimeout(function () { _this.router.navigate(['/presets/vendor/' + aVendor.vendorCode + '/contacts/form']); }, 500);
     };
     PresetsVendorsComponent.prototype.fetchAllVendors = function () {
         var _this = this;
         this.loading = 'getVendors';
-        this.presetsVendorsService.getAllVendors()
+        this.presetsService.getAllVendors()
             .subscribe(function (res) {
-            console.log('getAllVendors-Response', res);
+            // console.log('getAllVendors-Response',res);
+            // console.log('getAllVendors-Response',res);
             _this.vendors = res;
             _this.allItems = res;
             _this.setPage(1);
             _this.loading = '';
         }, function (err) {
             _this.loading = false;
-            console.log('err', err);
+            // console.log('err',err);
+            // console.log('err',err);
             _this.loading = '';
             // Defining the Error Messages
             switch (err.status) {
@@ -104,26 +108,27 @@ var PresetsVendorsComponent = /** @class */ (function () {
         var _this = this;
         this.aVendor = vendor;
         this.loading = 'getVendorContacts';
-        console.log('aVendor', this.aVendor);
-        this.presetsVendorsService.getVendorContacts(this.aVendor.id)
+        // console.log('aVendor', this.aVendor);
+        this.presetsService.getVendorContacts(this.aVendor.vendorCode)
             .subscribe(function (res) {
-            console.log('getVendorContacts-Response', res);
+            // console.log('getVendorContacts-Response',res);
+            // console.log('getVendorContacts-Response',res);
             _this.vendorContacts = res;
             _this.loading = '';
         }, function (err) {
-            console.log('Error', err);
+            // console.log('Error', err);
         });
     };
     PresetsVendorsComponent.prototype.editVendorContact = function (vendorContact) {
         var _this = this;
-        console.log('editVendorContact', 'aVendor', this.aVendor);
-        this.presetsVendorsService.setActiveVendor(this.aVendor);
-        this.presetsVendorsService.setActiveVendorContactToEdit(vendorContact);
+        // console.log('editVendorContact', 'aVendor', this.aVendor)
+        this.presetsService.setActiveVendor(this.aVendor);
+        this.presetsService.setActiveVendorContactToEdit(vendorContact);
         setTimeout(function () { _this.router.navigate(['/presets/vendor/' + _this.aVendor.vendorCode + '/contacts/form']), 500; });
     };
     PresetsVendorsComponent.prototype.ngOnInit = function () {
-        this.presetsVendorsService.setActiveVendorToEdit(null);
-        this.presetsVendorsService.setActiveVendorContactToEdit(null);
+        this.presetsService.setActiveVendorToEdit(null);
+        this.presetsService.setActiveVendorContactToEdit(null);
     };
     PresetsVendorsComponent.decorators = [
         { type: core_1.Component, args: [{
@@ -135,7 +140,7 @@ var PresetsVendorsComponent = /** @class */ (function () {
     /** @nocollapse */
     PresetsVendorsComponent.ctorParameters = function () { return [
         { type: app_component_1.AppComponent, },
-        { type: presets_vendors_service_1.PresetsVendorsService, },
+        { type: presets_service_1.PresetsService, },
         { type: alert_service_1.AlertService, },
         { type: pager_service_1.PagerService, },
         { type: router_1.Router, },

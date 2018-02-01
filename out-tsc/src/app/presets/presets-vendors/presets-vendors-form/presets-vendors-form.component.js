@@ -7,14 +7,14 @@ var forms_1 = require("@angular/forms");
 var ng4_validators_1 = require("ng4-validators");
 var alert_service_1 = require("./../../../_services/alert.service");
 var user_service_1 = require("./../../../_services/user.service");
-var presets_vendors_service_1 = require("./../presets-vendors.service");
+var presets_service_1 = require("../../presets.service");
 var PresetsVendorsFormComponent = /** @class */ (function () {
-    function PresetsVendorsFormComponent(appComponent, router, user, alert, presetsVendorsService) {
+    function PresetsVendorsFormComponent(appComponent, router, user, alert, presetsService) {
         this.appComponent = appComponent;
         this.router = router;
         this.user = user;
         this.alert = alert;
-        this.presetsVendorsService = presetsVendorsService;
+        this.presetsService = presetsService;
         this.myBreadCrumb = {};
         this.aVendor = {};
         this.aVendorToEdit = {};
@@ -29,35 +29,45 @@ var PresetsVendorsFormComponent = /** @class */ (function () {
     PresetsVendorsFormComponent.prototype.ngOnInit = function () {
         // Form Settings
         this.myVendorForm = new forms_1.FormGroup({
+            'id': new forms_1.FormControl(''),
+            'masterId': new forms_1.FormControl(''),
             'vendorCode': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required, ng4_validators_1.CustomValidators.rangeLength([3, 50])])),
             'vendorName': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required, ng4_validators_1.CustomValidators.rangeLength([5, 30])]))
         });
-        this.aVendorToEdit = this.presetsVendorsService.getActiveVendorToEdit();
-        if (this.aVendorToEdit) {
-            console.log('intiatedEdit');
-            this.aVendor.vendorCode = this.aVendorToEdit.vendorCode;
-            this.aVendor.vendorName = this.aVendorToEdit.vendorName;
-            this.myVendorForm.setValue(this.aVendor, { onlySelf: true });
+        this.aVendor.validation = {};
+        if (this.presetsService.getActiveVendorToEdit()) {
+            // console.log('intiatedEdit');
+            this.myVendorForm.setValue(this.presetsService.getActiveVendorToEdit());
         }
-        // const Vendor = {
-        //   vendorCode : 'asdgasdgadsgadsgad',
-        //   vendorName : 'asdgasdgadsgadsgad'
-        // };
-        // this.myVendorForm.setValue(Vendor, {onlySelf: true});
+    };
+    PresetsVendorsFormComponent.prototype.validateVendorCode = function (code) {
+        var _this = this;
+        // console.log('code', code);
+        this.presetsService.validateMaster('vendor', code)
+            .subscribe(function (res) {
+            // console.log('validateVendorCode', res);
+            // console.log('validateVendorCode', res);
+            _this.aVendor.validation = res;
+        }, function (err) {
+            // console.log('validateVendorCode', err);
+        });
+        this.myVendorForm.controls.vendorCode.setValue(code);
     };
     PresetsVendorsFormComponent.prototype.addVendor = function (vendor) {
         var _this = this;
         this.myVendorForm.disable();
         this.loading = 'postVendor';
-        console.log('Vendor', vendor);
-        this.presetsVendorsService.postVendor(vendor)
+        vendor.masterId = '8e453c736abd6823';
+        // console.log('Vendor', vendor);
+        this.presetsService.updateVendor(vendor)
             .subscribe(function (res) {
             _this.myVendorForm.reset();
             _this.myVendorForm.enable();
-            console.log('postVendor-Response', res);
+            // console.log('postVendor-Response', res);
+            // console.log('postVendor-Response', res);
             _this.loading = '';
-            _this.presetsVendorsService.setActiveVendor(res);
-            if (!_this.aVendorToEdit) {
+            _this.presetsService.setActiveVendor(res);
+            if (!_this.presetsService.getActiveVendorToEdit()) {
                 _this.alert.success('Vendor Created Successfully, You will be redirected to add Vendor contact');
                 setTimeout(function () { _this.router.navigate(['/presets/vendor/' + vendor.vendorCode + '/contacts/form']); }, 4000);
             }
@@ -68,7 +78,8 @@ var PresetsVendorsFormComponent = /** @class */ (function () {
         }, function (err) {
             _this.myVendorForm.enable();
             _this.loading = false;
-            console.log('err', err);
+            // console.log('err',err);
+            // console.log('err',err);
             _this.loading = '';
             // Defining the Error Messages
             switch (err.status) {
@@ -97,7 +108,7 @@ var PresetsVendorsFormComponent = /** @class */ (function () {
         { type: router_1.Router, },
         { type: user_service_1.UserService, },
         { type: alert_service_1.AlertService, },
-        { type: presets_vendors_service_1.PresetsVendorsService, },
+        { type: presets_service_1.PresetsService, },
     ]; };
     return PresetsVendorsFormComponent;
 }());

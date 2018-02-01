@@ -43,19 +43,21 @@ var presets_vendors_form_component_1 = require("./presets/presets-vendors/preset
 var presets_vendor_contacts_form_component_1 = require("./presets/presets-vendors/presets-vendor-contacts-form/presets-vendor-contacts-form.component");
 var presets_fabrics_component_1 = require("./presets/presets-fabrics/presets-fabrics.component");
 var presets_treatments_component_1 = require("./presets/presets-treatments/presets-treatments.component");
-var presets_job_works_component_1 = require("./presets/presets-job-works/presets-job-works.component");
+var presets_jobs_component_1 = require("./presets/presets-jobs/presets-jobs.component");
 var presets_accessories_component_1 = require("./presets/presets-accessories/presets-accessories.component");
 var presets_packers_component_1 = require("./presets/presets-packers/presets-packers.component");
+var presets_service_1 = require("./presets/presets.service");
 // Presets Component End
 // Orders Components Start
 var orders_component_1 = require("./orders/orders.component");
 var order_entry_component_1 = require("./orders/order-entry/order-entry.component");
 var order_fabric_component_1 = require("./orders/order-fabric/order-fabric.component");
-var order_job_work_component_1 = require("./orders/order-job-work/order-job-work.component");
+var order_job_component_1 = require("./orders/order-job/order-job.component");
 var order_accessories_component_1 = require("./orders/order-accessories/order-accessories.component");
 var order_packers_component_1 = require("./orders/order-packers/order-packers.component");
 var order_purchase_order_component_1 = require("./orders/order-purchase-order/order-purchase-order.component");
 var order_po_grn_component_1 = require("./orders/order-po-grn/order-po-grn.component");
+var order_service_1 = require("./orders/order.service");
 // Orders Components End
 // Stores Components Start
 var stores_component_1 = require("./stores/stores.component");
@@ -65,6 +67,7 @@ var settings_component_1 = require("./settings/settings.component");
 var settings_company_component_1 = require("./settings/settings-company/settings-company.component");
 var settings_branches_component_1 = require("./settings/settings-branches/settings-branches.component");
 var settings_department_component_1 = require("./settings/settings-department/settings-department.component");
+var settings_service_1 = require("./settings/settings.service");
 // Settings Component End
 var user_service_1 = require("./_services/user.service");
 var auth_guard_1 = require("./_guards/auth.guard");
@@ -75,23 +78,8 @@ var app_config_provider_1 = require("./app-config.provider");
 var validation_errors_component_1 = require("./_directives/validators/validation-errors.component");
 var pager_service_1 = require("./_services/pager.service");
 var dash_service_1 = require("./dash/dash.service");
-var presets_service_1 = require("./presets/presets.service");
-var presets_buyer_service_1 = require("./presets/presets-buyers/presets-buyer.service");
-var presets_vendors_service_1 = require("./presets/presets-vendors/presets-vendors.service");
-var presets_styles_service_1 = require("./presets/presets-styles/presets-styles.service");
-var presets_fabrics_service_1 = require("./presets/presets-fabrics/presets-fabrics.service");
-var presets_treatments_service_1 = require("./presets/presets-treatments/presets-treatments.service");
-var presets_job_works_service_1 = require("./presets/presets-job-works/presets-job-works.service");
-var presets_packers_service_1 = require("./presets/presets-packers/presets-packers.service");
-var order_entry_service_1 = require("./orders/order-entry/order-entry.service");
-var order_fabrics_service_1 = require("./orders/order-fabric/order-fabrics.service");
-var order_service_1 = require("./orders/order.service");
-var order_job_work_service_1 = require("./orders/order-job-work/order-job-work.service");
-var order_accessories_service_1 = require("./orders/order-accessories/order-accessories.service");
-var order_packers_service_1 = require("./orders/order-packers/order-packers.service");
 var order_purchase_order_service_1 = require("./orders/order-purchase-order/order-purchase-order.service");
 var order_po_grn_service_1 = require("./orders/order-po-grn/order-po-grn.service");
-var settings_service_1 = require("./settings/settings.service");
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -118,13 +106,13 @@ var AppModule = /** @class */ (function () {
                         presets_vendor_contacts_form_component_1.PresetsVendorContactsFormComponent,
                         presets_fabrics_component_1.PresetsFabricsComponent,
                         presets_treatments_component_1.PresetsTreatmentsComponent,
-                        presets_job_works_component_1.PresetsJobWorksComponent,
+                        presets_jobs_component_1.PresetsJobsComponent,
                         presets_accessories_component_1.PresetsAccessoriesComponent,
                         presets_packers_component_1.PresetsPackersComponent,
                         orders_component_1.OrdersComponent,
                         order_entry_component_1.OrderEntryComponent,
                         order_fabric_component_1.OrderFabricComponent,
-                        order_job_work_component_1.OrderJobWorkComponent,
+                        order_job_component_1.OrderJobComponent,
                         order_accessories_component_1.OrderAccessoriesComponent,
                         order_packers_component_1.OrderPackersComponent,
                         order_purchase_order_component_1.OrderPurchaseOrderComponent,
@@ -159,22 +147,10 @@ var AppModule = /** @class */ (function () {
                         alert_service_1.AlertService,
                         app_config_provider_1.AppConfigProvider,
                         material_1.MatIconRegistry,
-                        presets_buyer_service_1.PresetsBuyerService,
                         pager_service_1.PagerService,
                         presets_service_1.PresetsService,
-                        presets_vendors_service_1.PresetsVendorsService,
-                        presets_styles_service_1.PresetsStylesService,
-                        presets_fabrics_service_1.PresetsFabricsService,
-                        presets_treatments_service_1.PresetsTreatmentsService,
-                        presets_job_works_service_1.PresetsJobWorksService,
-                        presets_packers_service_1.PresetsPackersService,
                         dash_service_1.DashService,
-                        order_entry_service_1.OrderEntryService,
-                        order_fabrics_service_1.OrderFabricsService,
                         order_service_1.OrderService,
-                        order_job_work_service_1.OrderJobWorkService,
-                        order_accessories_service_1.OrderAccessoriesService,
-                        order_packers_service_1.OrderPackersService,
                         order_purchase_order_service_1.OrderPurchaseOrderService,
                         order_po_grn_service_1.OrderPoGrnService,
                         settings_service_1.SettingsService

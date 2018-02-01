@@ -15,16 +15,12 @@ var OrderService = /** @class */ (function () {
         this.aRoute = aRoute;
         this.alert = alert;
         this.appConfig = appConfig;
-        this.orderReq = {};
-        this.orderReq = {
-            'baseURL': appConfig.apiEndpoint,
-            'access_token': user.getActiveUserId(),
-            'authReq': '?access_token=' + user.getActiveUserId(),
-            'orderFilter': '&filter[fields][id]=true&filter[fields][orderNumber]=true'
-        };
-        console.log('this.orderReq', this.orderReq);
     }
-    OrderService.prototype.formatDate = function (dateString) {
+    // =============================================  Order ===========================================
+    // =============================================  Order ===========================================
+    OrderService.prototype.formatDate = 
+    // =============================================  Order ===========================================
+    function (dateString) {
         this.dateToFormat = new Date(dateString);
         var month = this.dateToFormat.getMonth() + 1;
         var date = this.dateToFormat.getDate();
@@ -33,13 +29,13 @@ var OrderService = /** @class */ (function () {
         return this.dateToFormat.getFullYear() + '-' + month + '-' + date;
     };
     OrderService.prototype.findOrderNumber = function (orderNumber) {
-        return this.http.get(this.orderReq.baseURL + '/Orders/findOne' + this.orderReq.authReq + '&filter={ "where": { "orderNumber": "' + orderNumber + '" } }');
+        return this.http.get(this.appConfig.apiEndpoint + '/Orders/findOne');
     };
     OrderService.prototype.checkExistanceOrderNumber = function (orderNumber) {
-        return this.http.get(this.orderReq.baseURL + '/Orders/count' + this.orderReq.authReq + '&where={ "orderNumber": "' + orderNumber + '" }');
+        return this.http.get(this.appConfig.apiEndpoint + '/corder/validate/order/' + orderNumber);
     };
     OrderService.prototype.findOrder = function (orderNumber) {
-        return this.http.get(this.orderReq.baseURL + '/Orders/findOne' + this.orderReq.authReq + '&filter={ "where": { "orderNumber": "' + orderNumber + '" } }');
+        return this.http.get(this.appConfig.apiEndpoint + '/Orders/findOne');
     };
     OrderService.prototype.setActiveOrder = function (order) {
         this.aOrder = order;
@@ -48,25 +44,97 @@ var OrderService = /** @class */ (function () {
         return this.aOrder;
     };
     OrderService.prototype.getAllOrders = function () {
-        return this.http.get(this.orderReq.baseURL + '/Orders' + this.orderReq.authReq);
+        return this.http.get(this.appConfig.apiEndpoint + '/corder/get/order');
     };
-    OrderService.prototype.getOrderFabrics = function (id) {
-        return this.http.get(this.orderReq.baseURL + '/Orders/' + id + '/orderFabrics' + this.orderReq.authReq);
+    OrderService.prototype.getOrderFabrics = function (orderNumber) {
+        return this.http.get(this.appConfig.apiEndpoint + '/corder/get/ofabric/' + orderNumber);
     };
-    OrderService.prototype.getOrderJobworks = function (id) {
-        return this.http.get(this.orderReq.baseURL + '/Orders/' + id + '/orderJobworks' + this.orderReq.authReq);
+    OrderService.prototype.getOrderJobs = function (orderNumber) {
+        return this.http.get(this.appConfig.apiEndpoint + '/corder/get/ojob/' + orderNumber);
     };
-    OrderService.prototype.getOrderAccessories = function (id) {
-        return this.http.get(this.orderReq.baseURL + '/Orders/' + id + '/orderAccessories' + this.orderReq.authReq);
+    OrderService.prototype.getOrderAccessories = function (orderNumber) {
+        return this.http.get(this.appConfig.apiEndpoint + '/corder/get/oaccessory/' + orderNumber);
     };
-    OrderService.prototype.getOrderPackers = function (id) {
-        return this.http.get(this.orderReq.baseURL + '/Orders/' + id + '/orderPackingMaterials' + this.orderReq.authReq);
+    OrderService.prototype.getOrderPackers = function (orderNumber) {
+        return this.http.get(this.appConfig.apiEndpoint + '/corder/get/opacker/' + orderNumber);
     };
-    OrderService.prototype.getOrderPurchaseOrders = function (id) {
-        return this.http.get(this.orderReq.baseURL + '/Orders/' + id + '/orderPurchaseOrders' + this.orderReq.authReq);
+    OrderService.prototype.getOrderPurchaseOrders = function (orderNumber) {
+        return this.http.get(this.appConfig.apiEndpoint + '/corder/get/opo/' + orderNumber);
     };
-    OrderService.prototype.getOrderGRNs = function (id) {
-        return this.http.get(this.orderReq.baseURL + '/Orders/' + id + '/orderGoodsReceiptNotes' + this.orderReq.authReq);
+    OrderService.prototype.getOrderGRNs = function (orderNumber) {
+        return this.http.get(this.appConfig.apiEndpoint + '/corder/get/ogrn/' + orderNumber);
+    };
+    // =============================================  Order Entry===========================================
+    // =============================================  Order Entry===========================================
+    OrderService.prototype.postOrder = 
+    // =============================================  Order Entry===========================================
+    function (order) {
+        // console.log('PostOrder');
+        return this.http.post(this.appConfig.apiEndpoint + '/order', order);
+    };
+    OrderService.prototype.putOrder = function (id, order) {
+        // console.log('PutOrder');
+        return this.http.patch(this.appConfig.apiEndpoint + '/order/' + id, order);
+    };
+    // =============================================  Order Fabric ===========================================
+    // =============================================  Order Fabric ===========================================
+    OrderService.prototype.postOrderFabric = 
+    // =============================================  Order Fabric ===========================================
+    function (order, orderFabric) {
+        // console.log('PostOrderFabric');
+        return this.http.post(this.appConfig.apiEndpoint + '/orderfabric', orderFabric);
+    };
+    OrderService.prototype.putOrderFabric = function (id, orderFabric) {
+        // console.log('PutOrderFabric');
+        return this.http.put(this.appConfig.apiEndpoint + '/orderfabric/' + id, orderFabric);
+    };
+    OrderService.prototype.findOrderFabric = function (id) {
+        return this.http.get(this.appConfig.apiEndpoint + '/orderfabric/' + id);
+    };
+    // =============================================  Order Job ===========================================
+    // =============================================  Order Job ===========================================
+    OrderService.prototype.postOrderJob = 
+    // =============================================  Order Job ===========================================
+    function (orderJob) {
+        // console.log('PostOrderJob');
+        return this.http.post(this.appConfig.apiEndpoint + '/orderjob', orderJob);
+    };
+    OrderService.prototype.findOrderJob = function (id) {
+        return this.http.get(this.appConfig.apiEndpoint + '/orderjob/' + id);
+    };
+    OrderService.prototype.putOrderJob = function (id, orderJob) {
+        // console.log('PutOrderJob');
+        return this.http.put(this.appConfig.apiEndpoint + '/orderjob/' + id, orderJob);
+    };
+    // =============================================  Order Accessories ===========================================
+    // =============================================  Order Accessories ===========================================
+    OrderService.prototype.postOrderAccessories = 
+    // =============================================  Order Accessories ===========================================
+    function (order, orderAccessories) {
+        // console.log('PostOrderAccessories');
+        return this.http.post(this.appConfig.apiEndpoint + '/orderaccessory', orderAccessories);
+    };
+    OrderService.prototype.findOrderAccessories = function (id) {
+        return this.http.get(this.appConfig.apiEndpoint + '/orderaccessory/' + id);
+    };
+    OrderService.prototype.putOrderAccessories = function (id, orderAccessory) {
+        // console.log('PutOrderAccessories');
+        return this.http.put(this.appConfig.apiEndpoint + '/orderaccessory/' + id, orderAccessory);
+    };
+    // =============================================  Order Packers ===========================================
+    // =============================================  Order Packers ===========================================
+    OrderService.prototype.postOrderPackers = 
+    // =============================================  Order Packers ===========================================
+    function (order, orderPackers) {
+        // console.log('PostOrderPackers');
+        return this.http.post(this.appConfig.apiEndpoint + '/orderpacker', orderPackers);
+    };
+    OrderService.prototype.findOrderPackers = function (id) {
+        return this.http.get(this.appConfig.apiEndpoint + '/orderpacker/' + id);
+    };
+    OrderService.prototype.putOrderPackers = function (id, orderPacker) {
+        // console.log('PutOrderPackers');
+        return this.http.put(this.appConfig.apiEndpoint + '/orderpacker/' + id, orderPacker);
     };
     OrderService.decorators = [
         { type: core_1.Injectable },

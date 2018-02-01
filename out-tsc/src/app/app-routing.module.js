@@ -13,7 +13,7 @@ var dash_component_1 = require("./dash/dash.component");
 var orders_component_1 = require("./orders/orders.component");
 var order_entry_component_1 = require("./orders/order-entry/order-entry.component");
 var order_fabric_component_1 = require("./orders/order-fabric/order-fabric.component");
-var order_job_work_component_1 = require("./orders/order-job-work/order-job-work.component");
+var order_job_component_1 = require("./orders/order-job/order-job.component");
 var order_accessories_component_1 = require("./orders/order-accessories/order-accessories.component");
 var order_packers_component_1 = require("./orders/order-packers/order-packers.component");
 var order_purchase_order_component_1 = require("./orders/order-purchase-order/order-purchase-order.component");
@@ -38,7 +38,7 @@ var presets_vendors_form_component_1 = require("./presets/presets-vendors/preset
 var presets_vendor_contacts_form_component_1 = require("./presets/presets-vendors/presets-vendor-contacts-form/presets-vendor-contacts-form.component");
 var presets_fabrics_component_1 = require("./presets/presets-fabrics/presets-fabrics.component");
 var presets_treatments_component_1 = require("./presets/presets-treatments/presets-treatments.component");
-var presets_job_works_component_1 = require("./presets/presets-job-works/presets-job-works.component");
+var presets_jobs_component_1 = require("./presets/presets-jobs/presets-jobs.component");
 var presets_accessories_component_1 = require("./presets/presets-accessories/presets-accessories.component");
 var presets_packers_component_1 = require("./presets/presets-packers/presets-packers.component");
 var auth_guard_1 = require("./_guards/auth.guard");
@@ -78,10 +78,10 @@ var routes = [
         component: order_fabric_component_1.OrderFabricComponent
     },
     {
-        path: 'order/:orderNumber/jobworks/:action/:id',
-        // path: 'orders.jobworks',
+        path: 'order/:orderNumber/jobs/:action/:id',
+        // path: 'orders.jobs',
         canActivate: [auth_guard_1.AuthGuard],
-        component: order_job_work_component_1.OrderJobWorkComponent
+        component: order_job_component_1.OrderJobComponent
     },
     {
         path: 'order/:orderNumber/accessories/:action/:id',
@@ -163,9 +163,9 @@ var routes = [
         component: presets_treatments_component_1.PresetsTreatmentsComponent
     },
     {
-        path: 'presets/jobworks',
+        path: 'presets/jobs',
         canActivate: [auth_guard_1.AuthGuard],
-        component: presets_job_works_component_1.PresetsJobWorksComponent
+        component: presets_jobs_component_1.PresetsJobsComponent
     },
     {
         path: 'presets/accessories',

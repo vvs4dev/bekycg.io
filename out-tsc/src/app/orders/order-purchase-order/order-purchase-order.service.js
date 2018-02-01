@@ -23,7 +23,7 @@ var OrderPurchaseOrderService = /** @class */ (function () {
             'authReq': '?access_token=' + user.getActiveUserId(),
             'vendorsFilter': '&filter[fields][id]=true&filter[fields][vendorCode]=true&filter[fields][vendorName]=true',
         };
-        console.log('this.orderPurchaseOrderReq', this.orderPurchaseOrderReq);
+        // console.log('this.orderPurchaseOrderReq', this.orderPurchaseOrderReq);
     }
     OrderPurchaseOrderService.prototype.validatePurchaseOrderNumber = function (purchaseOrderNumber) {
         return this.http.get(this.orderPurchaseOrderReq.baseURL + '/orderPurchaseOrders/count' + this.orderPurchaseOrderReq.authReq + '&where={ "purchaseOrderNumber": "' + purchaseOrderNumber + '" }');

@@ -54,14 +54,16 @@ var PresetsAccessoriesComponent = /** @class */ (function () {
         this.loading = 'getAccessories';
         this.presetsService.getAllAccessories()
             .subscribe(function (res) {
-            console.log('getAllAccessories-Response', res);
+            // console.log('getAllAccessories-Response',res);
+            // console.log('getAllAccessories-Response',res);
             _this.accessories.res = res;
             _this.allItems = res;
             _this.setPage(1);
             _this.loading = '';
         }, function (err) {
             _this.loading = false;
-            console.log('err', err);
+            // console.log('err',err);
+            // console.log('err',err);
             _this.loading = '';
             // Defining the Error Messages
             switch (err.status) {
@@ -85,13 +87,14 @@ var PresetsAccessoriesComponent = /** @class */ (function () {
     };
     PresetsAccessoriesComponent.prototype.validateAccessoryCode = function (code) {
         var _this = this;
-        console.log('code', code);
+        // console.log('code', code);
         this.presetsService.validateMaster('accessory', code)
             .subscribe(function (res) {
-            console.log('validateAccessoryCode', res);
+            // console.log('validateAccessoryCode', res);
+            // console.log('validateAccessoryCode', res);
             _this.accessories.validation = res;
         }, function (err) {
-            console.log('validateAccessoryCode', err);
+            // console.log('validateAccessoryCode', err);
         });
         this.myAccessoryForm.controls.accessoryCode.setValue(code);
     };
@@ -100,12 +103,13 @@ var PresetsAccessoriesComponent = /** @class */ (function () {
         this.myAccessoryForm.disable();
         this.loading = 'postAccessory';
         accessory.masterId = '4070c908cc6a396c';
-        console.log('Accessory', accessory);
+        // console.log('Accessory', accessory);
         this.presetsService.updateAccessory(accessory)
             .subscribe(function (res) {
             _this.myAccessoryForm.reset();
             _this.myAccessoryForm.enable();
-            console.log('updateAccessory-Response', res);
+            // console.log('updateAccessory-Response', res);
+            // console.log('updateAccessory-Response', res);
             _this.loading = '';
             _this.fetchAllAccessories();
             if (!_this.presetsService.getActiveAccessoryToEdit()) {
@@ -117,7 +121,8 @@ var PresetsAccessoriesComponent = /** @class */ (function () {
         }, function (err) {
             _this.myAccessoryForm.enable();
             _this.loading = false;
-            console.log('err', err);
+            // console.log('err',err);
+            // console.log('err',err);
             _this.loading = '';
             // Defining the Error Messages
             switch (err.status) {
@@ -134,7 +139,7 @@ var PresetsAccessoriesComponent = /** @class */ (function () {
         });
     };
     PresetsAccessoriesComponent.prototype.editAccessory = function (accessory) {
-        console.log('editAccessory', accessory);
+        // console.log('editAccessory', accessory);
         delete accessory['createdDate'];
         delete accessory['createdBy'];
         delete accessory['lastModifiedDate'];

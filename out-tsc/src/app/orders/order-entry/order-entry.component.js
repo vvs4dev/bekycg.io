@@ -7,18 +7,18 @@ var alert_service_1 = require("./../../_services/alert.service");
 var app_component_1 = require("./../../app.component");
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
-var order_entry_service_1 = require("./order-entry.service");
 var order_service_1 = require("./../order.service");
+var presets_service_1 = require("../../presets/presets.service");
 var OrderEntryComponent = /** @class */ (function () {
-    function OrderEntryComponent(user, orderEntryService, orderService, router, aRoute, alert, appComponent) {
+    function OrderEntryComponent(user, orderService, presetsService, router, aRoute, alert, appComponent) {
         this.user = user;
-        this.orderEntryService = orderEntryService;
         this.orderService = orderService;
+        this.presetsService = presetsService;
         this.router = router;
         this.aRoute = aRoute;
         this.alert = alert;
         this.appComponent = appComponent;
-        this.orderNumberExists = {};
+        this.orderNumberValidation = {};
         this.resOrder = {};
         this.params = {};
         this.edit = {};
@@ -35,15 +35,15 @@ var OrderEntryComponent = /** @class */ (function () {
         // Form Settings
         this.myOrderEntryForm = new forms_1.FormGroup({
             'buyer': new forms_1.FormGroup({
-                'brandCode': new forms_1.FormControl(),
-                'brandName': new forms_1.FormControl()
+                'buyerCode': new forms_1.FormControl(),
+                'buyerName': new forms_1.FormControl()
             }),
             'buyerContact': new forms_1.FormGroup({
                 'contactName': new forms_1.FormControl(),
                 'contactNumber': new forms_1.FormControl(),
                 'contactEmail': new forms_1.FormControl(),
-                'location': new forms_1.FormGroup({
-                    'country': new forms_1.FormControl(),
+                'location': new forms_1.FormControl(),
+                'address': new forms_1.FormGroup({
                     'PO': new forms_1.FormControl(),
                     'street': new forms_1.FormControl(),
                     'city': new forms_1.FormControl(),
@@ -51,16 +51,16 @@ var OrderEntryComponent = /** @class */ (function () {
                     'zipcode': new forms_1.FormControl()
                 })
             }),
-            'orderStyle': new forms_1.FormGroup({
+            'style': new forms_1.FormGroup({
                 'styleCode': new forms_1.FormControl(),
                 'styleName': new forms_1.FormControl(),
-                'styleForGender': new forms_1.FormControl(),
+                'styleGender': new forms_1.FormControl(),
                 'styleDescription': new forms_1.FormControl()
             }),
             'orderDate': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required])),
-            'orderQuantity': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required])),
-            'orderDeliveryDate': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required])),
-            'orderDescription': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required, ng4_validators_1.CustomValidators.rangeLength([5, 300])])),
+            'quantity': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required])),
+            'deliveryDate': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required])),
+            'description': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required, ng4_validators_1.CustomValidators.rangeLength([5, 300])])),
             'orderNumber': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required]))
         });
         this.myOrderEntryForm.controls['orderDate'].setValue(this.orderService.formatDate(this.today));
@@ -69,23 +69,26 @@ var OrderEntryComponent = /** @class */ (function () {
         this.orderStyleId = new forms_1.FormControl();
         this.myOrderEntryForm.controls['orderDate'].valueChanges
             .subscribe(function (term) {
-            console.log('change in orderDate', term);
+            // console.log('change in orderDate', term);
+            // console.log('change in orderDate', term);
             _this.orderDate = term;
         });
         this.buyerId.valueChanges
             .subscribe(function (term) {
             _this.buyer = {
-                "brandCode": JSON.parse(term).brandCode,
-                "brandName": JSON.parse(term).brandName
+                "buyerCode": JSON.parse(term).buyerCode,
+                "buyerName": JSON.parse(term).buyerName
             };
-            console.log('buyer', _this.buyer);
+            // console.log('buyer', this.buyer);
+            // console.log('buyer', this.buyer);
             _this.myOrderEntryForm.controls['buyer'].setValue(_this.buyer);
-            _this.orderEntryService.getBuyerContactList(JSON.parse(term).id)
+            _this.presetsService.getBuyerContacts(JSON.parse(term).buyerCode)
                 .subscribe(function (res) {
-                console.log('getBuyerContactList', res);
+                // console.log('getBuyerContactList', res);
+                // console.log('getBuyerContactList', res);
                 _this.buyerContactsList = res;
             }, function (err) {
-                console.log('getBuyerContactList', err);
+                // console.log('getBuyerContactList', err);
             });
         });
         this.buyerContactId.valueChanges
@@ -94,9 +97,11 @@ var OrderEntryComponent = /** @class */ (function () {
                 'contactName': JSON.parse(term).contactName,
                 'contactNumber': JSON.parse(term).contactNumber,
                 'contactEmail': JSON.parse(term).contactEmail,
-                'location': JSON.parse(term).location
+                'location': JSON.parse(term).location,
+                'address': JSON.parse(term).address
             };
-            console.log('buyerContact', _this.buyerContact);
+            // console.log('buyerContact', this.buyerContact);
+            // console.log('buyerContact', this.buyerContact);
             _this.myOrderEntryForm.controls['buyerContact'].setValue(_this.buyerContact);
         });
         this.orderStyleId.valueChanges
@@ -104,11 +109,12 @@ var OrderEntryComponent = /** @class */ (function () {
             _this.orderStyle = {
                 "styleCode": JSON.parse(term).styleCode,
                 "styleName": JSON.parse(term).styleName,
-                "styleForGender": JSON.parse(term).styleForGender,
+                "styleGender": JSON.parse(term).styleGender,
                 "styleDescription": JSON.parse(term).styleDescription
             };
-            console.log('orderStyle', _this.orderStyle);
-            _this.myOrderEntryForm.controls['orderStyle'].setValue(_this.orderStyle);
+            // console.log('orderStyle', this.orderStyle);
+            // console.log('orderStyle', this.orderStyle);
+            _this.myOrderEntryForm.controls['style'].setValue(_this.orderStyle);
         });
         this.getBuyerLists();
         this.getStyleLists();
@@ -116,11 +122,12 @@ var OrderEntryComponent = /** @class */ (function () {
             'action': this.aRoute.snapshot.paramMap.get('action'),
             'orderNumber': this.aRoute.snapshot.paramMap.get('orderNumber')
         };
-        console.log('this.params', this.params);
+        // console.log('this.params',this.params);
         if (this.params.action == 'edit') {
             this.orderService.findOrder(this.params.orderNumber)
                 .subscribe(function (res) {
-                console.log('findOrder', 'this.edit', res);
+                // console.log('findOrder','this.edit', res);
+                // console.log('findOrder','this.edit', res);
                 _this.edit = res;
                 _this.myOrderEntryForm.controls['buyer'].setValue(_this.edit.buyer);
                 _this.myOrderEntryForm.controls['buyerContact'].setValue(_this.edit.buyerContact);
@@ -137,82 +144,77 @@ var OrderEntryComponent = /** @class */ (function () {
     };
     OrderEntryComponent.prototype.checkExistanceOrderNumber = function () {
         var _this = this;
-        console.log('checkExistanceOrderNumber');
-        this.orderNumberExists = {};
+        // console.log('checkExistanceOrderNumber');
+        this.orderNumberValidation = {};
         this.orderService.checkExistanceOrderNumber(this.myOrderEntryForm.controls['orderNumber'].value)
             .subscribe(function (res) {
-            console.log('checkExistanceOrderNumber', res);
-            _this.orderNumberExists = res;
-            _this.orderNumberExists.status = (_this.orderNumberExists.count == 0) ? false : true;
+            // console.log('checkExistanceOrderNumber',res);
+            // console.log('checkExistanceOrderNumber',res);
+            _this.orderNumberValidation = res;
         }, function (err) {
-            console.log('checkExistanceOrderNumber', err);
+            // console.log('checkExistanceOrderNumber',err);
         });
     };
     OrderEntryComponent.prototype.addOrderEntry = function (order) {
         var _this = this;
-        this.myOrderEntryForm.disable();
-        this.loading = 'postOrder';
-        console.log('addOrderEntry', order);
+        // this.myOrderEntryForm.disable();
+        // this.loading = 'postOrder';
+        // console.log('addOrderEntry',order);
         if (this.params.action == 'add') {
-            this.orderEntryService.postOrder(order)
+            this.orderService.postOrder(order)
                 .subscribe(function (res) {
                 _this.loading = '';
                 _this.myOrderEntryForm.reset();
                 _this.myOrderEntryForm.enable();
-                console.log('addOrderEntryResponse', res);
+                // console.log('addOrderEntryResponse', res);
+                // console.log('addOrderEntryResponse', res);
                 _this.resOrder = res;
                 _this.orderService.setActiveOrder(res);
-                _this.orderEntryService.createImageContainer(res);
+                // this.orderService.createImageContainer(res);
+                // this.orderService.createImageContainer(res);
                 _this.alert.success('Order Created Successfully');
                 setTimeout(function () { _this.router.navigate(['/orders']); }, 4000);
                 // setTimeout(()=>{ this.router.navigate(['/orders.fabrics/']) }, 4000);
             }, function (err) {
                 _this.alert.error('Error Ocuured while Creating Order');
-                console.log('addOrderEntryResponse', err);
+                // console.log('addOrderEntryResponse', err);
             });
         }
         else if (this.params.action == 'edit') {
-            this.orderEntryService.patchOrder(this.edit.id, order)
+            this.orderService.putOrder(this.edit.id, order)
                 .subscribe(function (res) {
                 _this.loading = '';
                 _this.myOrderEntryForm.reset();
                 _this.myOrderEntryForm.enable();
-                console.log('patchOrderEntryResponse', res);
+                // console.log('patchOrderEntryResponse', res);
+                // console.log('patchOrderEntryResponse', res);
                 _this.orderService.setActiveOrder(res);
                 _this.alert.success(_this.edit.orderNumber + ' Order Updated Successfully');
                 setTimeout(function () { _this.router.navigate(['/orders']); }, 4000);
             }, function (err) {
                 _this.alert.error('Error Occured while Updating ' + _this.edit.orderNumber + ' Order');
-                console.log('patchOrderEntryResponse', err);
+                // console.log('patchOrderEntryResponse', err);
             });
         }
     };
     OrderEntryComponent.prototype.getBuyerLists = function () {
         var _this = this;
-        this.orderEntryService.getBuyersList()
+        this.presetsService.getAllBuyers()
             .subscribe(function (res) {
             _this.buyersList = res;
-            console.log('getBuyersList', res);
+            // console.log('getBuyersList',res);
         }, function (err) {
-            console.log('getBuyersList', err);
-        });
-    };
-    OrderEntryComponent.prototype.getBuyerContactList = function (buyer) {
-        this.orderEntryService.getBuyerContactList(buyer)
-            .subscribe(function (res) {
-            console.log('getBuyerContactList(buyer)', res);
-        }, function (err) {
-            console.log('getBuyerContactList(buyer)', err);
+            // console.log('getBuyersList',err);
         });
     };
     OrderEntryComponent.prototype.getStyleLists = function () {
         var _this = this;
-        this.orderEntryService.getStylesList()
+        this.presetsService.getAllStyles()
             .subscribe(function (res) {
             _this.stylesList = res;
-            console.log('getStylesList', res);
+            // console.log('getStylesList',res);
         }, function (err) {
-            console.log('getStylesList', err);
+            // console.log('getStylesList',err);
         });
     };
     OrderEntryComponent.decorators = [
@@ -225,8 +227,8 @@ var OrderEntryComponent = /** @class */ (function () {
     /** @nocollapse */
     OrderEntryComponent.ctorParameters = function () { return [
         { type: user_service_1.UserService, },
-        { type: order_entry_service_1.OrderEntryService, },
         { type: order_service_1.OrderService, },
+        { type: presets_service_1.PresetsService, },
         { type: router_1.Router, },
         { type: router_1.ActivatedRoute, },
         { type: alert_service_1.AlertService, },

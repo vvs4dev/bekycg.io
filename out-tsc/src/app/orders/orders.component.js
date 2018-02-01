@@ -30,7 +30,7 @@ var OrdersComponent = /** @class */ (function () {
     OrdersComponent.prototype.ngOnInit = function () {
         if (this.orderService.getActiveOrder()) {
             this.aOrder = this.orderService.getActiveOrder();
-            console.log('Loading active Order', this.aOrder);
+            // console.log('Loading active Order',this.aOrder);
             this.fetchOrderDetails(this.aOrder);
         }
         this.fetchAllOrders();
@@ -40,14 +40,16 @@ var OrdersComponent = /** @class */ (function () {
         this.loading = 'getOrders';
         this.orderService.getAllOrders()
             .subscribe(function (res) {
-            console.log('getAllOrders-Response', res);
+            // console.log('getAllOrders-Response',res);
+            // console.log('getAllOrders-Response',res);
             _this.orders = res;
             _this.allItems = res;
             _this.setPage(1);
             _this.loading = '';
         }, function (err) {
             _this.loading = false;
-            console.log('err', err);
+            // console.log('err',err);
+            // console.log('err',err);
             _this.loading = '';
             // Defining the Error Messages
             switch (err.status) {
@@ -70,48 +72,50 @@ var OrdersComponent = /** @class */ (function () {
         this.pagedOrderItems = this.allItems.slice(this.pager.startIndex, this.pager.endIndex + 1);
     };
     OrdersComponent.prototype.editOrderEntry = function (order) {
-        console.log('editOrderEntry', order);
+        // console.log('editOrderEntry',order)
         this.router.navigate(['/order/entry/edit/' + order.orderNumber]);
     };
     OrdersComponent.prototype.editFabric = function (fabric) {
-        console.log('editFabric', fabric);
+        // console.log('editFabric', fabric);
         this.router.navigate(['/order/' + fabric.orderNumber + '/fabrics/edit/' + fabric.id]);
     };
-    OrdersComponent.prototype.editJobwork = function (jobwork) {
-        console.log('editJobwork', jobwork);
-        this.router.navigate(['/order/' + jobwork.orderNumber + '/jobworks/edit/' + jobwork.id]);
+    OrdersComponent.prototype.editJob = function (job) {
+        // console.log('editJob', job);
+        this.router.navigate(['/order/' + job.orderNumber + '/jobs/edit/' + job.id]);
     };
     OrdersComponent.prototype.editAccessory = function (accessory) {
-        console.log('editAccessory', accessory);
+        // console.log('editAccessory', accessory);
         this.router.navigate(['/order/' + accessory.orderNumber + '/accessories/edit/' + accessory.id]);
     };
     OrdersComponent.prototype.editPacker = function (packer) {
-        console.log('editPacker', packer);
+        // console.log('editPacker', packer);
         this.router.navigate(['/order/' + packer.orderNumber + '/packers/edit/' + packer.id]);
     };
     OrdersComponent.prototype.fetchOrderDetails = function (order) {
-        console.log('order', order);
+        // console.log('order', order);
         this.aOrder = order;
         this.orderService.setActiveOrder(order);
-        this.getOrderFabrics(order.id);
-        this.getOrderJobworks(order.id);
-        this.getOrderAccessories(order.id);
-        this.getOrderPackers(order.id);
-        this.getOrderPurchaseOrders(order.id);
-        this.getOrderGRNs(order.id);
+        this.getOrderFabrics(order.orderNumber);
+        this.getOrderJobs(order.orderNumber);
+        this.getOrderAccessories(order.orderNumber);
+        this.getOrderPackers(order.orderNumber);
+        this.getOrderPurchaseOrders(order.orderNumber);
+        this.getOrderGRNs(order.orderNumber);
     };
-    OrdersComponent.prototype.getOrderFabrics = function (id) {
+    OrdersComponent.prototype.getOrderFabrics = function (orderNumber) {
         var _this = this;
-        console.log('fetchOrderFabrics');
+        // console.log('fetchOrderFabrics');
         this.loading = 'fetchOrderFabrics';
-        this.orderService.getOrderFabrics(id)
+        this.orderService.getOrderFabrics(orderNumber)
             .subscribe(function (res) {
-            console.log('fetchOrderFabrics-Response', res);
+            // console.log('fetchOrderFabrics-Response',res);
+            // console.log('fetchOrderFabrics-Response',res);
             _this.orderFabrics = res;
             _this.loading = '';
         }, function (err) {
             _this.loading = false;
-            console.log('err', err);
+            // console.log('err',err);
+            // console.log('err',err);
             _this.loading = '';
             // Defining the Error Messages
             switch (err.status) {
@@ -124,18 +128,20 @@ var OrdersComponent = /** @class */ (function () {
             }
         });
     };
-    OrdersComponent.prototype.getOrderJobworks = function (id) {
+    OrdersComponent.prototype.getOrderJobs = function (orderNumber) {
         var _this = this;
-        console.log('fetchOrderJobworks');
-        this.loading = 'fetchOrderJobworks';
-        this.orderService.getOrderJobworks(id)
+        // console.log('fetchOrderJobs');
+        this.loading = 'fetchOrderJobs';
+        this.orderService.getOrderJobs(orderNumber)
             .subscribe(function (res) {
-            console.log('fetchOrderJobworks-Response', res);
-            _this.orderJobworks = res;
+            // console.log('fetchOrderJobs-Response',res);
+            // console.log('fetchOrderJobs-Response',res);
+            _this.orderJobs = res;
             _this.loading = '';
         }, function (err) {
             _this.loading = false;
-            console.log('err', err);
+            // console.log('err',err);
+            // console.log('err',err);
             _this.loading = '';
             // Defining the Error Messages
             switch (err.status) {
@@ -148,21 +154,23 @@ var OrdersComponent = /** @class */ (function () {
             }
         });
     };
-    OrdersComponent.prototype.addNewJobwork = function () {
-        this.router.navigate(['/order/' + this.aOrder.orderNumber + '/jobworks/add/new']);
+    OrdersComponent.prototype.addNewJob = function () {
+        this.router.navigate(['/order/' + this.aOrder.orderNumber + '/jobs/add/new']);
     };
-    OrdersComponent.prototype.getOrderAccessories = function (id) {
+    OrdersComponent.prototype.getOrderAccessories = function (orderNumber) {
         var _this = this;
-        console.log('fetchOrderAccessories');
+        // console.log('fetchOrderAccessories');
         this.loading = 'fetchOrderAccessories';
-        this.orderService.getOrderAccessories(id)
+        this.orderService.getOrderAccessories(orderNumber)
             .subscribe(function (res) {
-            console.log('fetchOrderAccessories-Response', res);
+            // console.log('fetchOrderAccessories-Response',res);
+            // console.log('fetchOrderAccessories-Response',res);
             _this.orderAccessories = res;
             _this.loading = '';
         }, function (err) {
             _this.loading = false;
-            console.log('err', err);
+            // console.log('err',err);
+            // console.log('err',err);
             _this.loading = '';
             // Defining the Error Messages
             switch (err.status) {
@@ -178,18 +186,20 @@ var OrdersComponent = /** @class */ (function () {
     OrdersComponent.prototype.addNewAccessory = function () {
         this.router.navigate(['/order/' + this.aOrder.orderNumber + '/accessories/add/new']);
     };
-    OrdersComponent.prototype.getOrderPackers = function (id) {
+    OrdersComponent.prototype.getOrderPackers = function (orderNumber) {
         var _this = this;
-        console.log('fetchOrderPackers');
+        // console.log('fetchOrderPackers');
         this.loading = 'fetchOrderPackers';
-        this.orderService.getOrderPackers(id)
+        this.orderService.getOrderPackers(orderNumber)
             .subscribe(function (res) {
-            console.log('fetchOrderPackers-Response', res);
+            // console.log('fetchOrderPackers-Response',res);
+            // console.log('fetchOrderPackers-Response',res);
             _this.orderPackers = res;
             _this.loading = '';
         }, function (err) {
             _this.loading = false;
-            console.log('err', err);
+            // console.log('err',err);
+            // console.log('err',err);
             _this.loading = '';
             // Defining the Error Messages
             switch (err.status) {
@@ -205,18 +215,20 @@ var OrdersComponent = /** @class */ (function () {
     OrdersComponent.prototype.addNewPacker = function () {
         this.router.navigate(['/order/' + this.aOrder.orderNumber + '/packers/add/new']);
     };
-    OrdersComponent.prototype.getOrderPurchaseOrders = function (id) {
+    OrdersComponent.prototype.getOrderPurchaseOrders = function (orderNumber) {
         var _this = this;
-        console.log('fetchOrderPurchaseOrders');
+        // console.log('fetchOrderPurchaseOrders');
         this.loading = 'fetchOrderPurchaseOrders';
-        this.orderService.getOrderPurchaseOrders(id)
+        this.orderService.getOrderPurchaseOrders(orderNumber)
             .subscribe(function (res) {
-            console.log('fetchOrderPurchaseOrders-Response', res);
+            // console.log('fetchOrderPurchaseOrders-Response',res);
+            // console.log('fetchOrderPurchaseOrders-Response',res);
             _this.purchaseOrders = res;
             _this.loading = '';
         }, function (err) {
             _this.loading = false;
-            console.log('err', err);
+            // console.log('err',err);
+            // console.log('err',err);
             _this.loading = '';
             // Defining the Error Messages
             switch (err.status) {
@@ -229,18 +241,20 @@ var OrdersComponent = /** @class */ (function () {
             }
         });
     };
-    OrdersComponent.prototype.getOrderGRNs = function (id) {
+    OrdersComponent.prototype.getOrderGRNs = function (orderNumber) {
         var _this = this;
-        console.log('fetchOrderPurchaseOrders');
+        // console.log('fetchOrderGRNs');
         this.loading = 'fetchOrderGRNs';
-        this.orderService.getOrderGRNs(id)
+        this.orderService.getOrderGRNs(orderNumber)
             .subscribe(function (res) {
-            console.log('fetchOrderGRNs-Response', res);
+            // console.log('fetchOrderGRNs-Response',res);
+            // console.log('fetchOrderGRNs-Response',res);
             _this.orderGRNs = res;
             _this.loading = '';
         }, function (err) {
             _this.loading = false;
-            console.log('fetchOrderGRNs-Response', err);
+            // console.log('fetchOrderGRNs-Response',err);
+            // console.log('fetchOrderGRNs-Response',err);
             _this.loading = '';
             // Defining the Error Messages
             switch (err.status) {

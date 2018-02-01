@@ -22,7 +22,7 @@ var OrderPoGrnService = /** @class */ (function () {
             'authReq': '?access_token=' + user.getActiveUserId(),
             'POFilter': '&filter[fields][id]=true&filter[fields][vendorCode]=true&filter[fields][vendorName]=true',
         };
-        console.log('this.orderPoGrnReq', this.orderPoGrnReq);
+        // console.log('this.orderPoGrnReq', this.orderPoGrnReq);
     }
     OrderPoGrnService.prototype.getPurchaseOrders = function (id, status) {
         return this.http.get(this.orderPoGrnReq.baseURL + '/Orders/' + id + '/orderPurchaseOrders' + this.orderPoGrnReq.authReq + '&filter={ "where": { "status": "' + status + '" } }');
@@ -34,7 +34,7 @@ var OrderPoGrnService = /** @class */ (function () {
         return this.http.post(this.orderPoGrnReq.baseURL + '/Orders/' + id + '/orderGoodsReceiptNotes' + this.orderPoGrnReq.authReq, grn);
     };
     OrderPoGrnService.prototype.patchPOStatus = function (poId, status) {
-        console.log('updatePOStatus', poId, status);
+        // console.log('updatePOStatus',poId, status);
         return this.http.patch(this.orderPoGrnReq.baseURL + '/OrderPurchaseOrders/' + poId + this.orderPoGrnReq.authReq, { "status": status });
     };
     OrderPoGrnService.decorators = [

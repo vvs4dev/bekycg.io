@@ -2,26 +2,26 @@
   "static": {
     "urls": {
       "/polyfills.b96d4bb9f33789ad375b.bundle.js": "0b9c6e89ee932416f65889968effd313a64c245e",
-      "/main.1cd6d240447a451514c5.bundle.js": "d3c508227593f6d1637b17872dbd51e49305ec84",
+      "/main.e70fcb7da21bf0f20aae.bundle.js": "5366ea91a2ca77ed5b410716873432fd1c8fd7f8",
       "/sw-register.6819cd2c5fa25470ecf2.bundle.js": "50d549edfbd188ed199d8d0b079afa593202e3ea",
-      "/inline.c8379553ef6e87297da6.bundle.js": "7b362591013b050655cc725e79dd88770b3782f0",
+      "/inline.1f258230432fb0344437.bundle.js": "9bf91129b5c4d5f6bf86084aeb9e2410c09c0ef3",
       "/styles.e96e7fd615e5a4ae7caa.bundle.css": "808df2afefa8cbeb35fbec1e39da2af406d20806",
-      "/assets/favicons/favicon-32x32.png": "d95666aa318cacefbd6b469245f7af502845668b",
+      "/assets/favicons/browserconfig.xml": "cf7c2d3c2c038f187b8ac8e279bc17bf999bac22",
       "/assets/favicons/favicon-16x16.png": "e2804e57379a9946830800d4cb16750a51002996",
       "/assets/favicons/favicon-152x152.png": "caa96ed6cb7fe67f024d6214c7f53930a7c71ae2",
-      "/assets/favicons/favicon-192x192.png": "3cf7a92d6b74464aaf2ece5126eee60c7cb5bcb1",
+      "/assets/favicons/favicon-32x32.png": "d95666aa318cacefbd6b469245f7af502845668b",
       "/assets/favicons/safari-pinned-tab.svg": "84bb1954615a7bbb1202b2e753523b623e86de11",
+      "/assets/favicons/favicon-192x192.png": "3cf7a92d6b74464aaf2ece5126eee60c7cb5bcb1",
       "/assets/Preloader_4.gif": "f1a37ffd89496245ebb556a204c3828539786cbd",
       "/assets/image.gif": "4d16889282f9bf22aadf8d5c8ed5aa014b7c1827",
-      "/assets/favicons/favicon-512x512.png": "8a21ba81a239dcc081831dcf78adf8681e87c95e",
       "/assets/favicons/favicon-72x72.png": "af7f8abfd5cd37aee93be6125ea9d2f4ffe3a559",
+      "/assets/favicons/manifest.json": "a8490999d0a36a4ea576b7112aef1cb643e91d92",
+      "/assets/favicons/favicon-512x512.png": "8a21ba81a239dcc081831dcf78adf8681e87c95e",
       "/assets/process1.jpg": "f3f1b50bd6875ac723bab571213d3df5da13e0fb",
       "/assets/process.png": "4a09350bed9f6a83ae932acbc5eb5d8525dd12f2",
-      "/assets/favicons/manifest.json": "a8490999d0a36a4ea576b7112aef1cb643e91d92",
       "/assets/stores.jpg": "282d229a89c3c713da1366763a33ddcd0191dde5",
       "/assets/process2.png": "c171797ae272cce99acba159b2e89c366fc9f523",
-      "/assets/favicons/browserconfig.xml": "cf7c2d3c2c038f187b8ac8e279bc17bf999bac22",
-      "/index.html": "7495dc6f0c4a2aa506efb069413efbc9fe6638b1"
+      "/index.html": "81366697b05269769a01c0ffb0dcbb1909445728"
     },
     "_generatedFromWebpack": true
   }

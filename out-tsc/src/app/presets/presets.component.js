@@ -30,18 +30,18 @@ var PresetsComponent = /** @class */ (function () {
     PresetsComponent.prototype.countMasters = function () {
         var _this = this;
         this.master.items.forEach(function (element, index) {
-            // console.log(element, index);
-            // console.log(element, index);
+            // // console.log(element, index);
+            // // console.log(element, index);
             _this.presetsService.countMaster(element)
                 .subscribe(function (res) {
-                // console.log('element',element, 'res', res);
-                // console.log('element',element, 'res', res);
+                // // console.log('element',element, 'res', res);
+                // // console.log('element',element, 'res', res);
                 _this.master.res = res;
                 _this.master.count.push(_this.master.res.val);
-                // console.log('masterVal', 'element', this.masterVal);
+                // // console.log('masterVal', 'element', this.masterVal);
             }, function (err) {
                 _this.alertService.error("Error Fetching Data");
-                // console.log('element',element, 'error', err)
+                // // console.log('element',element, 'error', err)
             });
         });
     };

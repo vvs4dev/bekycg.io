@@ -58,7 +58,7 @@ var OrderPurchaseOrderComponent = /** @class */ (function () {
                 'id': 'op'
             }
         ];
-        console.log('this.materialList', this.materialList);
+        // console.log('this.materialList', this.materialList);
     }
     OrderPurchaseOrderComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -95,7 +95,7 @@ var OrderPurchaseOrderComponent = /** @class */ (function () {
             "orderNumber": this.aRoute.snapshot.paramMap.get('orderNumber'),
             "id": this.aRoute.snapshot.paramMap.get('id')
         };
-        console.log('this.params', this.params);
+        // console.log('this.params', this.params);
         this.myOrderPurchaseOrderForm.controls['purchaseOrderDate'].setValue(this.orderService.formatDate(this.today));
         this.myOrderPurchaseOrderForm.controls['status'].setValue('ordered');
         this.myOrderPurchaseOrderForm.controls['orderNumber'].setValue(this.params.orderNumber);
@@ -113,14 +113,16 @@ var OrderPurchaseOrderComponent = /** @class */ (function () {
                 "vendorCode": JSON.parse(term).vendorCode,
                 "vendorName": JSON.parse(term).vendorName
             };
-            console.log('vendor', _this.vendor);
+            // console.log('vendor', this.vendor);
+            // console.log('vendor', this.vendor);
             _this.myOrderPurchaseOrderForm.controls['vendor'].setValue(_this.vendor);
             _this.orderPurchaseOrderService.getVendorContactList(JSON.parse(term).id)
                 .subscribe(function (res) {
-                console.log('this.getVendorContactList', res);
+                // console.log('this.getVendorContactList', res);
+                // console.log('this.getVendorContactList', res);
                 _this.vendorContactsList = res;
             }, function (err) {
-                console.log('this.getVendorContactList', err);
+                // console.log('this.getVendorContactList', err);
             });
         });
         this.vendorContactId.valueChanges
@@ -131,26 +133,27 @@ var OrderPurchaseOrderComponent = /** @class */ (function () {
                 'contactEmail': JSON.parse(term).contactEmail,
                 'location': JSON.parse(term).location
             };
-            console.log('vendorContact', _this.vendorContact);
+            // console.log('vendorContact', this.vendorContact);
+            // console.log('vendorContact', this.vendorContact);
             _this.myOrderPurchaseOrderForm.controls['vendorContact'].setValue(_this.vendorContact);
         });
         this.loadFabric.valueChanges
             .subscribe(function (term) {
-            console.log('loadFabric', term);
+            // console.log('loadFabric',term);
             if (term) {
                 _this.getOrderFabricsLists(_this.aOrder.id);
             }
         });
         this.loadAccessories.valueChanges
             .subscribe(function (term) {
-            console.log('loadAccessories', term);
+            // console.log('loadAccessories',term);
             if (term) {
                 _this.getOrderAccessoriesLists(_this.aOrder.id);
             }
         });
         this.loadPackers.valueChanges
             .subscribe(function (term) {
-            console.log('loadPackers', term);
+            // console.log('loadPackers',term);
             if (term) {
                 _this.getOrderPackersLists(_this.aOrder.id);
             }
@@ -165,33 +168,36 @@ var OrderPurchaseOrderComponent = /** @class */ (function () {
         this.orderPurchaseOrderService.getVendorsList()
             .subscribe(function (res) {
             _this.vendorsList = res;
-            console.log('this.getVendorLists', res);
+            // console.log('this.getVendorLists',res);
         }, function (err) {
-            console.log('this.getVendorLists', err);
+            // console.log('this.getVendorLists',err);
         });
     };
     OrderPurchaseOrderComponent.prototype.findOrderNumber = function (orderNumber) {
         var _this = this;
         this.orderService.findOrderNumber(orderNumber)
             .subscribe(function (res) {
-            console.log('findOrderNumber', res);
+            // console.log('findOrderNumber',res);
+            // console.log('findOrderNumber',res);
             _this.aOrder = res;
         }, function (err) {
-            console.log('findOrderNumber', err);
+            // console.log('findOrderNumber',err);
         });
     };
     OrderPurchaseOrderComponent.prototype.validatePurchaseOrderNumber = function (poNumber) {
         var _this = this;
-        console.log('purchaseOrderNumberChanged', poNumber);
+        // console.log('purchaseOrderNumberChanged', poNumber);
         this.purchaseOrderNumberExists = {};
         this.orderPurchaseOrderService.validatePurchaseOrderNumber(poNumber)
             .subscribe(function (res) {
-            console.log('checkExistanceOrderNumber', res);
+            // console.log('checkExistanceOrderNumber',res);
+            // console.log('checkExistanceOrderNumber',res);
             _this.purchaseOrderNumberExists = res;
             _this.purchaseOrderNumberExists.status = (_this.purchaseOrderNumberExists.count == 0) ? false : true;
             _this.myOrderPurchaseOrderForm.controls['purchaseOrderNumber'].setValue(poNumber);
         }, function (err) {
-            console.log('checkExistanceOrderNumber', err);
+            // console.log('checkExistanceOrderNumber',err);
+            // console.log('checkExistanceOrderNumber',err);
             _this.myOrderPurchaseOrderForm.controls['purchaseOrderNumber'].setValue(poNumber);
         });
     };
@@ -218,7 +224,7 @@ var OrderPurchaseOrderComponent = /** @class */ (function () {
     };
     OrderPurchaseOrderComponent.prototype.removeItemGroup = function (i, item) {
         this.myOrderPurchaseOrderForm.get('items').removeAt(i);
-        console.log('removedItem', item);
+        // console.log('removedItem', item);
         this.calculateTotals();
     };
     // ===================================Items Group End===========================================
@@ -231,7 +237,7 @@ var OrderPurchaseOrderComponent = /** @class */ (function () {
     function (i, item) {
         if (item.itemQuantity && item.itemRate) {
             this.aItem = item;
-            console.log('this.aItem', this.aItem);
+            // console.log('this.aItem', this.aItem);
             this.aItem.itemTotal = this.aItem.itemQuantity * this.aItem.itemRate;
             this.calculateTotals();
         }
@@ -240,10 +246,10 @@ var OrderPurchaseOrderComponent = /** @class */ (function () {
         var _this = this;
         this.subTotals = 0;
         this.itemsToLoad = this.myOrderPurchaseOrderForm.controls.items.value;
-        console.log('calculateTotals', this.itemsToLoad);
+        // console.log('calculateTotals',this.itemsToLoad);
         this.itemsToLoad.forEach(function (item, index) {
             _this.subTotals += item.itemTotal;
-            console.log('calculatedSubTotal', _this.subTotals);
+            // console.log('calculatedSubTotal', this.subTotals);
         });
         this.myOrderPurchaseOrderForm.controls.subTotal.setValue(this.subTotals);
         this.myOrderPurchaseOrderForm.controls.tax.setValue(parseInt(this.myOrderPurchaseOrderForm.controls.subTotal.value) * 18 / 100);
@@ -269,18 +275,21 @@ var OrderPurchaseOrderComponent = /** @class */ (function () {
             'itemQuantitySubstanded': null,
             'itemQuantityRejected': null
         });
-        console.log('setTheFabricItemsArray', this.fabricToLoad.toLoad);
+        // console.log('setTheFabricItemsArray',this.fabricToLoad.toLoad);
     };
     OrderPurchaseOrderComponent.prototype.getOrderFabricsLists = function (id) {
         var _this = this;
         this.orderPurchaseOrderService.getOrderFabrics(id)
             .subscribe(function (res) {
-            console.log('getOrderFabrics', res);
+            // console.log('getOrderFabrics', res);
+            // console.log('getOrderFabrics', res);
             _this.fabricToLoad.res = res;
             _this.fabricToLoad.toLoad = [];
-            console.log('this.fabricToLoad.res', _this.fabricToLoad);
+            // console.log('this.fabricToLoad.res',this.fabricToLoad);
+            // console.log('this.fabricToLoad.res',this.fabricToLoad);
             _this.fabricToLoad.res.forEach(function (item, index) {
-                console.log('fabric -index', index);
+                // console.log('fabric -index',index);
+                // console.log('fabric -index',index);
                 _this.addItemGroup();
                 _this.setTheFabricItemsArray(item);
                 if (index == (_this.fabricToLoad.res.length - 1)) {
@@ -292,7 +301,7 @@ var OrderPurchaseOrderComponent = /** @class */ (function () {
                 }
             });
         }, function (err) {
-            console.log('getOrderFabrics', err);
+            // console.log('getOrderFabrics', err);
         });
     };
     OrderPurchaseOrderComponent.prototype.setTheAccessoryItemsArray = function (item) {
@@ -313,12 +322,15 @@ var OrderPurchaseOrderComponent = /** @class */ (function () {
         var _this = this;
         this.orderPurchaseOrderService.getOrderAccessories(id)
             .subscribe(function (res) {
-            console.log('getOrderAccessories', res);
+            // console.log('getOrderAccessories', res);
+            // console.log('getOrderAccessories', res);
             _this.accessoryToLoad.res = res;
             _this.accessoryToLoad.toLoad = [];
-            console.log('this.accessoryToLoad.res', _this.accessoryToLoad);
+            // console.log('this.accessoryToLoad.res',this.accessoryToLoad);
+            // console.log('this.accessoryToLoad.res',this.accessoryToLoad);
             _this.accessoryToLoad.res.forEach(function (item, index) {
-                console.log(item, index);
+                // console.log(item, index);
+                // console.log(item, index);
                 _this.addItemGroup();
                 _this.setTheAccessoryItemsArray(item);
                 if (index == (_this.accessoryToLoad.res.length - 1)) {
@@ -330,7 +342,7 @@ var OrderPurchaseOrderComponent = /** @class */ (function () {
                 }
             });
         }, function (err) {
-            console.log('getOrderAccessories', err);
+            // console.log('getOrderAccessories', err);
         });
     };
     OrderPurchaseOrderComponent.prototype.setThePackerItemsArray = function (item) {
@@ -351,12 +363,15 @@ var OrderPurchaseOrderComponent = /** @class */ (function () {
         var _this = this;
         this.orderPurchaseOrderService.getOrderPackers(id)
             .subscribe(function (res) {
-            console.log('getOrderPackers', res);
+            // console.log('getOrderPackers', res);
+            // console.log('getOrderPackers', res);
             _this.packerToLoad.res = res;
             _this.packerToLoad.toLoad = [];
-            console.log('this.packerToLoad.res', _this.accessoryToLoad);
+            // console.log('this.packerToLoad.res',this.accessoryToLoad);
+            // console.log('this.packerToLoad.res',this.accessoryToLoad);
             _this.packerToLoad.res.forEach(function (item, index) {
-                console.log(item, index);
+                // console.log(item, index);
+                // console.log(item, index);
                 _this.addItemGroup();
                 _this.setThePackerItemsArray(item);
                 if (index == (_this.packerToLoad.res.length - 1)) {
@@ -368,7 +383,7 @@ var OrderPurchaseOrderComponent = /** @class */ (function () {
                 }
             });
         }, function (err) {
-            console.log('getOrderPackers', err);
+            // console.log('getOrderPackers', err);
         });
     };
     // ===================================Sourcing Items End===========================================
@@ -380,15 +395,17 @@ var OrderPurchaseOrderComponent = /** @class */ (function () {
     // ===================================Posting PO Start===========================================
     function (po) {
         var _this = this;
-        console.log('post PO', po);
+        // console.log('post PO', po);
         this.myOrderPurchaseOrderForm.disable();
         this.orderPurchaseOrderService.postPurchaseOrder(this.aOrder.id, po)
             .subscribe(function (res) {
-            console.log('postPurchaseOrder', res);
+            // console.log('postPurchaseOrder', res);
+            // console.log('postPurchaseOrder', res);
             _this.alert.success('Purchase Order Created Successfully');
             setTimeout(function () { _this.router.navigate(['/orders']); }, 4000);
         }, function (err) {
-            console.log('postPurchaseOrder', err);
+            // console.log('postPurchaseOrder', err);
+            // console.log('postPurchaseOrder', err);
             _this.alert.error('Error Occured while Creating Purchase Order');
             _this.myOrderPurchaseOrderForm.enable();
         });
@@ -405,16 +422,16 @@ var OrderPurchaseOrderComponent = /** @class */ (function () {
     //   this.orderPurchaseOrderService.getOrderFabrics(id)
     //     .subscribe(
     //       res => {
-    //         console.log('getOrderFabrics', res);
+    //       // console.log('getOrderFabrics', res);
     //         this.fabricToLoad.res = res;
     //         this.fabricToLoad.toLoad = [];
-    //         console.log('this.fabricToLoad.res',this.fabricToLoad);
+    //       // console.log('this.fabricToLoad.res',this.fabricToLoad);
     //         this.fabricToLoad.res.forEach((item, index) => {
-    //             console.log(item, index);
+    //           // console.log(item, index);
     //           if ( index == (this.fabricToLoad.res.length - 1) ) {
-    //             console.log('index == length-1');
+    //           // console.log('index == length-1');
     //             this.setTheFabricItemsArray(item);
-    //             console.log('this.fabricToLoad',this.fabricToLoad);
+    //           // console.log('this.fabricToLoad',this.fabricToLoad);
     //             this.fabricToLoad.toLoad.forEach((item, index) => {
     //               this.itemsToLoad.push(item);
     //             })
@@ -423,14 +440,14 @@ var OrderPurchaseOrderComponent = /** @class */ (function () {
     //           }
     //           // Add New Item Group for more than one item in an array
     //           if ( index <= (this.fabricToLoad.res.length - 2) ) {
-    //             console.log('index <= length-2');
+    //           // console.log('index <= length-2');
     //             this.setTheFabricItemsArray(item);
     //             this.addItemGroup();
     //           }
     //         })
     //       },
     //       err => {
-    //         console.log('getOrderFabrics', err);
+    //       // console.log('getOrderFabrics', err);
     //       }
     //     )
     // }
