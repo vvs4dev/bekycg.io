@@ -17,10 +17,21 @@ var OrderJobComponent = /** @class */ (function () {
         this.aRoute = aRoute;
         this.alert = alert;
         this.appComponent = appComponent;
+        this.myBreadCrumb = {};
         this.orderJobReq = {};
         this.aOrder = {};
         this.params = {};
         this.edit = {};
+        this.params = {
+            "action": this.aRoute.snapshot.paramMap.get('action'),
+            "orderNumber": this.aRoute.snapshot.paramMap.get('orderNumber'),
+            "id": this.aRoute.snapshot.paramMap.get('id'),
+        };
+        this.myBreadCrumb.crumbs = [
+            { "menu": "Orders", "routerLink": "/orders" },
+            { "menu": this.params.orderNumber, "routerLink": "/orders" },
+        ];
+        this.myBreadCrumb.active = (this.aRoute.snapshot.paramMap.get('action') == 'add') ? 'Add Job' : 'Edit Job';
     }
     OrderJobComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -32,11 +43,6 @@ var OrderJobComponent = /** @class */ (function () {
             "orderJobDescription": new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required])),
             "orderJobCost": new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required]))
         });
-        this.params = {
-            "action": this.aRoute.snapshot.paramMap.get('action'),
-            "orderNumber": this.aRoute.snapshot.paramMap.get('orderNumber'),
-            "id": this.aRoute.snapshot.paramMap.get('id'),
-        };
         // console.log('params', this.params);
         this.myOrderJobForm.controls['orderNumber'].setValue(this.params.orderNumber);
         if (this.params.action == 'edit') {

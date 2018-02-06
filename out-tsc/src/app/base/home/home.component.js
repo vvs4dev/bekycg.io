@@ -18,7 +18,6 @@ var HomeComponent = /** @class */ (function () {
         ]);
     }
     HomeComponent.prototype.ngOnInit = function () {
-        this.appComponent.disableDashElements();
     };
     HomeComponent.decorators = [
         { type: core_1.Component, args: [{

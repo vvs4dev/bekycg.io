@@ -30,7 +30,6 @@ var LoginComponent = /** @class */ (function () {
             this.ifAnyActiveUser = JSON.parse(localStorage.getItem('userConfig'));
             console.log('localStorage.getItem(userConfig)', this.ifAnyActiveUser);
             this.authService.logout(this.ifAnyActiveUser.id);
-            this.appComponent.disableDashElements();
         }
         // get return url from route parameters or default to '/'
         this.returnUrl = this.aRoute.snapshot.queryParams['returnUrl'] || '/';
@@ -43,8 +42,7 @@ var LoginComponent = /** @class */ (function () {
         this.authService.login(loginModal.username, loginModal.password)
             .subscribe(function (res) {
             localStorage.setItem('userConfig', JSON.stringify(res));
-            _this.router.navigate([_this.returnUrl]);
-            _this.appComponent.enableDashElements();
+            _this.authService.setMe(_this.returnUrl);
         }, function (err) {
             _this.loading = false;
             console.log('err', err);

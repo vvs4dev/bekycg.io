@@ -19,6 +19,7 @@ var OrderPOComponent = /** @class */ (function () {
         this.aRoute = aRoute;
         this.alert = alert;
         this.appComponent = appComponent;
+        this.myBreadCrumb = {};
         this.params = {};
         this.PONumberExists = {};
         this.materialList = [];
@@ -38,12 +39,11 @@ var OrderPOComponent = /** @class */ (function () {
         this.PONumberExists.status = false;
         this.today = new Date();
         this.itemsToLoad = [];
-        this.myBreadCrumb = [
-            { "menu": "Home", "routerLink": "/" },
+        this.myBreadCrumb.crumbs = [
             { "menu": "Orders", "routerLink": "/orders" },
             { "menu": this.aRoute.snapshot.paramMap.get('orderNumber'), "routerLink": "" }
         ];
-        this.appComponent.setActiveBreadcrumb('Purchase Order', this.myBreadCrumb);
+        this.myBreadCrumb.active = (this.aRoute.snapshot.paramMap.get('action') == 'add') ? 'New Purchase Order' : 'Edit Purchase Order';
         this.materialList = [
             {
                 'name': 'Fabrics',
@@ -58,7 +58,7 @@ var OrderPOComponent = /** @class */ (function () {
                 'id': 'op'
             }
         ];
-        console.log('this.materialList', this.materialList);
+        // console.log('this.materialList', this.materialList);
     }
     OrderPOComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -95,7 +95,7 @@ var OrderPOComponent = /** @class */ (function () {
             "orderNumber": this.aRoute.snapshot.paramMap.get('orderNumber'),
             "id": this.aRoute.snapshot.paramMap.get('id')
         };
-        console.log('this.params', this.params);
+        // console.log('this.params', this.params);
         this.myOrderPOForm.controls['PODate'].setValue(this.orderService.formatDate(this.today));
         this.myOrderPOForm.controls['status'].setValue('ordered');
         this.myOrderPOForm.controls['orderNumber'].setValue(this.params.orderNumber);
@@ -113,14 +113,16 @@ var OrderPOComponent = /** @class */ (function () {
                 "vendorCode": JSON.parse(term).vendorCode,
                 "vendorName": JSON.parse(term).vendorName
             };
-            console.log('vendor', _this.vendor);
+            // console.log('vendor', this.vendor);
+            // console.log('vendor', this.vendor);
             _this.myOrderPOForm.controls['vendor'].setValue(_this.vendor);
             _this.presetsService.getVendorContacts(JSON.parse(term).vendorCode)
                 .subscribe(function (res) {
-                console.log('this.getVendorContactList', res);
+                // console.log('this.getVendorContactList', res);
+                // console.log('this.getVendorContactList', res);
                 _this.vendorContactsList = res;
             }, function (err) {
-                console.log('this.getVendorContactList', err);
+                // console.log('this.getVendorContactList', err);
             });
         });
         this.vendorContactId.valueChanges
@@ -132,26 +134,27 @@ var OrderPOComponent = /** @class */ (function () {
                 'location': JSON.parse(term).location,
                 'address': JSON.parse(term).address
             };
-            console.log('vendorContact', _this.vendorContact);
+            // console.log('vendorContact', this.vendorContact);
+            // console.log('vendorContact', this.vendorContact);
             _this.myOrderPOForm.controls['vendorContact'].setValue(_this.vendorContact);
         });
         this.loadFabric.valueChanges
             .subscribe(function (term) {
-            console.log('loadFabric', term);
+            // console.log('loadFabric',term);
             if (term) {
                 _this.getOrderFabricsLists(_this.params.orderNumber);
             }
         });
         this.loadAccessories.valueChanges
             .subscribe(function (term) {
-            console.log('loadAccessories', term);
+            // console.log('loadAccessories',term);
             if (term) {
                 _this.getOrderAccessoriesLists(_this.params.orderNumber);
             }
         });
         this.loadPackers.valueChanges
             .subscribe(function (term) {
-            console.log('loadPackers', term);
+            // console.log('loadPackers',term);
             if (term) {
                 _this.getOrderPackersLists(_this.params.orderNumber);
             }
@@ -166,33 +169,36 @@ var OrderPOComponent = /** @class */ (function () {
         this.presetsService.getAllVendors()
             .subscribe(function (res) {
             _this.vendorsList = res;
-            console.log('this.getVendorLists', res);
+            // console.log('this.getVendorLists',res);
         }, function (err) {
-            console.log('this.getVendorLists', err);
+            // console.log('this.getVendorLists',err);
         });
     };
     OrderPOComponent.prototype.findOrderNumber = function (orderNumber) {
         var _this = this;
         this.orderService.checkExistanceOrderNumber(orderNumber)
             .subscribe(function (res) {
-            console.log('findOrderNumber', res);
+            // console.log('findOrderNumber',res);
+            // console.log('findOrderNumber',res);
             _this.aOrder = res;
         }, function (err) {
-            console.log('findOrderNumber', err);
+            // console.log('findOrderNumber',err);
         });
     };
     OrderPOComponent.prototype.validatePONumber = function (poNumber) {
         var _this = this;
-        console.log('PONumberChanged', poNumber);
+        // console.log('PONumberChanged', poNumber);
         this.PONumberExists = {};
         this.orderService.validatePONumber(poNumber)
             .subscribe(function (res) {
-            console.log('validatePONumber', res);
+            // console.log('validatePONumber',res);
+            // console.log('validatePONumber',res);
             _this.PONumberExists = res;
             _this.PONumberExists.status = (_this.PONumberExists.count == 0) ? false : true;
             _this.myOrderPOForm.controls['PONumber'].setValue(poNumber);
         }, function (err) {
-            console.log('validatePONumber', err);
+            // console.log('validatePONumber',err);
+            // console.log('validatePONumber',err);
             _this.myOrderPOForm.controls['PONumber'].setValue(poNumber);
         });
     };
@@ -219,7 +225,7 @@ var OrderPOComponent = /** @class */ (function () {
     };
     OrderPOComponent.prototype.removeItemGroup = function (i, item) {
         this.myOrderPOForm.get('items').removeAt(i);
-        console.log('removedItem', item);
+        // console.log('removedItem', item);
         this.calculateTotals();
     };
     // ===================================Items Group End===========================================
@@ -232,7 +238,7 @@ var OrderPOComponent = /** @class */ (function () {
     function (i, item) {
         if (item.itemQuantity && item.itemRate) {
             this.aItem = item;
-            console.log('this.aItem', this.aItem);
+            // console.log('this.aItem', this.aItem);
             this.aItem.itemTotal = this.aItem.itemQuantity * this.aItem.itemRate;
             this.calculateTotals();
         }
@@ -241,10 +247,10 @@ var OrderPOComponent = /** @class */ (function () {
         var _this = this;
         this.subtotals = 0;
         this.itemsToLoad = this.myOrderPOForm.controls.items.value;
-        console.log('calculateTotals', this.itemsToLoad);
+        // console.log('calculateTotals',this.itemsToLoad);
         this.itemsToLoad.forEach(function (item, index) {
             _this.subtotals += item.itemTotal;
-            console.log('calculatedsubtotal', _this.subtotals);
+            // console.log('calculatedsubtotal', this.subtotals);
         });
         this.myOrderPOForm.controls.subtotal.setValue(this.subtotals);
         this.myOrderPOForm.controls.tax.setValue(parseInt(this.myOrderPOForm.controls.subtotal.value) * 18 / 100);
@@ -270,18 +276,21 @@ var OrderPOComponent = /** @class */ (function () {
             'itemQuantitySubstanded': null,
             'itemQuantityRejected': null
         });
-        console.log('setTheFabricItemsArray', this.fabricToLoad.toLoad);
+        // console.log('setTheFabricItemsArray',this.fabricToLoad.toLoad);
     };
     OrderPOComponent.prototype.getOrderFabricsLists = function (id) {
         var _this = this;
         this.orderService.getOrderFabrics(id)
             .subscribe(function (res) {
-            console.log('getOrderFabrics', res);
+            // console.log('getOrderFabrics', res);
+            // console.log('getOrderFabrics', res);
             _this.fabricToLoad.res = res;
             _this.fabricToLoad.toLoad = [];
-            console.log('this.fabricToLoad.res', _this.fabricToLoad);
+            // console.log('this.fabricToLoad.res',this.fabricToLoad);
+            // console.log('this.fabricToLoad.res',this.fabricToLoad);
             _this.fabricToLoad.res.forEach(function (item, index) {
-                console.log('fabric -index', index);
+                // console.log('fabric -index',index);
+                // console.log('fabric -index',index);
                 _this.addItemGroup();
                 _this.setTheFabricItemsArray(item);
                 if (index == (_this.fabricToLoad.res.length - 1)) {
@@ -293,7 +302,7 @@ var OrderPOComponent = /** @class */ (function () {
                 }
             });
         }, function (err) {
-            console.log('getOrderFabrics', err);
+            // console.log('getOrderFabrics', err);
         });
     };
     OrderPOComponent.prototype.setTheAccessoryItemsArray = function (item) {
@@ -314,12 +323,15 @@ var OrderPOComponent = /** @class */ (function () {
         var _this = this;
         this.orderService.getOrderAccessories(id)
             .subscribe(function (res) {
-            console.log('getOrderAccessories', res);
+            // console.log('getOrderAccessories', res);
+            // console.log('getOrderAccessories', res);
             _this.accessoryToLoad.res = res;
             _this.accessoryToLoad.toLoad = [];
-            console.log('this.accessoryToLoad.res', _this.accessoryToLoad);
+            // console.log('this.accessoryToLoad.res',this.accessoryToLoad);
+            // console.log('this.accessoryToLoad.res',this.accessoryToLoad);
             _this.accessoryToLoad.res.forEach(function (item, index) {
-                console.log(item, index);
+                // console.log(item, index);
+                // console.log(item, index);
                 _this.addItemGroup();
                 _this.setTheAccessoryItemsArray(item);
                 if (index == (_this.accessoryToLoad.res.length - 1)) {
@@ -331,7 +343,7 @@ var OrderPOComponent = /** @class */ (function () {
                 }
             });
         }, function (err) {
-            console.log('getOrderAccessories', err);
+            // console.log('getOrderAccessories', err);
         });
     };
     OrderPOComponent.prototype.setThePackerItemsArray = function (item) {
@@ -352,12 +364,15 @@ var OrderPOComponent = /** @class */ (function () {
         var _this = this;
         this.orderService.getOrderPackers(id)
             .subscribe(function (res) {
-            console.log('getOrderPackers', res);
+            // console.log('getOrderPackers', res);
+            // console.log('getOrderPackers', res);
             _this.packerToLoad.res = res;
             _this.packerToLoad.toLoad = [];
-            console.log('this.packerToLoad.res', _this.accessoryToLoad);
+            // console.log('this.packerToLoad.res',this.accessoryToLoad);
+            // console.log('this.packerToLoad.res',this.accessoryToLoad);
             _this.packerToLoad.res.forEach(function (item, index) {
-                console.log(item, index);
+                // console.log(item, index);
+                // console.log(item, index);
                 _this.addItemGroup();
                 _this.setThePackerItemsArray(item);
                 if (index == (_this.packerToLoad.res.length - 1)) {
@@ -369,7 +384,7 @@ var OrderPOComponent = /** @class */ (function () {
                 }
             });
         }, function (err) {
-            console.log('getOrderPackers', err);
+            // console.log('getOrderPackers', err);
         });
     };
     // ===================================Sourcing Items End===========================================
@@ -381,15 +396,17 @@ var OrderPOComponent = /** @class */ (function () {
     // ===================================Posting PO Start===========================================
     function (po) {
         var _this = this;
-        console.log('post PO', po);
+        // console.log('post PO', po);
         this.myOrderPOForm.disable();
         this.orderService.postPurchaseOrder(this.params.orderNumber, po)
             .subscribe(function (res) {
-            console.log('postPurchaseOrder', res);
+            // console.log('postPurchaseOrder', res);
+            // console.log('postPurchaseOrder', res);
             _this.alert.success('Purchase Order Created Successfully');
             setTimeout(function () { _this.router.navigate(['/orders']); }, 4000);
         }, function (err) {
-            console.log('postPurchaseOrder', err);
+            // console.log('postPurchaseOrder', err);
+            // console.log('postPurchaseOrder', err);
             _this.alert.error('Error Occured while Creating Purchase Order');
             _this.myOrderPOForm.enable();
         });

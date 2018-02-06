@@ -20,23 +20,21 @@ var PresetsVendorsComponent = /** @class */ (function () {
         this.pager = {};
         // paged items
         this.pagedVendorItems = [];
-        this.myBreadCrumb = [
-            { "menu": "Home", "routerLink": "/" },
+        this.myBreadCrumb.crumbs = [
             { "menu": "Presets", "routerLink": "/presets" }
         ];
-        this.appComponent.setActiveBreadcrumb('Vendors', this.myBreadCrumb);
+        this.myBreadCrumb.active = 'Vendors';
         this.noOfItemsinPage = 5;
         this.loading = '';
         this.fetchAllVendors();
     }
     PresetsVendorsComponent.prototype.addNewVendor = function () {
         // console.log('addNewVendor');
-        this.router.navigate(['/presets/vendors/form']);
+        this.router.navigate(['/presets/vendor/add/new']);
     };
     PresetsVendorsComponent.prototype.editVendor = function (vendor) {
         var _this = this;
-        this.presetsService.setActiveVendorToEdit(vendor);
-        setTimeout(function () { _this.router.navigate(['/presets/vendors/form']), 500; });
+        setTimeout(function () { _this.router.navigate(['/presets/vendor/edit/' + vendor.vendorCode]), 500; });
     };
     PresetsVendorsComponent.prototype.deleteVendor = function (id) {
         var _this = this;
@@ -65,8 +63,7 @@ var PresetsVendorsComponent = /** @class */ (function () {
     };
     PresetsVendorsComponent.prototype.addVendorContact = function (aVendor) {
         var _this = this;
-        this.presetsService.setActiveVendor(aVendor);
-        setTimeout(function () { _this.router.navigate(['/presets/vendor/' + aVendor.vendorCode + '/contacts/form']); }, 500);
+        setTimeout(function () { _this.router.navigate(['/presets/vendor/' + aVendor.vendorCode + '/contact/add/new']); }, 500);
     };
     PresetsVendorsComponent.prototype.fetchAllVendors = function () {
         var _this = this;
@@ -122,13 +119,9 @@ var PresetsVendorsComponent = /** @class */ (function () {
     PresetsVendorsComponent.prototype.editVendorContact = function (vendorContact) {
         var _this = this;
         // console.log('editVendorContact', 'aVendor', this.aVendor)
-        this.presetsService.setActiveVendor(this.aVendor);
-        this.presetsService.setActiveVendorContactToEdit(vendorContact);
-        setTimeout(function () { _this.router.navigate(['/presets/vendor/' + _this.aVendor.vendorCode + '/contacts/form']), 500; });
+        setTimeout(function () { _this.router.navigate(['/presets/vendor/' + _this.aVendor.vendorCode + '/contact/edit/' + vendorContact.contactEmail]), 500; });
     };
     PresetsVendorsComponent.prototype.ngOnInit = function () {
-        this.presetsService.setActiveVendorToEdit(null);
-        this.presetsService.setActiveVendorContactToEdit(null);
     };
     PresetsVendorsComponent.decorators = [
         { type: core_1.Component, args: [{

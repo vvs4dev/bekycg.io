@@ -22,17 +22,17 @@ var PresetsJobsComponent = /** @class */ (function () {
         // pager object
         this.pager = {};
         // paged items
-        this.pagedJobsItems = [];
-        this.myBreadCrumb = [
-            { "menu": "Home", "routerLink": "/" },
+        this.pagedJobItems = [];
+        this.myBreadCrumb.crumbs = [
             { "menu": "Presets", "routerLink": "/presets" }
         ];
-        this.appComponent.setActiveBreadcrumb('Jobs', this.myBreadCrumb);
+        this.myBreadCrumb.active = 'Jobs';
         this.noOfItemsinPage = 5;
         this.loading = '';
         this.fetchAllJobs();
         this.jobs.res = {};
         this.jobs.validation = {};
+        this.viewForm = false;
     }
     PresetsJobsComponent.prototype.ngOnInit = function () {
         // Form Settings
@@ -48,6 +48,7 @@ var PresetsJobsComponent = /** @class */ (function () {
     PresetsJobsComponent.prototype.resetJobModal = function () {
         this.myJobForm.reset();
         this.presetsService.setActiveJobToEdit(null);
+        this.viewForm = true;
     };
     PresetsJobsComponent.prototype.fetchAllJobs = function () {
         var _this = this;
@@ -83,7 +84,7 @@ var PresetsJobsComponent = /** @class */ (function () {
         // get pager object from service
         this.pager = this.pagerService.getPager(this.allItems.length, page, this.noOfItemsinPage);
         // get current page of items
-        this.pagedJobsItems = this.allItems.slice(this.pager.startIndex, this.pager.endIndex + 1);
+        this.pagedJobItems = this.allItems.slice(this.pager.startIndex, this.pager.endIndex + 1);
     };
     PresetsJobsComponent.prototype.validateJobCode = function (code) {
         var _this = this;
@@ -107,6 +108,7 @@ var PresetsJobsComponent = /** @class */ (function () {
         this.presetsService.updateJob(job)
             .subscribe(function (res) {
             _this.myJobForm.reset();
+            _this.viewForm = false;
             _this.myJobForm.enable();
             // console.log('postJob-Response', res);
             // console.log('postJob-Response', res);
@@ -140,6 +142,7 @@ var PresetsJobsComponent = /** @class */ (function () {
     };
     PresetsJobsComponent.prototype.editJob = function (job) {
         // console.log('editJob', job);
+        this.viewForm = true;
         delete job['createdDate'];
         delete job['createdBy'];
         delete job['lastModifiedDate'];

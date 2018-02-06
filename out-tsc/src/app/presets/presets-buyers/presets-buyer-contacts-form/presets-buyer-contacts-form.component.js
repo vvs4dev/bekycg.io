@@ -10,6 +10,7 @@ var user_service_1 = require("./../../../_services/user.service");
 var presets_service_1 = require("../../presets.service");
 var PresetsBuyerContactsFormComponent = /** @class */ (function () {
     function PresetsBuyerContactsFormComponent(appComponent, router, aRoute, user, alert, presetsService) {
+        var _this = this;
         this.appComponent = appComponent;
         this.router = router;
         this.aRoute = aRoute;
@@ -18,26 +19,31 @@ var PresetsBuyerContactsFormComponent = /** @class */ (function () {
         this.presetsService = presetsService;
         this.myBreadCrumb = {};
         this.aBuyer = {};
-        this.aBuyerContact = {};
-        this.aBuyerContactToEdit = {};
-        this.aBuyer = this.presetsService.getActiveBuyer();
-        this.myBreadCrumb = [
-            { "menu": "Home", "routerLink": "/" },
+        this.params = {};
+        this.params = {
+            'code': this.aRoute.snapshot.paramMap.get('code'),
+            'action': this.aRoute.snapshot.paramMap.get('action'),
+            'id': this.aRoute.snapshot.paramMap.get('id')
+        };
+        this.presetsService.getMaster('buyer', this.params.code)
+            .subscribe(function (res) {
+            //console.log('getMasterBuyer', res);
+            //console.log('getMasterBuyer', res);
+            _this.aBuyer = res;
+            _this.myBuyerContactForm.controls.buyerId.setValue(_this.aBuyer.id);
+            _this.myBuyerContactForm.controls.buyerCode.setValue(_this.aBuyer.buyerCode);
+        }, function (err) {
+            //console.log('getMasterBuyer', err);
+        });
+        this.myBreadCrumb.crumbs = [
             { "menu": "Presets", "routerLink": "/presets" },
-            { "menu": "Buyer", "routerLink": "/presets/buyers" },
-            { "menu": this.aBuyer.buyerCode, "routerLink": "/presets/buyers" },
+            { "menu": "Buyers", "routerLink": "/presets/buyers" },
+            { "menu": this.params.code, "routerLink": "/presets/buyers" }
         ];
-        this.appComponent.setActiveBreadcrumb('Add Buyer Contact', this.myBreadCrumb);
-        // console.log('this.aBuyer',this.aBuyer)
-        // if (this.validateBuyer != this.aBuyer.buyerCode) {
-        //   this.alert.error('Sorry for inconvenience, We are stopping Malicious Action Occured, Please try again');
-        // }
+        this.myBreadCrumb.active = (this.aRoute.snapshot.paramMap.get('action') == 'add') ? 'Add Buyer Contact' : 'Edit ' + this.aRoute.snapshot.paramMap.get('id');
     }
     PresetsBuyerContactsFormComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.aRoute.params.subscribe(function (params) {
-            return _this.validateBuyer = params['code'];
-        });
         // Form Settings
         this.myBuyerContactForm = new forms_1.FormGroup({
             'id': new forms_1.FormControl(''),
@@ -55,10 +61,26 @@ var PresetsBuyerContactsFormComponent = /** @class */ (function () {
                 'zipcode': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required, ng4_validators_1.CustomValidators.number, ng4_validators_1.CustomValidators.rangeLength([6, 12])]))
             })
         });
-        this.myBuyerContactForm.controls.buyerId.setValue(this.aBuyer.id);
-        this.myBuyerContactForm.controls.buyerCode.setValue(this.aBuyer.buyerCode);
-        if (this.presetsService.getActiveBuyerContactToEdit()) {
-            this.myBuyerContactForm.setValue(this.presetsService.getActiveBuyerContactToEdit());
+        switch (this.params.action) {
+            case 'add':
+                //console.log('add');
+                break;
+            case 'edit':
+                //console.log('intiatedEdit');
+                this.presetsService.getMaster('buyerContact', this.params.id)
+                    .subscribe(function (res) {
+                    //console.log('getMasterBuyer', res);
+                    delete res['createdDate'];
+                    delete res['createdBy'];
+                    delete res['lastModifiedDate'];
+                    delete res['lastModifiedBy'];
+                    _this.myBuyerContactForm.setValue(res);
+                }, function (err) {
+                    //console.log('getMasterBuyer', err);
+                });
+                break;
+            default:
+                this.router.navigate(['/']);
         }
     };
     PresetsBuyerContactsFormComponent.prototype.buildContactNumberComponent = function () {
@@ -69,14 +91,14 @@ var PresetsBuyerContactsFormComponent = /** @class */ (function () {
         this.myBuyerContactForm.disable();
         this.loading = 'postBuyerContact';
         // console.log('buyerContact', buyerContact);
-        this.presetsService.postBuyerContact(this.aBuyer.id, buyerContact)
+        this.presetsService.postBuyerContact(this.params.action, buyerContact)
             .subscribe(function (res) {
             _this.myBuyerContactForm.reset();
             _this.myBuyerContactForm.enable();
             // console.log('postBuyerContact-Response', res);
             // console.log('postBuyerContact-Response', res);
             _this.loading = '';
-            _this.alert.success('BuyerContact Successfully added to Buyer, You will be buyers');
+            _this.alert.success('BuyerContact Successfully updated to Buyer, You will be buyers');
             _this.presetsService.setActiveBuyer(res);
             setTimeout(function () { _this.router.navigate(['/presets/buyers']); }, 4000);
         }, function (err) {

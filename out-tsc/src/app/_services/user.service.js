@@ -6,6 +6,7 @@ var UserService = /** @class */ (function () {
     }
     UserService.prototype.getActiveUser = function () {
         this.userConfig = JSON.parse(localStorage.getItem('userConfig'));
+        this.userConfig.me = JSON.parse(localStorage.getItem('me'));
         return this.userConfig;
     };
     UserService.prototype.getActiveUserSID = function () {

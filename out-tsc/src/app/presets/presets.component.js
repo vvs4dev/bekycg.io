@@ -13,12 +13,11 @@ var PresetsComponent = /** @class */ (function () {
         this.userService = userService;
         this.presetsService = presetsService;
         this.router = router;
-        this.myBreadCrumb = [];
+        this.myBreadCrumb = {};
+        this.presets = [];
         this.master = {};
-        this.myBreadCrumb = [
-            { "menu": "Home", "routerLink": "/" }
-        ];
-        this.appComponent.setActiveBreadcrumb('Presets', this.myBreadCrumb);
+        this.myBreadCrumb.active = 'Presets';
+        this.myBreadCrumb.crumbs = [];
         this.master.items = [];
         this.master.res = {};
         this.master.count = [];
@@ -26,6 +25,80 @@ var PresetsComponent = /** @class */ (function () {
     }
     PresetsComponent.prototype.ngOnInit = function () {
         this.countMasters();
+        this.presets = [
+            {
+                'master': 'Buyers',
+                'val': '20',
+                'theme': 'side-box bg-primary',
+                'icon': 'icon-social-soundcloud',
+                'tag': 'contacts',
+                'tagTheme': 'label label-primary',
+                'routerLink': 'presets/buyers'
+            },
+            {
+                'master': 'Vendors',
+                'val': '12',
+                'theme': 'side-box bg-primary',
+                'icon': 'icon-social-soundcloud',
+                'tag': 'contacts',
+                'tagTheme': 'label label-primary',
+                'routerLink': 'presets/vendors'
+            },
+            {
+                'master': 'Styles',
+                'val': '12',
+                'theme': 'side-box bg-warning',
+                'icon': 'icon-social-soundcloud',
+                'tag': 'jobs',
+                'tagTheme': 'label label-warning',
+                'routerLink': 'presets/styles'
+            },
+            {
+                'master': 'Jobs',
+                'val': '12',
+                'theme': 'side-box bg-warning',
+                'icon': 'icon-social-soundcloud',
+                'tag': 'jobs',
+                'tagTheme': 'label label-warning',
+                'routerLink': 'presets/jobs'
+            },
+            {
+                'master': 'Treatments',
+                'val': '12',
+                'theme': 'side-box bg-warning',
+                'icon': 'icon-social-soundcloud',
+                'tag': 'jobs',
+                'tagTheme': 'label label-warning',
+                'routerLink': 'presets/treatments'
+            },
+            {
+                'master': 'Fabrics',
+                'val': '12',
+                'theme': 'side-box bg-success',
+                'icon': 'icon-social-soundcloud',
+                'tag': 'materials',
+                'tagTheme': 'label label-success',
+                'routerLink': 'presets/fabrics'
+            },
+            {
+                'master': 'Accessories',
+                'val': '12',
+                'theme': 'side-box bg-success',
+                'icon': 'icon-social-soundcloud',
+                'tag': 'materials',
+                'tagTheme': 'label label-success',
+                'routerLink': 'presets/accessories'
+            },
+            {
+                'master': 'Packers',
+                'val': '12',
+                'theme': 'side-box bg-success',
+                'icon': 'icon-social-soundcloud',
+                'tag': 'materials',
+                'tagTheme': 'label label-success',
+                'routerLink': 'presets/packers'
+            }
+        ];
     };
     PresetsComponent.prototype.countMasters = function () {
         var _this = this;
@@ -44,6 +117,10 @@ var PresetsComponent = /** @class */ (function () {
                 // // console.log('element',element, 'error', err)
             });
         });
+    };
+    PresetsComponent.prototype.navigateTo = function (link) {
+        // console.log('navigateTo', link)
+        this.router.navigate([link]);
     };
     PresetsComponent.decorators = [
         { type: core_1.Component, args: [{

@@ -19,8 +19,6 @@ var RegisterComponent = /** @class */ (function () {
         this.loading = false;
     }
     RegisterComponent.prototype.ngOnInit = function () {
-        // Set the Screen
-        this.appComponent.disableDashElements();
         // Initaite the Form
         this.myRegisterForm = new forms_1.FormGroup({
             'firstName': new forms_1.FormControl('', forms_1.Validators.required),

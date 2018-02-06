@@ -27,7 +27,6 @@ var SettingsDepartmentComponent = /** @class */ (function () {
             { "menu": this.aRoute.snapshot.paramMap.get('company'), "routerLink": "/settings" },
             { "menu": this.aRoute.snapshot.paramMap.get('branch'), "routerLink": "/Organisation" },
         ];
-        this.appComponent.setActiveBreadcrumb('Department', this.myBreadCrumb);
     }
     SettingsDepartmentComponent.prototype.ngOnInit = function () {
         var _this = this;

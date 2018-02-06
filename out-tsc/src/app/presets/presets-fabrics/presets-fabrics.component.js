@@ -23,16 +23,16 @@ var PresetsFabricsComponent = /** @class */ (function () {
         this.pager = {};
         // paged items
         this.pagedFabricItems = [];
-        this.myBreadCrumb = [
-            { "menu": "Home", "routerLink": "/" },
+        this.myBreadCrumb.crumbs = [
             { "menu": "Presets", "routerLink": "/presets" }
         ];
-        this.appComponent.setActiveBreadcrumb('Fabrics', this.myBreadCrumb);
+        this.myBreadCrumb.active = 'Fabrics';
         this.noOfItemsinPage = 5;
         this.loading = '';
         this.fabrics.res = {};
         this.fabrics.validation = {};
         this.fetchAllFabrics();
+        this.viewForm = false;
     }
     PresetsFabricsComponent.prototype.ngOnInit = function () {
         // Form Settings
@@ -48,6 +48,7 @@ var PresetsFabricsComponent = /** @class */ (function () {
     };
     PresetsFabricsComponent.prototype.resetFabricModal = function () {
         this.myFabricForm.reset();
+        this.viewForm = true;
         this.presetsService.aFabricToEdit = null;
     };
     PresetsFabricsComponent.prototype.validateFabricCode = function (code) {
@@ -108,6 +109,7 @@ var PresetsFabricsComponent = /** @class */ (function () {
         this.presetsService.updateFabric(fabric)
             .subscribe(function (res) {
             _this.myFabricForm.reset();
+            _this.viewForm = false;
             _this.myFabricForm.enable();
             // console.log('postFabric-Response', res);
             // console.log('postFabric-Response', res);
@@ -141,6 +143,7 @@ var PresetsFabricsComponent = /** @class */ (function () {
     };
     PresetsFabricsComponent.prototype.editFabric = function (fabric) {
         // console.log('editFabric', fabric);
+        this.viewForm = true;
         delete fabric['createdDate'];
         delete fabric['createdBy'];
         delete fabric['lastModifiedDate'];

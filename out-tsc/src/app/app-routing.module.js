@@ -121,12 +121,12 @@ var routes = [
         component: presets_buyers_component_1.PresetsBuyersComponent
     },
     {
-        path: 'presets/buyers/form',
+        path: 'presets/buyer/:action/:id',
         canActivate: [auth_guard_1.AuthGuard],
         component: presets_buyers_form_component_1.PresetsBuyersFormComponent
     },
     {
-        path: 'presets/buyer/:code/contacts/form',
+        path: 'presets/buyer/:code/contact/:action/:id',
         // path: 'presets.buyer.contacts.form',
         canActivate: [auth_guard_1.AuthGuard],
         component: presets_buyer_contacts_form_component_1.PresetsBuyerContactsFormComponent
@@ -137,12 +137,12 @@ var routes = [
         component: presets_vendors_component_1.PresetsVendorsComponent
     },
     {
-        path: 'presets/vendors/form',
+        path: 'presets/vendor/:action/:id',
         canActivate: [auth_guard_1.AuthGuard],
         component: presets_vendors_form_component_1.PresetsVendorsFormComponent
     },
     {
-        path: 'presets/vendor/:code/contacts/form',
+        path: 'presets/vendor/:code/contact/:action/:id',
         // path: 'presets.vendor.contacts.form',
         canActivate: [auth_guard_1.AuthGuard],
         component: presets_vendor_contacts_form_component_1.PresetsVendorContactsFormComponent

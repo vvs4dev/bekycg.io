@@ -23,6 +23,7 @@ var OrderFabricComponent = /** @class */ (function () {
         this.appComponent = appComponent;
         this.ngxUpload = ngxUpload;
         this.changeDetectorRef = changeDetectorRef;
+        this.myBreadCrumb = {};
         this.params = {};
         this.orderDetails = {};
         this.process = [];
@@ -32,12 +33,18 @@ var OrderFabricComponent = /** @class */ (function () {
         this.file_srcs = [];
         this.debug_size_before = [];
         this.debug_size_after = [];
-        this.myBreadCrumb = [
-            { "menu": "Home", "routerLink": "/" },
-            { "menu": "Orders", "routerLink": "/orders" }
-            // {"menu" : "Orders", "routerLink" : "/orders"}
+        this.params = {
+            "action": this.aRoute.snapshot.paramMap.get('action'),
+            "orderNumber": this.aRoute.snapshot.paramMap.get('orderNumber'),
+            "id": this.aRoute.snapshot.paramMap.get('id')
+        };
+        // console.log('params', this.params);
+        this.validateOrderNumber(this.params.orderNumber);
+        this.myBreadCrumb.crumbs = [
+            { "menu": "Orders", "routerLink": "/orders" },
+            { "menu": this.params.orderNumber, "routerLink": "/orders" },
         ];
-        this.appComponent.setActiveBreadcrumb('Fabrics', this.myBreadCrumb);
+        this.myBreadCrumb.active = (this.aRoute.snapshot.paramMap.get('action') == 'add') ? 'Add Fabric' : 'Edit Fabric';
     }
     OrderFabricComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -62,13 +69,6 @@ var OrderFabricComponent = /** @class */ (function () {
         });
         this.getFabricLists();
         this.getTreatmentLists();
-        this.params = {
-            "action": this.aRoute.snapshot.paramMap.get('action'),
-            "orderNumber": this.aRoute.snapshot.paramMap.get('orderNumber'),
-            "id": this.aRoute.snapshot.paramMap.get('id')
-        };
-        // console.log('params', this.params);
-        this.validateOrderNumber(this.params.orderNumber);
         this.myOrderFabricForm.controls['orderNumber'].setValue(this.params.orderNumber);
         if (this.params.action == 'edit') {
             this.orderService.findOrderFabric(this.params.id)

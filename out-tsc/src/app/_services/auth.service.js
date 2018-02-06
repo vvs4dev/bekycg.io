@@ -34,6 +34,7 @@ var AuthService = /** @class */ (function () {
         this.http.post(this.logoutURL, null)
             .subscribe(function (res) {
             _this.alert.success('User Successfully LoggedOut');
+            _this.unsetMe();
         }, function (err) {
             if (err.error instanceof Error) {
                 _this.alert.error('Client - Side Error Occured');
@@ -42,6 +43,21 @@ var AuthService = /** @class */ (function () {
                 _this.alert.error('Server - Side Error Occured');
             }
         });
+    };
+    AuthService.prototype.setMe = function (url) {
+        var _this = this;
+        this.http.get(this.appConfig.apiEndpoint + '/users/me')
+            .subscribe(function (res) {
+            console.log('this.user.me', res);
+            localStorage.setItem('me', JSON.stringify(res));
+            _this.router.navigate([url]);
+        }, function (err) {
+            console.log('this.user.me', err);
+        });
+    };
+    AuthService.prototype.unsetMe = function () {
+        console.log("unsetMe");
+        localStorage.removeItem('me');
     };
     AuthService.decorators = [
         { type: core_1.Injectable },

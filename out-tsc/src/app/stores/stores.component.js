@@ -15,7 +15,6 @@ var StoresComponent = /** @class */ (function () {
         this.myBreadCrumb = [
             { "menu": "Home", "routerLink": "/" }
         ];
-        this.appComponent.setActiveBreadcrumb('Stores', this.myBreadCrumb);
     }
     StoresComponent.prototype.ngOnInit = function () {
     };

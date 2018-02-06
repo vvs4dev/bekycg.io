@@ -15,6 +15,11 @@ var DashComponent = /** @class */ (function () {
         this.dashService = dashService;
         this.router = router;
         this.appComponent = appComponent;
+        this.buyers = {};
+        this.vendors = {};
+        this.orders = {};
+        this.buyers.val = 0;
+        this.vendors.val = 0;
         this.activeUser = this.user.getActiveUser();
         // SEO Config
         title.setTitle('My Dashboard');
@@ -23,7 +28,6 @@ var DashComponent = /** @class */ (function () {
             { name: 'keywords', content: 'Garments ERP Dashboard' },
             { name: 'description', content: 'View the Progress of the Company' }
         ]);
-        this.appComponent.setActiveBreadcrumb('Dashboard', null);
     }
     DashComponent.prototype.ngOnInit = function () {
         this.countBuyers();
@@ -34,33 +38,30 @@ var DashComponent = /** @class */ (function () {
         var _this = this;
         this.presetsService.countMaster('buyer')
             .subscribe(function (res) {
-            // console.log('dashService.getBuyersCount',res);
-            // console.log('dashService.getBuyersCount',res);
+            console.log('dashService.getBuyersCount', res);
             _this.buyers = res;
         }, function (err) {
-            // console.log('dashService.getBuyersCount',err);
+            console.log('dashService.getBuyersCount', err);
         });
     };
     DashComponent.prototype.countVendors = function () {
         var _this = this;
         this.presetsService.countMaster('vendor')
             .subscribe(function (res) {
-            // console.log('dashService.getVendorsCount',res);
-            // console.log('dashService.getVendorsCount',res);
+            console.log('dashService.getVendorsCount', res);
             _this.vendors = res;
         }, function (err) {
-            // console.log('dashService.getVendorsCount',err);
+            console.log('dashService.getVendorsCount', err);
         });
     };
     DashComponent.prototype.countOrders = function () {
         var _this = this;
         this.presetsService.countMaster('order')
             .subscribe(function (res) {
-            // console.log('dashService.getOrdersCount',res);
-            // console.log('dashService.getOrdersCount',res);
+            console.log('dashService.getOrdersCount', res);
             _this.orders = res;
         }, function (err) {
-            // console.log('dashService.getOrdersCount',err);
+            console.log('dashService.getOrdersCount', err);
         });
     };
     DashComponent.decorators = [

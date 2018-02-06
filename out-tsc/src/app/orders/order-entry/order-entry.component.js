@@ -10,25 +10,26 @@ var router_1 = require("@angular/router");
 var order_service_1 = require("./../order.service");
 var presets_service_1 = require("../../presets/presets.service");
 var OrderEntryComponent = /** @class */ (function () {
-    function OrderEntryComponent(user, orderService, presetsService, router, aRoute, alert, appComponent) {
-        this.user = user;
+    function OrderEntryComponent(userService, orderService, presetsService, router, aRoute, alert, appComponent) {
+        this.userService = userService;
         this.orderService = orderService;
         this.presetsService = presetsService;
         this.router = router;
         this.aRoute = aRoute;
         this.alert = alert;
         this.appComponent = appComponent;
+        this.myBreadCrumb = {};
         this.orderNumberValidation = {};
         this.resOrder = {};
         this.params = {};
         this.edit = {};
         this.today = new Date();
         this.orderDate = new Date();
-        this.myBreadCrumb = [
-            { "menu": "Home", "routerLink": "/" },
+        this.me = this.userService.getActiveUser().me;
+        this.myBreadCrumb.crumbs = [
             { "menu": "Orders", "routerLink": "/orders" }
         ];
-        this.appComponent.setActiveBreadcrumb('Entry', this.myBreadCrumb);
+        this.myBreadCrumb.active = (this.aRoute.snapshot.paramMap.get('action') == 'add') ? 'New Order' : 'Edit Order';
     }
     OrderEntryComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -61,9 +62,11 @@ var OrderEntryComponent = /** @class */ (function () {
             'quantity': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required])),
             'deliveryDate': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required])),
             'description': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required, ng4_validators_1.CustomValidators.rangeLength([5, 300])])),
-            'orderNumber': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required]))
+            'orderNumber': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required])),
+            'branchCode': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required]))
         });
         this.myOrderEntryForm.controls['orderDate'].setValue(this.orderService.formatDate(this.today));
+        this.myOrderEntryForm.controls['branchCode'].setValue(this.me.branchCode);
         this.buyerId = new forms_1.FormControl();
         this.buyerContactId = new forms_1.FormControl();
         this.orderStyleId = new forms_1.FormControl();
@@ -142,11 +145,12 @@ var OrderEntryComponent = /** @class */ (function () {
             });
         }
     };
-    OrderEntryComponent.prototype.checkExistanceOrderNumber = function () {
+    OrderEntryComponent.prototype.checkExistanceOrderNumber = function (orderNumber) {
         var _this = this;
         // console.log('checkExistanceOrderNumber');
         this.orderNumberValidation = {};
-        this.orderService.checkExistanceOrderNumber(this.myOrderEntryForm.controls['orderNumber'].value)
+        this.myOrderEntryForm.controls['orderNumber'].setValue(orderNumber);
+        this.orderService.checkExistanceOrderNumber(orderNumber)
             .subscribe(function (res) {
             // console.log('checkExistanceOrderNumber',res);
             // console.log('checkExistanceOrderNumber',res);

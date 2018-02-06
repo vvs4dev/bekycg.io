@@ -34,6 +34,9 @@ var PresetsService = /** @class */ (function () {
     PresetsService.prototype.validateMaster = function (master, code) {
         return this.http.get(this.appConfig.apiEndpoint + '/cmaster/validate/' + master + '/' + code);
     };
+    PresetsService.prototype.getMaster = function (master, code) {
+        return this.http.get(this.appConfig.apiEndpoint + '/cmaster/get/' + master + '/' + code);
+    };
     // ================================================ Styles =================================================
     // ================================================ Styles =================================================
     PresetsService.prototype.getAllStyles = 
@@ -182,13 +185,13 @@ var PresetsService = /** @class */ (function () {
     function () {
         return this.http.get(this.appConfig.apiEndpoint + '/masterbuyer');
     };
-    PresetsService.prototype.updateBuyer = function (buyer) {
+    PresetsService.prototype.updateBuyer = function (action, buyer) {
         // console.log('buyer', buyer);
-        if (this.aBuyerToEdit) {
+        if (action == 'edit') {
             // console.log('Put');
             return this.http.put(this.appConfig.apiEndpoint + '/masterbuyer', buyer);
         }
-        else {
+        else if (action == 'add') {
             // console.log('Post');
             return this.http.post(this.appConfig.apiEndpoint + '/masterbuyer', buyer);
         }
@@ -199,13 +202,13 @@ var PresetsService = /** @class */ (function () {
     PresetsService.prototype.getBuyerContacts = function (buyerCode) {
         return this.http.get(this.appConfig.apiEndpoint + '/cmaster/contact/buyer/' + buyerCode);
     };
-    PresetsService.prototype.postBuyerContact = function (buyerId, buyerContact) {
+    PresetsService.prototype.postBuyerContact = function (action, buyerContact) {
         // console.log('buyerContact', buyerContact);
-        if (this.aBuyerContactToEdit) {
+        if (action == 'edit') {
             // console.log('Put');
             return this.http.put(this.appConfig.apiEndpoint + '/masterbuyercontact', buyerContact);
         }
-        else {
+        else if (action == 'add') {
             // console.log('Post');
             return this.http.post(this.appConfig.apiEndpoint + '/masterbuyercontact', buyerContact);
         }
@@ -216,30 +219,6 @@ var PresetsService = /** @class */ (function () {
     PresetsService.prototype.getActiveBuyer = function () {
         return this.aBuyer;
     };
-    PresetsService.prototype.setActiveBuyerToEdit = function (buyer) {
-        // console.log('setActiveBuyerToEdit', buyer);
-        delete buyer['createdDate'];
-        delete buyer['createdBy'];
-        delete buyer['lastModifiedDate'];
-        delete buyer['lastModifiedBy'];
-        this.aBuyerToEdit = buyer;
-    };
-    PresetsService.prototype.getActiveBuyerToEdit = function () {
-        // console.log('getActiveBuyerToEdit', this.aBuyerToEdit);
-        return this.aBuyerToEdit;
-    };
-    PresetsService.prototype.setActiveBuyerContactToEdit = function (contact) {
-        // console.log('setActiveBuyerContactToEdit', contact);
-        delete contact['createdDate'];
-        delete contact['createdBy'];
-        delete contact['lastModifiedDate'];
-        delete contact['lastModifiedBy'];
-        this.aBuyerContactToEdit = contact;
-    };
-    PresetsService.prototype.getActiveBuyerContactToEdit = function () {
-        // console.log('getActiveBuyerContactToEdit', this.aBuyerContactToEdit);
-        return this.aBuyerContactToEdit;
-    };
     // ================================================ Vendors =================================================
     // ================================================ Vendors =================================================
     PresetsService.prototype.getAllVendors = 
@@ -247,13 +226,13 @@ var PresetsService = /** @class */ (function () {
     function () {
         return this.http.get(this.appConfig.apiEndpoint + '/mastervendor');
     };
-    PresetsService.prototype.updateVendor = function (vendor) {
+    PresetsService.prototype.updateVendor = function (action, vendor) {
         // console.log('vendor', vendor);
-        if (this.aVendorToEdit) {
+        if (action == 'edit') {
             // console.log('Put');
             return this.http.put(this.appConfig.apiEndpoint + '/mastervendor', vendor);
         }
-        else {
+        else if (action == 'add') {
             // console.log('Post');
             return this.http.post(this.appConfig.apiEndpoint + '/mastervendor', vendor);
         }
@@ -264,13 +243,13 @@ var PresetsService = /** @class */ (function () {
     PresetsService.prototype.getVendorContacts = function (vendorCode) {
         return this.http.get(this.appConfig.apiEndpoint + '/cmaster/contact/vendor/' + vendorCode);
     };
-    PresetsService.prototype.postVendorContact = function (vendorId, vendorContact) {
+    PresetsService.prototype.postVendorContact = function (action, vendorContact) {
         // console.log('vendorContact', vendorContact);
-        if (this.aVendorContactToEdit) {
+        if (action == 'edit') {
             // console.log('Put');
             return this.http.put(this.appConfig.apiEndpoint + '/mastervendorcontact', vendorContact);
         }
-        else {
+        else if (action == 'add') {
             // console.log('Post');
             return this.http.post(this.appConfig.apiEndpoint + '/mastervendorcontact', vendorContact);
         }
@@ -280,30 +259,6 @@ var PresetsService = /** @class */ (function () {
     };
     PresetsService.prototype.getActiveVendor = function () {
         return this.aVendor;
-    };
-    PresetsService.prototype.setActiveVendorToEdit = function (vendor) {
-        // console.log('setActiveVendorToEdit', vendor);
-        delete vendor['createdDate'];
-        delete vendor['createdBy'];
-        delete vendor['lastModifiedDate'];
-        delete vendor['lastModifiedBy'];
-        this.aVendorToEdit = vendor;
-    };
-    PresetsService.prototype.getActiveVendorToEdit = function () {
-        // console.log('getActiveVendorToEdit', this.aVendorToEdit);
-        return this.aVendorToEdit;
-    };
-    PresetsService.prototype.setActiveVendorContactToEdit = function (contact) {
-        // console.log('setActiveVendorContactToEdit', contact);
-        delete contact['createdDate'];
-        delete contact['createdBy'];
-        delete contact['lastModifiedDate'];
-        delete contact['lastModifiedBy'];
-        this.aVendorContactToEdit = contact;
-    };
-    PresetsService.prototype.getActiveVendorContactToEdit = function () {
-        // console.log('getActiveVendorContactToEdit', this.aVendorContactToEdit);
-        return this.aVendorContactToEdit;
     };
     PresetsService.decorators = [
         { type: core_1.Injectable },

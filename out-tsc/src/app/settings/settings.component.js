@@ -15,7 +15,6 @@ var SettingsComponent = /** @class */ (function () {
         this.myBreadCrumb = [
             { "menu": "Home", "routerLink": "/" }
         ];
-        this.appComponent.setActiveBreadcrumb('Settings', this.myBreadCrumb);
     }
     SettingsComponent.prototype.ngOnInit = function () {
         this.settingsService.getMyOrganisation(this.userService.getActiveUserId())

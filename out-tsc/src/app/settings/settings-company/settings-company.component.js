@@ -25,7 +25,6 @@ var SettingsCompanyComponent = /** @class */ (function () {
             { "menu": "Home", "routerLink": "/" },
             { "menu": "Settings", "routerLink": "/Organisations" }
         ];
-        this.appComponent.setActiveBreadcrumb('Organisation', this.myBreadCrumb);
     }
     SettingsCompanyComponent.prototype.ngOnInit = function () {
         var _this = this;

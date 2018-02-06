@@ -20,23 +20,21 @@ var PresetsBuyersComponent = /** @class */ (function () {
         this.pager = {};
         // paged items
         this.pagedBuyerItems = [];
-        this.myBreadCrumb = [
-            { "menu": "Home", "routerLink": "/" },
+        this.myBreadCrumb.crumbs = [
             { "menu": "Presets", "routerLink": "/presets" }
         ];
-        this.appComponent.setActiveBreadcrumb('Buyers', this.myBreadCrumb);
+        this.myBreadCrumb.active = 'Buyers';
         this.noOfItemsinPage = 5;
         this.loading = '';
         this.fetchAllBuyers();
     }
     PresetsBuyersComponent.prototype.addNewBuyer = function () {
         // console.log('addNewBuyer');
-        this.router.navigate(['/presets/buyers/form']);
+        this.router.navigate(['/presets/buyer/add/new']);
     };
     PresetsBuyersComponent.prototype.editBuyer = function (buyer) {
         var _this = this;
-        this.presetsService.setActiveBuyerToEdit(buyer);
-        setTimeout(function () { _this.router.navigate(['/presets/buyers/form']), 500; });
+        setTimeout(function () { _this.router.navigate(['/presets/buyer/edit/' + buyer.buyerCode]), 500; });
     };
     PresetsBuyersComponent.prototype.deleteBuyer = function (id) {
         var _this = this;
@@ -65,8 +63,7 @@ var PresetsBuyersComponent = /** @class */ (function () {
     };
     PresetsBuyersComponent.prototype.addBuyerContact = function (aBuyer) {
         var _this = this;
-        this.presetsService.setActiveBuyer(aBuyer);
-        setTimeout(function () { _this.router.navigate(['/presets/buyer/' + aBuyer.buyerCode + '/contacts/form']); }, 500);
+        setTimeout(function () { _this.router.navigate(['/presets/buyer/' + aBuyer.buyerCode + '/contact/add/new']); }, 500);
     };
     PresetsBuyersComponent.prototype.fetchAllBuyers = function () {
         var _this = this;
@@ -122,13 +119,9 @@ var PresetsBuyersComponent = /** @class */ (function () {
     PresetsBuyersComponent.prototype.editBuyerContact = function (buyerContact) {
         var _this = this;
         // console.log('editBuyerContact', 'aBuyer', this.aBuyer)
-        this.presetsService.setActiveBuyer(this.aBuyer);
-        this.presetsService.setActiveBuyerContactToEdit(buyerContact);
-        setTimeout(function () { _this.router.navigate(['/presets/buyer/' + _this.aBuyer.buyerCode + '/contacts/form']), 500; });
+        setTimeout(function () { _this.router.navigate(['/presets/buyer/' + _this.aBuyer.buyerCode + '/contact/edit/' + buyerContact.contactEmail]), 500; });
     };
     PresetsBuyersComponent.prototype.ngOnInit = function () {
-        this.presetsService.setActiveBuyerToEdit(null);
-        this.presetsService.setActiveBuyerContactToEdit(null);
     };
     PresetsBuyersComponent.decorators = [
         { type: core_1.Component, args: [{

@@ -23,16 +23,16 @@ var PresetsAccessoriesComponent = /** @class */ (function () {
         this.pager = {};
         // paged items
         this.pagedAccessories = [];
-        this.myBreadCrumb = [
-            { "menu": "Home", "routerLink": "/" },
+        this.myBreadCrumb.crumbs = [
             { "menu": "Presets", "routerLink": "/presets" }
         ];
-        this.appComponent.setActiveBreadcrumb('Accessories', this.myBreadCrumb);
+        this.myBreadCrumb.active = 'Accessories';
         this.noOfItemsinPage = 5;
         this.loading = '';
         this.accessories.res = [];
         this.accessories.validation = {};
         this.fetchAllAccessories();
+        this.viewForm = false;
     }
     PresetsAccessoriesComponent.prototype.ngOnInit = function () {
         // Form Settings
@@ -46,6 +46,7 @@ var PresetsAccessoriesComponent = /** @class */ (function () {
         });
     };
     PresetsAccessoriesComponent.prototype.resetAccessoryModal = function () {
+        this.viewForm = true;
         this.myAccessoryForm.reset();
         this.presetsService.setActiveAccessoryToEdit(null);
     };
@@ -106,6 +107,7 @@ var PresetsAccessoriesComponent = /** @class */ (function () {
         // console.log('Accessory', accessory);
         this.presetsService.updateAccessory(accessory)
             .subscribe(function (res) {
+            _this.viewForm = false;
             _this.myAccessoryForm.reset();
             _this.myAccessoryForm.enable();
             // console.log('updateAccessory-Response', res);
@@ -139,6 +141,7 @@ var PresetsAccessoriesComponent = /** @class */ (function () {
         });
     };
     PresetsAccessoriesComponent.prototype.editAccessory = function (accessory) {
+        this.viewForm = true;
         // console.log('editAccessory', accessory);
         delete accessory['createdDate'];
         delete accessory['createdBy'];

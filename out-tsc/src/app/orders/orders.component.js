@@ -13,17 +13,17 @@ var OrdersComponent = /** @class */ (function () {
         this.alert = alert;
         this.pagerService = pagerService;
         this.router = router;
-        this.breadCrumbs = [];
+        this.myBreadCrumb = {};
         // array of all items to be paged
         this.allItems = [];
         // pager object
         this.pager = {};
         // paged items
         this.pagedOrderItems = [];
-        this.breadCrumbs = [
+        this.myBreadCrumb.crumbs = [
             { "menu": "Home", "routerLink": "/" }
         ];
-        this.appComponent.setActiveBreadcrumb('Orders', this.breadCrumbs);
+        this.myBreadCrumb.active = 'Orders';
         this.noOfItemsinPage = 5;
         this.loading = '';
     }

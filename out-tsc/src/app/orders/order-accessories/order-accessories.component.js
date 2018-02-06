@@ -18,14 +18,22 @@ var OrderAccessoriesComponent = /** @class */ (function () {
         this.aRoute = aRoute;
         this.alert = alert;
         this.appComponent = appComponent;
+        this.myBreadCrumb = {};
         this.orderAccessoriesReq = {};
         this.params = {};
         this.orderDetails = {};
-        this.myBreadCrumb = [
-            { "menu": "Home", "routerLink": "/" },
-            { "menu": "Orders", "routerLink": "/orders" }
+        this.params = {
+            "action": this.aRoute.snapshot.paramMap.get('action'),
+            "orderNumber": this.aRoute.snapshot.paramMap.get('orderNumber'),
+            "id": this.aRoute.snapshot.paramMap.get('id')
+        };
+        // console.log('params', this.params);
+        this.findOrderNumber(this.params.orderNumber);
+        this.myBreadCrumb.crumbs = [
+            { "menu": "Orders", "routerLink": "/orders" },
+            { "menu": this.params.orderNumber, "routerLink": "/orders" },
         ];
-        this.appComponent.setActiveBreadcrumb('Accessories', this.myBreadCrumb);
+        this.myBreadCrumb.active = (this.aRoute.snapshot.paramMap.get('action') == 'add') ? 'Add Accessory' : 'Edit Accessory';
     }
     OrderAccessoriesComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -40,13 +48,6 @@ var OrderAccessoriesComponent = /** @class */ (function () {
             'orderAccessoryCost': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required])),
             'orderAccessoryQuantityRequiredPerPiece': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required]))
         });
-        this.params = {
-            "action": this.aRoute.snapshot.paramMap.get('action'),
-            "orderNumber": this.aRoute.snapshot.paramMap.get('orderNumber'),
-            "id": this.aRoute.snapshot.paramMap.get('id')
-        };
-        // console.log('params', this.params);
-        this.findOrderNumber(this.params.orderNumber);
         this.myOrderAccessoriesForm.controls['orderNumber'].setValue(this.params.orderNumber);
         if (this.params.action == 'edit') {
             this.orderService.findOrderAccessories(this.params.id)
