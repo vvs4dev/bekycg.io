@@ -6,6 +6,6 @@
  * tslint:disable
  */ 
 Object.defineProperty(exports, "__esModule", { value: true });
-var styles = ["header[_ngcontent-%COMP%] {\r\n    text-align: center;\r\n    font-size: 18px;\r\n    // height: 25px;\r\n    padding: 0px;\r\n}\r\n\r\n.uk-inline[_ngcontent-%COMP%] {\r\n    padding:10px;\r\n}"];
+var styles = [""];
 exports.styles = styles;
 //# sourceMappingURL=header.component.scss.shim.ngstyle.js.map

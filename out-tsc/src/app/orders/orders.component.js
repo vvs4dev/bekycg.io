@@ -21,7 +21,7 @@ var OrdersComponent = /** @class */ (function () {
         // paged items
         this.pagedOrderItems = [];
         this.myBreadCrumb.crumbs = [
-            { "menu": "Home", "routerLink": "/" }
+            { 'menu': 'Home', 'routerLink': '/' }
         ];
         this.myBreadCrumb.active = 'Orders';
         this.noOfItemsinPage = 5;

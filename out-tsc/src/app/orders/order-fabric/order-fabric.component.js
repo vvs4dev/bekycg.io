@@ -34,17 +34,17 @@ var OrderFabricComponent = /** @class */ (function () {
         this.debug_size_before = [];
         this.debug_size_after = [];
         this.params = {
-            "action": this.aRoute.snapshot.paramMap.get('action'),
-            "orderNumber": this.aRoute.snapshot.paramMap.get('orderNumber'),
-            "id": this.aRoute.snapshot.paramMap.get('id')
+            'action': this.aRoute.snapshot.paramMap.get('action'),
+            'orderNumber': this.aRoute.snapshot.paramMap.get('orderNumber'),
+            'id': this.aRoute.snapshot.paramMap.get('id')
         };
         // console.log('params', this.params);
         this.validateOrderNumber(this.params.orderNumber);
         this.myBreadCrumb.crumbs = [
-            { "menu": "Orders", "routerLink": "/orders" },
-            { "menu": this.params.orderNumber, "routerLink": "/orders" },
+            { 'menu': 'Orders', 'routerLink': '/orders' },
+            { 'menu': this.params.orderNumber, 'routerLink': '/orders' },
         ];
-        this.myBreadCrumb.active = (this.aRoute.snapshot.paramMap.get('action') == 'add') ? 'Add Fabric' : 'Edit Fabric';
+        this.myBreadCrumb.active = (this.aRoute.snapshot.paramMap.get('action') === 'add') ? 'Add Fabric' : 'Edit Fabric';
     }
     OrderFabricComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -53,10 +53,10 @@ var OrderFabricComponent = /** @class */ (function () {
             'orderNumber': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required])),
             'orderFabricCode': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required])),
             'orderFabric': new forms_1.FormGroup({
-                "fabricName": new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required])),
-                "fabricWeight": new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required])),
-                "fabricType": new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required])),
-                "fabricCode": new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required]))
+                'fabricName': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required])),
+                'fabricWeight': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required])),
+                'fabricType': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required])),
+                'fabricCode': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required]))
             }),
             'orderFabricCount': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required])),
             'orderFabricConstruction': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required])),
@@ -70,7 +70,7 @@ var OrderFabricComponent = /** @class */ (function () {
         this.getFabricLists();
         this.getTreatmentLists();
         this.myOrderFabricForm.controls['orderNumber'].setValue(this.params.orderNumber);
-        if (this.params.action == 'edit') {
+        if (this.params.action === 'edit') {
             this.orderService.findOrderFabric(this.params.id)
                 .subscribe(function (res) {
                 // console.log('findOrderFabric','this.edit', res);
@@ -87,7 +87,7 @@ var OrderFabricComponent = /** @class */ (function () {
                 _this.myOrderFabricForm.controls['treatmentDescription'].setValue(_this.edit.treatmentDescription);
                 _this.edit.orderFabricTreatment.forEach(function (item, index) {
                     // console.log(item, index);
-                    if (index == (_this.edit.orderFabricTreatment.length - 1)) {
+                    if (index === (_this.edit.orderFabricTreatment.length - 1)) {
                         _this.myOrderFabricForm.controls['orderFabricTreatment'].setValue(_this.edit.orderFabricTreatment);
                     }
                     if (index <= (_this.edit.orderFabricTreatment.length - 2)) {
@@ -102,10 +102,10 @@ var OrderFabricComponent = /** @class */ (function () {
         this.orderFabricId.valueChanges
             .subscribe(function (term) {
             _this.orderFabric = {
-                "fabricName": JSON.parse(term).fabricName,
-                "fabricWeight": JSON.parse(term).fabricWeight,
-                "fabricType": JSON.parse(term).fabricType,
-                "fabricCode": JSON.parse(term).fabricCode
+                'fabricName': JSON.parse(term).fabricName,
+                'fabricWeight': JSON.parse(term).fabricWeight,
+                'fabricType': JSON.parse(term).fabricType,
+                'fabricCode': JSON.parse(term).fabricCode
             };
             // console.log('this.orderFabric', this.orderFabric)
             // console.log('this.orderFabric', this.orderFabric)
@@ -128,7 +128,7 @@ var OrderFabricComponent = /** @class */ (function () {
         this.myOrderFabricForm.disable();
         this.loading = 'postFabric';
         // console.log('addOrderFabric',this.orderDetails, orderFabric);
-        if (this.params.action == 'add') {
+        if (this.params.action === 'add') {
             this.orderService.postOrderFabric(this.orderDetails, orderFabric)
                 .subscribe(function (res) {
                 _this.loading = '';
@@ -144,7 +144,7 @@ var OrderFabricComponent = /** @class */ (function () {
                 // console.log('addOrderFabricResponse', err);
             });
         }
-        else if (this.params.action == 'edit') {
+        else if (this.params.action === 'edit') {
             this.orderService.putOrderFabric(this.edit.id, orderFabric)
                 .subscribe(function (res) {
                 _this.loading = '';
@@ -213,7 +213,7 @@ var OrderFabricComponent = /** @class */ (function () {
             files: file
         }).subscribe(function (event) {
             if (event.status === ngxf_uploader_1.UploadStatus.Uploading) {
-                _this.uploadStatus.inference = "Uploading ...";
+                _this.uploadStatus.inference = 'Uploading ...';
                 _this.uploadStatus.percentage = event.percent;
                 // console.log(event.percent);
             }
@@ -221,10 +221,10 @@ var OrderFabricComponent = /** @class */ (function () {
                 // console.log(event);
             }
         }, function (err) {
-            _this.uploadStatus.inference = "Upload Failed";
+            _this.uploadStatus.inference = 'Upload Failed';
             // console.log(err);
         }, function () {
-            _this.uploadStatus.inference = "Successfully Uploaded";
+            _this.uploadStatus.inference = 'Successfully Uploaded';
             // console.log('complete');
         });
     };
@@ -259,14 +259,14 @@ var OrderFabricComponent = /** @class */ (function () {
             filesKey: ['MMSUploadFile'],
             process: true
         }).subscribe(function (event) {
-            _this.uploadStatus.inference = "Uploading";
+            _this.uploadStatus.inference = 'Uploading';
             _this.uploadStatus.percentage = event.percent;
             // console.log(event);
         }, function (err) {
-            _this.uploadStatus.inference = "Upload Failed";
+            _this.uploadStatus.inference = 'Upload Failed';
             // console.log(err);
         }, function () {
-            _this.uploadStatus.inference = "Successfully Uploaded";
+            _this.uploadStatus.inference = 'Successfully Uploaded';
             _this.myOrderFabricForm.controls['orderFabricSample'].setValue(_this.orderFabricSamples);
             // console.log('complete');
         });
@@ -303,7 +303,7 @@ var OrderFabricComponent = /** @class */ (function () {
             // Start reading this file
             this.readFile(files[index], reader, function (result) {
                 // Create an img element and add the image file data to it
-                var img = document.createElement("img");
+                var img = document.createElement('img');
                 img.src = result;
                 // Send this img to the resize function (and wait for callback)
                 // Send this img to the resize function (and wait for callback)
@@ -317,7 +317,7 @@ var OrderFabricComponent = /** @class */ (function () {
                     // base64 string or img.src = resized_jpeg if you prefer a file).
                     // Add the resized jpeg img source to a list for preview
                     // This is also the file you want to upload. (either as a
-                    // base64 string or img.src = resized_jpeg if you prefer a file). 
+                    // base64 string or img.src = resized_jpeg if you prefer a file).
                     _this.file_srcs.push(resized_jpeg);
                     // Read the next file;
                     // Read the next file;
@@ -333,7 +333,7 @@ var OrderFabricComponent = /** @class */ (function () {
     OrderFabricComponent.prototype.resize = function (img, MAX_WIDTH, MAX_HEIGHT, callback) {
         // This will wait until the img is loaded before calling this function
         return img.onload = function () {
-            // console.log("img loaded");
+            // console.log('img loaded');
             // Get the images current width and height
             var width = img.width;
             var height = img.height;
@@ -351,11 +351,11 @@ var OrderFabricComponent = /** @class */ (function () {
                 }
             }
             // create a canvas object
-            var canvas = document.createElement("canvas");
+            var canvas = document.createElement('canvas');
             // Set the canvas to the new calculated dimensions
             canvas.width = width;
             canvas.height = height;
-            var ctx = canvas.getContext("2d");
+            var ctx = canvas.getContext('2d');
             ctx.drawImage(img, 0, 0, width, height);
             // Get this encoded as a jpeg
             // IMPORTANT: 'jpeg' NOT 'jpg'

@@ -29,20 +29,20 @@ var PresetsVendorContactsFormComponent = /** @class */ (function () {
         };
         this.presetsService.getMaster('vendor', this.params.code)
             .subscribe(function (res) {
-            //console.log('getMasterVendor', res);
-            //console.log('getMasterVendor', res);
+            // console.log('getMasterVendor', res);
+            // console.log('getMasterVendor', res);
             _this.aVendor = res;
             _this.myVendorContactForm.controls['vendorId'].setValue(_this.aVendor.id);
             _this.myVendorContactForm.controls['vendorCode'].setValue(_this.aVendor.vendorCode);
         }, function (err) {
-            //console.log('getMasterVendor', err);
+            // console.log('getMasterVendor', err);
         });
         this.myBreadCrumb.crumbs = [
-            { "menu": "Presets", "routerLink": "/presets" },
-            { "menu": "Vendors", "routerLink": "/presets/vendors" },
-            { "menu": this.params.code, "routerLink": "/presets/vendors" }
+            { 'menu': 'Presets', 'routerLink': '/presets' },
+            { 'menu': 'Vendors', 'routerLink': '/presets/vendors' },
+            { 'menu': this.params.code, 'routerLink': '/presets/vendors' }
         ];
-        this.myBreadCrumb.active = (this.aRoute.snapshot.paramMap.get('action') == 'add') ? 'Add Vendor Contact' : 'Edit ' + this.aRoute.snapshot.paramMap.get('id');
+        this.myBreadCrumb.active = (this.aRoute.snapshot.paramMap.get('action') === 'add') ? 'Add Vendor Contact' : 'Edit ' + this.aRoute.snapshot.paramMap.get('id');
     }
     PresetsVendorContactsFormComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -65,20 +65,20 @@ var PresetsVendorContactsFormComponent = /** @class */ (function () {
         });
         switch (this.params.action) {
             case 'add':
-                //console.log('ADD');
+                // console.log('ADD');
                 break;
             case 'edit':
-                //console.log('intiatedEdit');
+                // console.log('intiatedEdit');
                 this.presetsService.getMaster('vendorContact', this.params.id)
                     .subscribe(function (res) {
-                    //console.log('getMasterVendor', res);
+                    // console.log('getMasterVendor', res);
                     delete res['createdDate'];
                     delete res['createdBy'];
                     delete res['lastModifiedDate'];
                     delete res['lastModifiedBy'];
                     _this.myVendorContactForm.setValue(res);
                 }, function (err) {
-                    //console.log('getMasterVendor', err);
+                    // console.log('getMasterVendor', err);
                 });
                 break;
             default:

@@ -27,20 +27,20 @@ var PresetsBuyerContactsFormComponent = /** @class */ (function () {
         };
         this.presetsService.getMaster('buyer', this.params.code)
             .subscribe(function (res) {
-            //console.log('getMasterBuyer', res);
-            //console.log('getMasterBuyer', res);
+            // console.log('getMasterBuyer', res);
+            // console.log('getMasterBuyer', res);
             _this.aBuyer = res;
             _this.myBuyerContactForm.controls.buyerId.setValue(_this.aBuyer.id);
             _this.myBuyerContactForm.controls.buyerCode.setValue(_this.aBuyer.buyerCode);
         }, function (err) {
-            //console.log('getMasterBuyer', err);
+            // console.log('getMasterBuyer', err);
         });
         this.myBreadCrumb.crumbs = [
-            { "menu": "Presets", "routerLink": "/presets" },
-            { "menu": "Buyers", "routerLink": "/presets/buyers" },
-            { "menu": this.params.code, "routerLink": "/presets/buyers" }
+            { 'menu': 'Presets', 'routerLink': '/presets' },
+            { 'menu': 'Buyers', 'routerLink': '/presets/buyers' },
+            { 'menu': this.params.code, 'routerLink': '/presets/buyers' }
         ];
-        this.myBreadCrumb.active = (this.aRoute.snapshot.paramMap.get('action') == 'add') ? 'Add Buyer Contact' : 'Edit ' + this.aRoute.snapshot.paramMap.get('id');
+        this.myBreadCrumb.active = (this.aRoute.snapshot.paramMap.get('action') === 'add') ? 'Add Buyer Contact' : 'Edit ' + this.aRoute.snapshot.paramMap.get('id');
     }
     PresetsBuyerContactsFormComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -63,20 +63,20 @@ var PresetsBuyerContactsFormComponent = /** @class */ (function () {
         });
         switch (this.params.action) {
             case 'add':
-                //console.log('add');
+                // console.log('add');
                 break;
             case 'edit':
-                //console.log('intiatedEdit');
+                // console.log('intiatedEdit');
                 this.presetsService.getMaster('buyerContact', this.params.id)
                     .subscribe(function (res) {
-                    //console.log('getMasterBuyer', res);
+                    // console.log('getMasterBuyer', res);
                     delete res['createdDate'];
                     delete res['createdBy'];
                     delete res['lastModifiedDate'];
                     delete res['lastModifiedBy'];
                     _this.myBuyerContactForm.setValue(res);
                 }, function (err) {
-                    //console.log('getMasterBuyer', err);
+                    // console.log('getMasterBuyer', err);
                 });
                 break;
             default:

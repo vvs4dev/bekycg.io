@@ -23,29 +23,29 @@ var OrderJobComponent = /** @class */ (function () {
         this.params = {};
         this.edit = {};
         this.params = {
-            "action": this.aRoute.snapshot.paramMap.get('action'),
-            "orderNumber": this.aRoute.snapshot.paramMap.get('orderNumber'),
-            "id": this.aRoute.snapshot.paramMap.get('id'),
+            'action': this.aRoute.snapshot.paramMap.get('action'),
+            'orderNumber': this.aRoute.snapshot.paramMap.get('orderNumber'),
+            'id': this.aRoute.snapshot.paramMap.get('id'),
         };
         this.myBreadCrumb.crumbs = [
-            { "menu": "Orders", "routerLink": "/orders" },
-            { "menu": this.params.orderNumber, "routerLink": "/orders" },
+            { 'menu': 'Orders', 'routerLink': '/orders' },
+            { 'menu': this.params.orderNumber, 'routerLink': '/orders' },
         ];
-        this.myBreadCrumb.active = (this.aRoute.snapshot.paramMap.get('action') == 'add') ? 'Add Job' : 'Edit Job';
+        this.myBreadCrumb.active = (this.aRoute.snapshot.paramMap.get('action') === 'add') ? 'Add Job' : 'Edit Job';
     }
     OrderJobComponent.prototype.ngOnInit = function () {
         var _this = this;
         // Form Settings
         this.myOrderJobForm = new forms_1.FormGroup({
-            "orderNumber": new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required])),
-            "orderJobCode": new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required])),
-            "orderJobName": new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required])),
-            "orderJobDescription": new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required])),
-            "orderJobCost": new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required]))
+            'orderNumber': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required])),
+            'orderJobCode': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required])),
+            'orderJobName': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required])),
+            'orderJobDescription': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required])),
+            'orderJobCost': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required]))
         });
         // console.log('params', this.params);
         this.myOrderJobForm.controls['orderNumber'].setValue(this.params.orderNumber);
-        if (this.params.action == 'edit') {
+        if (this.params.action === 'edit') {
             this.orderService.findOrderJob(this.params.id)
                 .subscribe(function (res) {
                 // console.log('findOrderJob','this.edit', res);
@@ -84,7 +84,7 @@ var OrderJobComponent = /** @class */ (function () {
         this.myOrderJobForm.disable();
         this.loading = true;
         // console.log('addOrderJob',orderJob);
-        if (this.params.action == 'add') {
+        if (this.params.action === 'add') {
             this.orderService.postOrderJob(orderJob)
                 .subscribe(function (res) {
                 _this.loading = false;
@@ -99,7 +99,7 @@ var OrderJobComponent = /** @class */ (function () {
                 // console.log('addorderJobResponse', err);
             });
         }
-        else if (this.params.action == 'edit') {
+        else if (this.params.action === 'edit') {
             this.orderService.putOrderJob(this.edit.id, orderJob)
                 .subscribe(function (res) {
                 _this.loading = false;

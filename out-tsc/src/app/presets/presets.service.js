@@ -187,11 +187,11 @@ var PresetsService = /** @class */ (function () {
     };
     PresetsService.prototype.updateBuyer = function (action, buyer) {
         // console.log('buyer', buyer);
-        if (action == 'edit') {
+        if (action === 'edit') {
             // console.log('Put');
             return this.http.put(this.appConfig.apiEndpoint + '/masterbuyer', buyer);
         }
-        else if (action == 'add') {
+        else if (action === 'add') {
             // console.log('Post');
             return this.http.post(this.appConfig.apiEndpoint + '/masterbuyer', buyer);
         }
@@ -204,11 +204,11 @@ var PresetsService = /** @class */ (function () {
     };
     PresetsService.prototype.postBuyerContact = function (action, buyerContact) {
         // console.log('buyerContact', buyerContact);
-        if (action == 'edit') {
+        if (action === 'edit') {
             // console.log('Put');
             return this.http.put(this.appConfig.apiEndpoint + '/masterbuyercontact', buyerContact);
         }
-        else if (action == 'add') {
+        else if (action === 'add') {
             // console.log('Post');
             return this.http.post(this.appConfig.apiEndpoint + '/masterbuyercontact', buyerContact);
         }
@@ -228,11 +228,11 @@ var PresetsService = /** @class */ (function () {
     };
     PresetsService.prototype.updateVendor = function (action, vendor) {
         // console.log('vendor', vendor);
-        if (action == 'edit') {
+        if (action === 'edit') {
             // console.log('Put');
             return this.http.put(this.appConfig.apiEndpoint + '/mastervendor', vendor);
         }
-        else if (action == 'add') {
+        else if (action === 'add') {
             // console.log('Post');
             return this.http.post(this.appConfig.apiEndpoint + '/mastervendor', vendor);
         }
@@ -245,11 +245,11 @@ var PresetsService = /** @class */ (function () {
     };
     PresetsService.prototype.postVendorContact = function (action, vendorContact) {
         // console.log('vendorContact', vendorContact);
-        if (action == 'edit') {
+        if (action === 'edit') {
             // console.log('Put');
             return this.http.put(this.appConfig.apiEndpoint + '/mastervendorcontact', vendorContact);
         }
-        else if (action == 'add') {
+        else if (action === 'add') {
             // console.log('Post');
             return this.http.post(this.appConfig.apiEndpoint + '/mastervendorcontact', vendorContact);
         }

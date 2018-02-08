@@ -23,17 +23,17 @@ var OrderPackersComponent = /** @class */ (function () {
         this.orderDetails = {};
         this.params = {};
         this.params = {
-            "action": this.aRoute.snapshot.paramMap.get('action'),
-            "orderNumber": this.aRoute.snapshot.paramMap.get('orderNumber'),
-            "id": this.aRoute.snapshot.paramMap.get('id')
+            'action': this.aRoute.snapshot.paramMap.get('action'),
+            'orderNumber': this.aRoute.snapshot.paramMap.get('orderNumber'),
+            'id': this.aRoute.snapshot.paramMap.get('id')
         };
         // console.log('params', this.params);
         this.findOrderNumber(this.params.orderNumber);
         this.myBreadCrumb.crumbs = [
-            { "menu": "Orders", "routerLink": "/orders" },
-            { "menu": this.params.orderNumber, "routerLink": "/orders" },
+            { 'menu': 'Orders', 'routerLink': '/orders' },
+            { 'menu': this.params.orderNumber, 'routerLink': '/orders' },
         ];
-        this.myBreadCrumb.active = (this.aRoute.snapshot.paramMap.get('action') == 'add') ? 'Add Packer' : 'Edit Packer';
+        this.myBreadCrumb.active = (this.aRoute.snapshot.paramMap.get('action') === 'add') ? 'Add Packer' : 'Edit Packer';
     }
     OrderPackersComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -49,7 +49,7 @@ var OrderPackersComponent = /** @class */ (function () {
             'orderPackerQuantityRequiredPerPiece': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required]))
         });
         this.myOrderPackersForm.controls['orderNumber'].setValue(this.params.orderNumber);
-        if (this.params.action == 'edit') {
+        if (this.params.action === 'edit') {
             this.orderService.findOrderPackers(this.params.id)
                 .subscribe(function (res) {
                 // console.log('findOrderPackers','this.edit', res);
@@ -102,7 +102,7 @@ var OrderPackersComponent = /** @class */ (function () {
         this.myOrderPackersForm.disable();
         this.loading = true;
         // console.log('addOrderPackers',orderPackers);
-        if (this.params.action == 'add') {
+        if (this.params.action === 'add') {
             this.orderService.postOrderPackers(this.orderDetails.id, orderPackers)
                 .subscribe(function (res) {
                 _this.loading = false;
@@ -117,7 +117,7 @@ var OrderPackersComponent = /** @class */ (function () {
                 // console.log('addOrderPackersResponse', err);
             });
         }
-        else if (this.params.action == 'edit') {
+        else if (this.params.action === 'edit') {
             this.orderService.putOrderPackers(this.edit.id, orderPackers)
                 .subscribe(function (res) {
                 _this.loading = false;

@@ -22,8 +22,8 @@ var SettingsCompanyComponent = /** @class */ (function () {
         this.resOrganisation = {};
         this.organisationName = { 'available': true };
         this.myBreadCrumb = [
-            { "menu": "Home", "routerLink": "/" },
-            { "menu": "Settings", "routerLink": "/Organisations" }
+            { 'menu': 'Home', 'routerLink': '/' },
+            { 'menu': 'Settings', 'routerLink': '/Organisations' }
         ];
     }
     SettingsCompanyComponent.prototype.ngOnInit = function () {
@@ -49,7 +49,7 @@ var SettingsCompanyComponent = /** @class */ (function () {
             'id': this.aRoute.snapshot.paramMap.get('id')
         };
         console.log('this.params', this.params);
-        if (this.params.action == 'edit') {
+        if (this.params.action === 'edit') {
             this.settingsService.findOrganisation(this.params.id)
                 .subscribe(function (res) {
                 console.log('findOrganisation', 'this.edit', res[0]);
@@ -70,7 +70,7 @@ var SettingsCompanyComponent = /** @class */ (function () {
         var code = name.replace(/\s\s+/g, ' ');
         code = code.replace(/\s+$/, '');
         code = code.split(' ').join('-');
-        console.log('name', name, '======  code', code);
+        console.log('name', name, '=========  code', code);
         this.settingsService.checkOrganisationExistance(code)
             .subscribe(function (res) {
             console.log('res', res);
@@ -86,7 +86,7 @@ var SettingsCompanyComponent = /** @class */ (function () {
         console.log('organisation', organisation);
         this.myOrganisationForm.disable();
         this.loading = 'postOrganisation';
-        if (this.params.action == 'add') {
+        if (this.params.action === 'add') {
             delete organisation['id'];
             this.settingsService.postOrganisation(organisation)
                 .subscribe(function (res) {
@@ -104,7 +104,7 @@ var SettingsCompanyComponent = /** @class */ (function () {
                 console.log('addOrganisationResponse', err);
             });
         }
-        else if (this.params.action == 'edit') {
+        else if (this.params.action === 'edit') {
             this.settingsService.updateOrganisation(organisation)
                 .subscribe(function (res) {
                 _this.loading = '';

@@ -21,7 +21,7 @@ var PresetsComponent = /** @class */ (function () {
         this.master.items = [];
         this.master.res = {};
         this.master.count = [];
-        this.master.items = ["buyer", "vendor", "style", "fabric", "treatment", "job", "accessory", "packer"];
+        this.master.items = ['buyer', 'vendor', 'style', 'fabric', 'treatment', 'job', 'accessory', 'packer'];
     }
     PresetsComponent.prototype.ngOnInit = function () {
         this.countMasters();
@@ -113,7 +113,7 @@ var PresetsComponent = /** @class */ (function () {
                 _this.master.count.push(_this.master.res.val);
                 // // console.log('masterVal', 'element', this.masterVal);
             }, function (err) {
-                _this.alertService.error("Error Fetching Data");
+                _this.alertService.error('Error Fetching Data');
                 // // console.log('element',element, 'error', err)
             });
         });

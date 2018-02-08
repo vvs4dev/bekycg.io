@@ -22,10 +22,10 @@ var SettingsDepartmentComponent = /** @class */ (function () {
         this.resDepartment = {};
         this.organisationName = { 'available': true };
         this.myBreadCrumb = [
-            { "menu": "Home", "routerLink": "/" },
-            { "menu": "Settings", "routerLink": "/settings" },
-            { "menu": this.aRoute.snapshot.paramMap.get('company'), "routerLink": "/settings" },
-            { "menu": this.aRoute.snapshot.paramMap.get('branch'), "routerLink": "/Organisation" },
+            { 'menu': 'Home', 'routerLink': '/' },
+            { 'menu': 'Settings', 'routerLink': '/settings' },
+            { 'menu': this.aRoute.snapshot.paramMap.get('company'), 'routerLink': '/settings' },
+            { 'menu': this.aRoute.snapshot.paramMap.get('branch'), 'routerLink': '/Organisation' },
         ];
     }
     SettingsDepartmentComponent.prototype.ngOnInit = function () {
@@ -52,15 +52,15 @@ var SettingsDepartmentComponent = /** @class */ (function () {
             .subscribe(function (res) {
             console.log('checkBranchExistanceResponse', res);
             _this.params.res = res;
-            if (_this.params.res.available == true) {
+            if (_this.params.res.available === true) {
                 _this.alert.error('No Organisation available with request Data');
                 setTimeout(function () { _this.router.navigate(['/settings']); }, 4000);
             }
-            else if (_this.params.res.available == false) {
-                if (_this.params.company != _this.params.res.organisationCode) {
+            else if (_this.params.res.available === false) {
+                if (_this.params.company !== _this.params.res.organisationCode) {
                     _this.alert.error(_this.params.branch + ' is not a branch of ' + _this.params.company);
                 }
-                else if ((_this.params.company == _this.params.res.organisationCode)) {
+                else if ((_this.params.company === _this.params.res.organisationCode)) {
                     _this.myOrganisationBranchDepartmentForm.controls['branchCode'].setValue(_this.params.res.branchCode);
                     _this.myOrganisationBranchDepartmentForm.controls['branchId'].setValue(_this.params.res.branchId);
                     _this.myOrganisationBranchDepartmentForm.controls['organisationCode'].setValue(_this.params.res.organisationCode);
@@ -70,7 +70,7 @@ var SettingsDepartmentComponent = /** @class */ (function () {
         }, function (err) {
             console.log('checkBranchExistanceResponse', err);
         });
-        if (this.params.action == 'edit') {
+        if (this.params.action === 'edit') {
             this.settingsService.findDepartment(this.params.id)
                 .subscribe(function (res) {
                 console.log('findBranch', 'this.edit', res[0]);
@@ -91,7 +91,7 @@ var SettingsDepartmentComponent = /** @class */ (function () {
         console.log('department', department);
         this.myOrganisationBranchDepartmentForm.disable();
         this.loading = 'postDepartment';
-        if (this.params.action == 'add') {
+        if (this.params.action === 'add') {
             delete department['id'];
             this.settingsService.postDepartment(department)
                 .subscribe(function (res) {
@@ -109,7 +109,7 @@ var SettingsDepartmentComponent = /** @class */ (function () {
                 console.log('addDepartmentResponse', err);
             });
         }
-        else if (this.params.action == 'edit') {
+        else if (this.params.action === 'edit') {
             this.settingsService.updateDepartment(department)
                 .subscribe(function (res) {
                 _this.loading = '';

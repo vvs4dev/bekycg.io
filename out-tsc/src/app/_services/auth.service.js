@@ -56,7 +56,7 @@ var AuthService = /** @class */ (function () {
         });
     };
     AuthService.prototype.unsetMe = function () {
-        console.log("unsetMe");
+        console.log('unsetMe');
         localStorage.removeItem('me');
     };
     AuthService.decorators = [

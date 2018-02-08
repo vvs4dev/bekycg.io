@@ -24,7 +24,7 @@ var PresetsTreatmentsComponent = /** @class */ (function () {
         // paged items
         this.pagedTreatmentItems = [];
         this.myBreadCrumb.crumbs = [
-            { "menu": "Presets", "routerLink": "/presets" }
+            { 'menu': 'Presets', 'routerLink': '/presets' }
         ];
         this.myBreadCrumb.active = 'Special Treatments';
         this.noOfItemsinPage = 5;

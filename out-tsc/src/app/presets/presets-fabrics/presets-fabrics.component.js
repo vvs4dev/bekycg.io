@@ -24,7 +24,7 @@ var PresetsFabricsComponent = /** @class */ (function () {
         // paged items
         this.pagedFabricItems = [];
         this.myBreadCrumb.crumbs = [
-            { "menu": "Presets", "routerLink": "/presets" }
+            { 'menu': 'Presets', 'routerLink': '/presets' }
         ];
         this.myBreadCrumb.active = 'Fabrics';
         this.noOfItemsinPage = 5;

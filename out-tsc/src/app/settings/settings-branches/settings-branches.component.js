@@ -22,9 +22,9 @@ var SettingsBranchesComponent = /** @class */ (function () {
         this.resBranch = {};
         this.organisationBranchName = { 'available': true };
         this.myBreadCrumb = [
-            { "menu": "Home", "routerLink": "/" },
-            { "menu": "Settings", "routerLink": "/settings" },
-            { "menu": this.aRoute.snapshot.paramMap.get('company'), "routerLink": "/Organisation" },
+            { 'menu': 'Home', 'routerLink': '/' },
+            { 'menu': 'Settings', 'routerLink': '/settings' },
+            { 'menu': this.aRoute.snapshot.paramMap.get('company'), 'routerLink': '/Organisation' },
         ];
     }
     SettingsBranchesComponent.prototype.ngOnInit = function () {
@@ -55,18 +55,18 @@ var SettingsBranchesComponent = /** @class */ (function () {
             .subscribe(function (res) {
             console.log('checkOrganisationExistanceResponse', res);
             _this.params.res = res;
-            if (_this.params.res.available == true) {
+            if (_this.params.res.available === true) {
                 _this.alert.error('No Organisation available with request Data');
                 setTimeout(function () { _this.router.navigate(['/settings']); }, 4000);
             }
-            else if (_this.params.res.available == false) {
+            else if (_this.params.res.available === false) {
                 _this.myOrganisationBranchForm.controls['organisationCode'].setValue(_this.params.company);
                 _this.myOrganisationBranchForm.controls['organisationId'].setValue(_this.params.res.id);
             }
         }, function (err) {
             console.log('checkOrganisationExistanceResponse', err);
         });
-        if (this.params.action == 'edit') {
+        if (this.params.action === 'edit') {
             this.settingsService.findBranch(this.params.id)
                 .subscribe(function (res) {
                 console.log('findBranch', 'this.edit', res[0]);
@@ -87,7 +87,7 @@ var SettingsBranchesComponent = /** @class */ (function () {
         var code = name.replace(/\s\s+/g, ' ');
         code = code.replace(/\s+$/, '');
         code = code.split(' ').join('-');
-        console.log('name', name, '======  code', code);
+        console.log('name', name, '=========  code', code);
         this.settingsService.checkBranchExistance(code)
             .subscribe(function (res) {
             console.log('res', res);
@@ -103,7 +103,7 @@ var SettingsBranchesComponent = /** @class */ (function () {
         console.log('branch', branch);
         this.myOrganisationBranchForm.disable();
         this.loading = 'postBranch';
-        if (this.params.action == 'add') {
+        if (this.params.action === 'add') {
             delete branch['id'];
             this.settingsService.postBranch(branch)
                 .subscribe(function (res) {
@@ -121,7 +121,7 @@ var SettingsBranchesComponent = /** @class */ (function () {
                 console.log('addBranchResponse', err);
             });
         }
-        else if (this.params.action == 'edit') {
+        else if (this.params.action === 'edit') {
             this.settingsService.updateBranch(branch)
                 .subscribe(function (res) {
                 _this.loading = '';

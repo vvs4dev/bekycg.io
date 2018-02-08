@@ -20,10 +20,10 @@ var PresetsBuyersFormComponent = /** @class */ (function () {
         this.aBuyer = {};
         this.params = {};
         this.myBreadCrumb.crumbs = [
-            { "menu": "Presets", "routerLink": "/presets" },
-            { "menu": "Buyers", "routerLink": "/presets/buyers" }
+            { 'menu': 'Presets', 'routerLink': '/presets' },
+            { 'menu': 'Buyers', 'routerLink': '/presets/buyers' }
         ];
-        this.myBreadCrumb.active = (this.aRoute.snapshot.paramMap.get('action') == 'add') ? 'Add Buyer' : 'Edit ' + this.aRoute.snapshot.paramMap.get('id');
+        this.myBreadCrumb.active = (this.aRoute.snapshot.paramMap.get('action') === 'add') ? 'Add Buyer' : 'Edit ' + this.aRoute.snapshot.paramMap.get('id');
     }
     PresetsBuyersFormComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -41,21 +41,21 @@ var PresetsBuyersFormComponent = /** @class */ (function () {
         this.aBuyer.validation = {};
         switch (this.params.action) {
             case 'edit':
-                //console.log('intiatedEdit');
+                // console.log('intiatedEdit');
                 this.presetsService.getMaster('buyer', this.params.id)
                     .subscribe(function (res) {
-                    //console.log('getMasterBuyer', res);
+                    // console.log('getMasterBuyer', res);
                     delete res['createdDate'];
                     delete res['createdBy'];
                     delete res['lastModifiedDate'];
                     delete res['lastModifiedBy'];
                     _this.myBuyerForm.setValue(res);
                 }, function (err) {
-                    //console.log('getMasterBuyer', err);
+                    // console.log('getMasterBuyer', err);
                 });
                 break;
             case 'add':
-                //console.log('Add');
+                // console.log('Add');
                 break;
             default:
                 this.router.navigate(['/']);
@@ -88,11 +88,11 @@ var PresetsBuyersFormComponent = /** @class */ (function () {
             // console.log('postBuyer-Response', res);
             // console.log('postBuyer-Response', res);
             _this.loading = '';
-            if (_this.params.action == 'add') {
+            if (_this.params.action === 'add') {
                 _this.alert.success('Buyer Created Successfully, You will be redirected to add buyer contact');
                 setTimeout(function () { _this.router.navigate(['/presets/buyer/' + buyer.buyerCode + '/contacts/add/new']); }, 4000);
             }
-            else if (_this.params.action == 'edit') {
+            else if (_this.params.action === 'edit') {
                 _this.alert.success('Buyer Updated Successfully, You will be redirected to buyers');
                 setTimeout(function () { _this.router.navigate(['/presets/buyers']); }, 4000);
             }

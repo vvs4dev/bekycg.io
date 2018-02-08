@@ -24,7 +24,7 @@ var PresetsPackersComponent = /** @class */ (function () {
         // paged items
         this.pagedPackerItems = [];
         this.myBreadCrumb.crumbs = [
-            { "menu": "Presets", "routerLink": "/presets" }
+            { 'menu': 'Presets', 'routerLink': '/presets' }
         ];
         this.myBreadCrumb.active = 'Packing Materials';
         this.noOfItemsinPage = 5;

@@ -23,17 +23,17 @@ var OrderAccessoriesComponent = /** @class */ (function () {
         this.params = {};
         this.orderDetails = {};
         this.params = {
-            "action": this.aRoute.snapshot.paramMap.get('action'),
-            "orderNumber": this.aRoute.snapshot.paramMap.get('orderNumber'),
-            "id": this.aRoute.snapshot.paramMap.get('id')
+            'action': this.aRoute.snapshot.paramMap.get('action'),
+            'orderNumber': this.aRoute.snapshot.paramMap.get('orderNumber'),
+            'id': this.aRoute.snapshot.paramMap.get('id')
         };
         // console.log('params', this.params);
         this.findOrderNumber(this.params.orderNumber);
         this.myBreadCrumb.crumbs = [
-            { "menu": "Orders", "routerLink": "/orders" },
-            { "menu": this.params.orderNumber, "routerLink": "/orders" },
+            { 'menu': 'Orders', 'routerLink': '/orders' },
+            { 'menu': this.params.orderNumber, 'routerLink': '/orders' },
         ];
-        this.myBreadCrumb.active = (this.aRoute.snapshot.paramMap.get('action') == 'add') ? 'Add Accessory' : 'Edit Accessory';
+        this.myBreadCrumb.active = (this.aRoute.snapshot.paramMap.get('action') === 'add') ? 'Add Accessory' : 'Edit Accessory';
     }
     OrderAccessoriesComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -49,7 +49,7 @@ var OrderAccessoriesComponent = /** @class */ (function () {
             'orderAccessoryQuantityRequiredPerPiece': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required]))
         });
         this.myOrderAccessoriesForm.controls['orderNumber'].setValue(this.params.orderNumber);
-        if (this.params.action == 'edit') {
+        if (this.params.action === 'edit') {
             this.orderService.findOrderAccessories(this.params.id)
                 .subscribe(function (res) {
                 // console.log('findOrderPackers','this.edit', res);
@@ -102,7 +102,7 @@ var OrderAccessoriesComponent = /** @class */ (function () {
         this.myOrderAccessoriesForm.disable();
         this.loading = true;
         // console.log('addorderAccessories',orderAccessories);
-        if (this.params.action == 'add') {
+        if (this.params.action === 'add') {
             this.orderService.postOrderAccessories(this.orderDetails.id, orderAccessories)
                 .subscribe(function (res) {
                 _this.loading = false;
@@ -117,7 +117,7 @@ var OrderAccessoriesComponent = /** @class */ (function () {
                 // console.log('addOrderAccessoriesResponse', err);
             });
         }
-        else if (this.params.action == 'edit') {
+        else if (this.params.action === 'edit') {
             this.orderService.putOrderAccessories(this.edit.id, orderAccessories)
                 .subscribe(function (res) {
                 _this.loading = false;

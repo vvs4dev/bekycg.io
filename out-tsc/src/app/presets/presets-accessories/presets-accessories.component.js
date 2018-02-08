@@ -24,7 +24,7 @@ var PresetsAccessoriesComponent = /** @class */ (function () {
         // paged items
         this.pagedAccessories = [];
         this.myBreadCrumb.crumbs = [
-            { "menu": "Presets", "routerLink": "/presets" }
+            { 'menu': 'Presets', 'routerLink': '/presets' }
         ];
         this.myBreadCrumb.active = 'Accessories';
         this.noOfItemsinPage = 5;

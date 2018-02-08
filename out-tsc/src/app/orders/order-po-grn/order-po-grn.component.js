@@ -31,10 +31,10 @@ var OrderPoGrnComponent = /** @class */ (function () {
         this.poGRNNumberExists.res = {};
         this.poGRNNumberExists.status = false;
         this.myBreadCrumb.crumbs = [
-            { "menu": "Orders", "routerLink": "/orders" },
-            { "menu": this.aRoute.snapshot.paramMap.get('orderNumber'), "routerLink": "" }
+            { 'menu': 'Orders', 'routerLink': '/orders' },
+            { 'menu': this.aRoute.snapshot.paramMap.get('orderNumber'), 'routerLink': '' }
         ];
-        this.myBreadCrumb.active = (this.aRoute.snapshot.paramMap.get('action') == 'add') ? 'New GRN' : 'Edit GRN';
+        this.myBreadCrumb.active = (this.aRoute.snapshot.paramMap.get('action') === 'add') ? 'New GRN' : 'Edit GRN';
         this.setaPO = new forms_1.FormControl();
         this.setaPO.valueChanges
             .subscribe(function (po) {
@@ -86,9 +86,9 @@ var OrderPoGrnComponent = /** @class */ (function () {
             'status': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required]))
         });
         this.params = {
-            "action": this.aRoute.snapshot.paramMap.get('action'),
-            "orderNumber": this.aRoute.snapshot.paramMap.get('orderNumber'),
-            "id": this.aRoute.snapshot.paramMap.get('id')
+            'action': this.aRoute.snapshot.paramMap.get('action'),
+            'orderNumber': this.aRoute.snapshot.paramMap.get('orderNumber'),
+            'id': this.aRoute.snapshot.paramMap.get('id')
         };
         this.myOrderPoGrnForm.controls['GRNDate'].setValue(this.orderService.formatDate(this.today));
         this.findOrderNumber(this.params.orderNumber);
@@ -124,11 +124,11 @@ var OrderPoGrnComponent = /** @class */ (function () {
         var _this = this;
         this.orderService.getOrderPurchaseOrders(this.params.orderNumber)
             .subscribe(function (res) {
-            // console.log('getPurchaseOrders("ordered")',res);
-            // console.log('getPurchaseOrders("ordered")',res);
+            // console.log('getPurchaseOrders('ordered')',res);
+            // console.log('getPurchaseOrders('ordered')',res);
             _this.POsList = res;
         }, function (err) {
-            // console.log('getPurchaseOrders("ordered")',err);
+            // console.log('getPurchaseOrders('ordered')',err);
         });
     };
     OrderPoGrnComponent.prototype.prepareaPO = function () {
@@ -186,12 +186,12 @@ var OrderPoGrnComponent = /** @class */ (function () {
         // console.log('inputGRN', grn);
         var i = 0;
         grn.items.forEach(function (item, index) {
-            if (item.itemQuantity == item.itemQuantityAccepted) {
+            if (item.itemQuantity === item.itemQuantityAccepted) {
                 i++;
                 // console.log('i',i,index,'index',grn.items.length,'grn.items.length');
             }
-            if (index == grn.items.length - 1) {
-                if (i == grn.items.length) {
+            if (index === grn.items.length - 1) {
+                if (i === grn.items.length) {
                     grn.status = 'cleared';
                     // console.log('grnIfCleared', grn);
                     // console.log('grnIfCleared', grn);
@@ -200,7 +200,7 @@ var OrderPoGrnComponent = /** @class */ (function () {
                 else {
                     grn.status = 'substand';
                     // console.log('grnIfNotCleared', grn);
-                    // console.log('grnIfNotCleared', grn);              
+                    // console.log('grnIfNotCleared', grn);
                     _this.postGRN(grn);
                 }
             }

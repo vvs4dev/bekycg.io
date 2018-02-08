@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@angular/core");
 var Rx_1 = require("rxjs/Rx");
+var core_1 = require("@angular/core");
 var ng2_device_detector_1 = require("ng2-device-detector");
 // import { isReachable } from './../../node_modules/i'
 var AppComponent = /** @class */ (function () {

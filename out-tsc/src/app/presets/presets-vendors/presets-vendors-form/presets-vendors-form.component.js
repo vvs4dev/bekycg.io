@@ -22,10 +22,10 @@ var PresetsVendorsFormComponent = /** @class */ (function () {
         this.formConfig = {};
         this.params = {};
         this.myBreadCrumb.crumbs = [
-            { "menu": "Presets", "routerLink": "/presets" },
-            { "menu": "Vendors", "routerLink": "/presets/vendors" }
+            { 'menu': 'Presets', 'routerLink': '/presets' },
+            { 'menu': 'Vendors', 'routerLink': '/presets/vendors' }
         ];
-        this.myBreadCrumb.active = (this.aRoute.snapshot.paramMap.get('action') == 'add') ? 'Add Vendor' : 'Edit ' + this.aRoute.snapshot.paramMap.get('id');
+        this.myBreadCrumb.active = (this.aRoute.snapshot.paramMap.get('action') === 'add') ? 'Add Vendor' : 'Edit ' + this.aRoute.snapshot.paramMap.get('id');
     }
     PresetsVendorsFormComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -43,21 +43,21 @@ var PresetsVendorsFormComponent = /** @class */ (function () {
         this.aVendor.validation = {};
         switch (this.params.action) {
             case 'edit':
-                //console.log('intiatedEdit');
+                // console.log('intiatedEdit');
                 this.presetsService.getMaster('vendor', this.params.id)
                     .subscribe(function (res) {
-                    //console.log('getMasterBuyer', res);
+                    // console.log('getMasterBuyer', res);
                     delete res['createdDate'];
                     delete res['createdBy'];
                     delete res['lastModifiedDate'];
                     delete res['lastModifiedBy'];
                     _this.myVendorForm.setValue(res);
                 }, function (err) {
-                    //console.log('getMasterVendor', err);
+                    // console.log('getMasterVendor', err);
                 });
                 break;
             case 'add':
-                //console.log('add')
+                // console.log('add')
                 break;
             default:
                 this.router.navigate(['/']);
@@ -91,11 +91,11 @@ var PresetsVendorsFormComponent = /** @class */ (function () {
             // console.log('postVendor-Response', res);
             _this.loading = '';
             _this.presetsService.setActiveVendor(res);
-            if (_this.params.action == 'add') {
+            if (_this.params.action === 'add') {
                 _this.alert.success('Vendor Created Successfully, You will be redirected to add Vendor contact');
                 setTimeout(function () { _this.router.navigate(['/presets/vendor/' + vendor.vendorCode + '/contact/add/new']); }, 4000);
             }
-            else if (_this.params.action == 'edit') {
+            else if (_this.params.action === 'edit') {
                 _this.alert.success('Vendor Updated Successfully, You will be redirected to vendors');
                 setTimeout(function () { _this.router.navigate(['/presets/vendors']); }, 4000);
             }

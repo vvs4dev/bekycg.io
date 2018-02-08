@@ -21,7 +21,7 @@ var PresetsVendorsComponent = /** @class */ (function () {
         // paged items
         this.pagedVendorItems = [];
         this.myBreadCrumb.crumbs = [
-            { "menu": "Presets", "routerLink": "/presets" }
+            { 'menu': 'Presets', 'routerLink': '/presets' }
         ];
         this.myBreadCrumb.active = 'Vendors';
         this.noOfItemsinPage = 5;

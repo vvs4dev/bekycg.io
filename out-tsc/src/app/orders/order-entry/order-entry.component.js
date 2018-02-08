@@ -27,9 +27,9 @@ var OrderEntryComponent = /** @class */ (function () {
         this.orderDate = new Date();
         this.me = this.userService.getActiveUser().me;
         this.myBreadCrumb.crumbs = [
-            { "menu": "Orders", "routerLink": "/orders" }
+            { 'menu': 'Orders', 'routerLink': '/orders' }
         ];
-        this.myBreadCrumb.active = (this.aRoute.snapshot.paramMap.get('action') == 'add') ? 'New Order' : 'Edit Order';
+        this.myBreadCrumb.active = (this.aRoute.snapshot.paramMap.get('action') === 'add') ? 'New Order' : 'Edit Order';
     }
     OrderEntryComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -79,8 +79,8 @@ var OrderEntryComponent = /** @class */ (function () {
         this.buyerId.valueChanges
             .subscribe(function (term) {
             _this.buyer = {
-                "buyerCode": JSON.parse(term).buyerCode,
-                "buyerName": JSON.parse(term).buyerName
+                'buyerCode': JSON.parse(term).buyerCode,
+                'buyerName': JSON.parse(term).buyerName
             };
             // console.log('buyer', this.buyer);
             // console.log('buyer', this.buyer);
@@ -110,10 +110,10 @@ var OrderEntryComponent = /** @class */ (function () {
         this.orderStyleId.valueChanges
             .subscribe(function (term) {
             _this.orderStyle = {
-                "styleCode": JSON.parse(term).styleCode,
-                "styleName": JSON.parse(term).styleName,
-                "styleGender": JSON.parse(term).styleGender,
-                "styleDescription": JSON.parse(term).styleDescription
+                'styleCode': JSON.parse(term).styleCode,
+                'styleName': JSON.parse(term).styleName,
+                'styleGender': JSON.parse(term).styleGender,
+                'styleDescription': JSON.parse(term).styleDescription
             };
             // console.log('orderStyle', this.orderStyle);
             // console.log('orderStyle', this.orderStyle);
@@ -126,7 +126,7 @@ var OrderEntryComponent = /** @class */ (function () {
             'orderNumber': this.aRoute.snapshot.paramMap.get('orderNumber')
         };
         // console.log('this.params',this.params);
-        if (this.params.action == 'edit') {
+        if (this.params.action === 'edit') {
             this.orderService.findOrder(this.params.orderNumber)
                 .subscribe(function (res) {
                 // console.log('findOrder','this.edit', res);
@@ -164,7 +164,7 @@ var OrderEntryComponent = /** @class */ (function () {
         // this.myOrderEntryForm.disable();
         // this.loading = 'postOrder';
         // console.log('addOrderEntry',order);
-        if (this.params.action == 'add') {
+        if (this.params.action === 'add') {
             this.orderService.postOrder(order)
                 .subscribe(function (res) {
                 _this.loading = '';
@@ -184,7 +184,7 @@ var OrderEntryComponent = /** @class */ (function () {
                 // console.log('addOrderEntryResponse', err);
             });
         }
-        else if (this.params.action == 'edit') {
+        else if (this.params.action === 'edit') {
             this.orderService.putOrder(this.edit.id, order)
                 .subscribe(function (res) {
                 _this.loading = '';

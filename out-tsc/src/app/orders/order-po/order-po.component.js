@@ -40,10 +40,10 @@ var OrderPOComponent = /** @class */ (function () {
         this.today = new Date();
         this.itemsToLoad = [];
         this.myBreadCrumb.crumbs = [
-            { "menu": "Orders", "routerLink": "/orders" },
-            { "menu": this.aRoute.snapshot.paramMap.get('orderNumber'), "routerLink": "" }
+            { 'menu': 'Orders', 'routerLink': '/orders' },
+            { 'menu': this.aRoute.snapshot.paramMap.get('orderNumber'), 'routerLink': '' }
         ];
-        this.myBreadCrumb.active = (this.aRoute.snapshot.paramMap.get('action') == 'add') ? 'New Purchase Order' : 'Edit Purchase Order';
+        this.myBreadCrumb.active = (this.aRoute.snapshot.paramMap.get('action') === 'add') ? 'New Purchase Order' : 'Edit Purchase Order';
         this.materialList = [
             {
                 'name': 'Fabrics',
@@ -91,9 +91,9 @@ var OrderPOComponent = /** @class */ (function () {
             'status': new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required]))
         });
         this.params = {
-            "action": this.aRoute.snapshot.paramMap.get('action'),
-            "orderNumber": this.aRoute.snapshot.paramMap.get('orderNumber'),
-            "id": this.aRoute.snapshot.paramMap.get('id')
+            'action': this.aRoute.snapshot.paramMap.get('action'),
+            'orderNumber': this.aRoute.snapshot.paramMap.get('orderNumber'),
+            'id': this.aRoute.snapshot.paramMap.get('id')
         };
         // console.log('this.params', this.params);
         this.myOrderPOForm.controls['PODate'].setValue(this.orderService.formatDate(this.today));
@@ -110,8 +110,8 @@ var OrderPOComponent = /** @class */ (function () {
         this.vendorId.valueChanges
             .subscribe(function (term) {
             _this.vendor = {
-                "vendorCode": JSON.parse(term).vendorCode,
-                "vendorName": JSON.parse(term).vendorName
+                'vendorCode': JSON.parse(term).vendorCode,
+                'vendorName': JSON.parse(term).vendorName
             };
             // console.log('vendor', this.vendor);
             // console.log('vendor', this.vendor);
@@ -160,7 +160,7 @@ var OrderPOComponent = /** @class */ (function () {
             }
         });
     };
-    // ================================= Fetching the Basic Data ==================================== 
+    // ================================= Fetching the Basic Data ====================================
     // ================================= Fetching the Basic Data ====================================
     OrderPOComponent.prototype.getVendorLists = 
     // ================================= Fetching the Basic Data ====================================
@@ -194,7 +194,7 @@ var OrderPOComponent = /** @class */ (function () {
             // console.log('validatePONumber',res);
             // console.log('validatePONumber',res);
             _this.PONumberExists = res;
-            _this.PONumberExists.status = (_this.PONumberExists.count == 0) ? false : true;
+            _this.PONumberExists.status = (_this.PONumberExists.count === 0) ? false : true;
             _this.myOrderPOForm.controls['PONumber'].setValue(poNumber);
         }, function (err) {
             // console.log('validatePONumber',err);
@@ -293,7 +293,7 @@ var OrderPOComponent = /** @class */ (function () {
                 // console.log('fabric -index',index);
                 _this.addItemGroup();
                 _this.setTheFabricItemsArray(item);
-                if (index == (_this.fabricToLoad.res.length - 1)) {
+                if (index === (_this.fabricToLoad.res.length - 1)) {
                     _this.fabricToLoad.toLoad.forEach(function (item, index) {
                         _this.itemsToLoad.push(item);
                     });
@@ -334,7 +334,7 @@ var OrderPOComponent = /** @class */ (function () {
                 // console.log(item, index);
                 _this.addItemGroup();
                 _this.setTheAccessoryItemsArray(item);
-                if (index == (_this.accessoryToLoad.res.length - 1)) {
+                if (index === (_this.accessoryToLoad.res.length - 1)) {
                     _this.accessoryToLoad.toLoad.forEach(function (item, index) {
                         _this.itemsToLoad.push(item);
                     });
@@ -375,7 +375,7 @@ var OrderPOComponent = /** @class */ (function () {
                 // console.log(item, index);
                 _this.addItemGroup();
                 _this.setThePackerItemsArray(item);
-                if (index == (_this.packerToLoad.res.length - 1)) {
+                if (index === (_this.packerToLoad.res.length - 1)) {
                     _this.packerToLoad.toLoad.forEach(function (item, index) {
                         _this.itemsToLoad.push(item);
                     });

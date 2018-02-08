@@ -6,6 +6,6 @@
  * tslint:disable
  */ 
 Object.defineProperty(exports, "__esModule", { value: true });
-var styles = [".fa[_ngcontent-%COMP%] {\r\n    font-size: 15px;\r\n}"];
+var styles = [".icofont[_ngcontent-%COMP%] {\r\n    font-size: 15px;\r\n}"];
 exports.styles = styles;
 //# sourceMappingURL=order-po.component.scss.shim.ngstyle.js.map

@@ -24,7 +24,7 @@ var PresetsJobsComponent = /** @class */ (function () {
         // paged items
         this.pagedJobItems = [];
         this.myBreadCrumb.crumbs = [
-            { "menu": "Presets", "routerLink": "/presets" }
+            { 'menu': 'Presets', 'routerLink': '/presets' }
         ];
         this.myBreadCrumb.active = 'Jobs';
         this.noOfItemsinPage = 5;

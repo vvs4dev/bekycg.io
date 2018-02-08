@@ -11,15 +11,21 @@ var SettingsComponent = /** @class */ (function () {
         this.userService = userService;
         this.router = router;
         this.settingsService = settingsService;
-        this.myBreadCrumb = [];
-        this.myBreadCrumb = [
-            { "menu": "Home", "routerLink": "/" }
+        this.myBreadCrumb = {};
+        this.myOrg = {};
+        this.myBreadCrumb.crumbs = [
+            { 'menu': 'Home', 'routerLink': '/' }
         ];
+        this.myBreadCrumb.active = 'My Organisation';
+        this.myOrg.org = {};
+        this.myOrg.org.address = {};
     }
     SettingsComponent.prototype.ngOnInit = function () {
+        var _this = this;
         this.settingsService.getMyOrganisation(this.userService.getActiveUserId())
             .subscribe(function (res) {
             console.log('getMyOrganisation', res);
+            _this.myOrg = res;
         }, function (err) {
             console.log('getMyOrganisation', err);
         });

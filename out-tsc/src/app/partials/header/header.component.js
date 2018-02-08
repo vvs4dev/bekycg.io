@@ -7,9 +7,7 @@ var HeaderComponent = /** @class */ (function () {
     function HeaderComponent(appConfig, userService) {
         this.appConfig = appConfig;
         this.userService = userService;
-        this.sideMenu = {};
         this.me = {};
-        this.sideMenu = this.appConfig.sideMenu;
         this.me = this.userService.getActiveUser().me;
     }
     HeaderComponent.prototype.ngOnInit = function () {
